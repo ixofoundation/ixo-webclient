@@ -1,16 +1,17 @@
+
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 export const testnetGqlClient = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL_TESTNET,
+  uri: process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL_TESTNET,
   cache: new InMemoryCache({ addTypename: false }),
 })
 
 export const mainnetGqlClient = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL_MAINNET,
+  uri: process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL_MAINNET,
   cache: new InMemoryCache({ addTypename: false }),
 })
 
 export const devnetGqlClient = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL_DEVNET,
+  uri: process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL_DEVNET,
   cache: new InMemoryCache({ addTypename: false }),
 })
 

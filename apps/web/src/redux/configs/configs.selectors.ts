@@ -1,18 +1,19 @@
-import { RootState } from 'redux/store'
 import { createSelector } from '@reduxjs/toolkit'
-import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
-import { toRootEntityType } from 'utils/entities'
+import { RootState } from 'redux/store'
 import { EntityConfig } from 'types/entities'
+import { toRootEntityType } from 'utils/entities'
+import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 
-const chainId = process.env.REACT_APP_CHAIN_ID
+const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
 
-export const selectConfigs = (state: RootState): ConfigsState => state?.configs
+export const selectConfigs = (state: RootState): ConfigsState => {
+  return state.configs
+}
 
-export const selectAssetListConfig = createSelector(
-  selectConfigs,
-  (configs: ConfigsState): AssetListConfig[] => configs.assetListConfig,
-)
+export const selectAssetListConfig = createSelector(selectConfigs, (configs: ConfigsState): AssetListConfig[] => {
+  return configs.assetListConfig
+})
 
 export const selectRelayersConfig = createSelector(
   selectConfigs,
@@ -25,7 +26,7 @@ export const selectExchangeConfig = createSelector(
 )
 
 export const selectMyRelayer = createSelector(selectRelayersConfig, (relayers: RelayerInfo[]): RelayerInfo => {
-  return relayers.find((relayer) => relayer.chainId === chainId)!
+  return relayers?.find((relayer) => relayer.chainId === chainId)!
 })
 
 export const selectPaymentCoins = createSelector(

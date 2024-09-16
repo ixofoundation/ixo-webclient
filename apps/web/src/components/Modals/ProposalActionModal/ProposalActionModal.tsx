@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, Dropdown } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'screens/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { errorToast } from 'utils/toast'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
@@ -82,7 +82,7 @@ const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, o
       ariaHideApp={false}
     >
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4} width='100%'>

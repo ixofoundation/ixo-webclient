@@ -1,22 +1,22 @@
 import React, { useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
-import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
+
 import { useAccount } from 'hooks/account'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { Input } from 'pages/CreateEntity/Components'
+
+import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { BankSendTrx } from 'lib/protocol'
 import { errorToast, successToast } from 'utils/toast'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const StyledInput = styled(Input)`
@@ -104,7 +104,10 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
       })
     }
 
-    const response = (await execute({data: msgData, transactionConfig: { sequence: 1}})) as unknown as DeliverTxResponse
+    const response = (await execute({
+      data: msgData,
+      transactionConfig: { sequence: 1 },
+    })) as unknown as DeliverTxResponse
 
     if (response) {
       close()
@@ -175,7 +178,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* Recipient Address */}
@@ -197,7 +200,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                     onClick={() => validSend && handleSigning()}
                     color={validSend ? theme.ixoNewBlue : theme.ixoDarkBlue}
                   >
-                    <NextStepImage />
+                    <img src='/assets/images/modal/nextstep.svg' />
                   </SvgBox>
                 </FlexBox>
               </FlexBox>

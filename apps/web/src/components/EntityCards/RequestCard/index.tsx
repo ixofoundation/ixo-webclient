@@ -2,9 +2,8 @@ import { Card, Image, Text, Badge, Group, Flex, Divider } from '@mantine/core'
 import { IconDotsVertical } from '@tabler/icons-react'
 import { truncate } from 'lodash'
 import { getEntityIcon } from 'utils/getEntityIcon'
-import { ReactComponent as IconIxoToken } from 'assets/tokens/ixo.svg'
+
 import { thousandSeparator } from 'utils/formatters'
-import EarthIcon from 'assets/icons/EarthIcon'
 import { NavLink } from 'react-router-dom'
 import { truncateString } from '@ixo-webclient/utils'
 
@@ -38,7 +37,6 @@ const RequestCard = ({ entityName, requestName, requestImage, requestDescription
             </Text>
           </Flex>
           <Flex align='center'>
-            <EarthIcon color='#407390' />
             <Text ml={4} c='#407390' fz='sm'>
               Soil Carbon
             </Text>
@@ -54,7 +52,12 @@ const RequestCard = ({ entityName, requestName, requestImage, requestDescription
         <Divider color='#213E59' />
 
         <Flex justify='space-between' mt='sm'>
-          <Badge fw={400} size='lg' leftSection={<IconIxoToken width={20} height={20} />} bg='#213E59'>
+          <Badge
+            fw={400}
+            size='lg'
+            leftSection={<img src='/assets/tokens/ixo.svg' width={20} height={20} />}
+            bg='#213E59'
+          >
             {thousandSeparator(10000, ',')} IXO
           </Badge>
           <Badge fw={400} size='lg' bg='#213E59'>

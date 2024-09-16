@@ -1,11 +1,18 @@
 import { FiCopy as CopyIcon } from 'react-icons/fi'
-import { ReactComponent as AssetStatsIcon } from 'assets/images/icon-asset-stats.svg'
-import { ReactComponent as AssetLocationIcon } from 'assets/images/icon-asset-location.svg'
-import { ReactComponent as AssetPerformanceIcon } from 'assets/images/icon-asset-performance.svg'
-import { ReactComponent as AssetActivityIcon } from 'assets/images/icon-asset-activity.svg'
-import { ReactComponent as ImpactsCreditIcon } from 'assets/images/icon-impact-credits.svg'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock.svg'
-import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
+
+import AssetStatsIcon from 'assets/images/icon-asset-stats.svg'
+
+import AssetLocationIcon from 'assets/images/icon-asset-location.svg'
+
+import AssetPerformanceIcon from 'assets/images/icon-asset-performance.svg'
+
+import AssetActivityIcon from 'assets/images/icon-asset-activity.svg'
+
+import ImpactsCreditIcon from 'assets/images/icon-impact-credits.svg'
+
+import ClockIcon from 'assets/images/icon-clock.svg'
+
+import EyeIcon from 'assets/images/icon-eye.svg'
 
 export * from './DaoIcon'
 export * from './DashboardIcon'

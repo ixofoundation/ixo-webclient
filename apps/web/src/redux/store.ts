@@ -1,41 +1,50 @@
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router';
-import { rootReducer } from './reducers';
-import promise from 'redux-promise-middleware';
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+'use client'
+import { Action, AnyAction, Reducer, ThunkAction, configureStore } from '@reduxjs/toolkit'
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist'
+// import storage from './storage'
+import promise from 'redux-promise-middleware'
+import { rootReducer } from './reducers'
 
-export const history = createBrowserHistory();
 
-const persistConfig = {
-  key: 'root',
-  version: 1,
-  storage,
-  whitelist: [],
-};
+// const persistConfig = {
+//   key: 'root',
+//   version: 1,
+//   // storage,
+//   whitelist: [],
+// }
+// const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 // Replace 'history' with 'navigate' here
-const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        ignoreActions: true,
-        ignoreState: true,
-      },
-      immutableCheck: false,
-    })
-      .concat(routerMiddleware(history)) // And here
-      .concat(promise),
-});
+export const makeStore = () =>
+  configureStore({
+    reducer: rootReducer(),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+          ignoreActions: true,
+          ignoreState: true,
+        },
+        immutableCheck: false,
+      }).concat(promise),
+  })
 
-export const persistor = persistStore(store);
+// export const makeStore = () => {
+//   const isServer = typeof window === 'undefined'
+//   if (isServer) return makeConfiguredStore(rootReducer)
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
+//   const persistedReducer = persistReducer(persistConfig, rootReducer(history))
+
+//   let store: any = makeConfiguredStore(persistedReducer)
+
+//   store.__persistor = persistStore(store)
+
+//   return store
+// }
+
+export type AppStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
 export type AsyncAppThunk<ReturnType = void> = AppThunk<Promise<ReturnType>>

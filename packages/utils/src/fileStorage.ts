@@ -5,9 +5,9 @@ export const fileStorage = {
     generateEndpoint: (cid: string) => `https://${cid}.ipfs.w3s.link/`,
   },
   cellnode: {
-    endpoint: `${process.env.REACT_APP_PDS_URL}`,
+    endpoint: `${process.env.NEXT_PUBLIC_PDS_URL}`,
     name: "Cellnode",
-    generateEndpoint: (cid: string) => `${process.env.REACT_APP_PDS_URL}public/${cid}`,
+    generateEndpoint: (cid: string) => `${process.env.NEXT_PUBLIC_PDS_URL}public/${cid}`,
   }
 };
 

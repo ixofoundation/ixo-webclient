@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { algoliaIndexName } from 'constants/common'
-import { SearchResult } from 'pages/ExploreNew/ExploreNew'
+import { SearchResult } from 'screens/ExploreNew/ExploreNew'
 import { TEntityModel } from 'types/entities'
 import { errorToast } from 'utils/toast'
 

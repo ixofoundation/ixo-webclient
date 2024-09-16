@@ -1,0 +1,30 @@
+/* Base theme */
+.bn-block-content.ProseMirror-selectednode > *,
+.ProseMirror-selectednode > .bn-block-content > * {
+  border-radius: 0px;
+  outline: none;
+}
+
+.bn-container[data-color-scheme] {
+  --bn-colors-editor-text: #222222;
+  --bn-colors-editor-background: transparent;
+}
+
+/* Changes for dark mode */
+.bn-container[data-color-scheme='dark'] {
+  --bn-colors-editor-text: #ffffff;
+  --bn-colors-editor-background: transparent;
+  --bn-colors-side-menu: #ffffff;
+}
+
+.bn-block-outer[data-prev-type='pageTitle'] > .bn-block > .bn-block-content {
+  font-size: var(--prev-level);
+  font-weight: bold;
+  font-style: normal !important;
+}
+
+.bn-block-outer:not([data-prev-type]) > .bn-block > .bn-block-content[data-content-type='pageTitle'] {
+  font-size: var(--level);
+  font-weight: bold;
+  font-style: normal !important;
+}

@@ -1,4 +1,4 @@
-import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
 // Variable to hold the instance
 const clientInstance: { [rpc: string]: CosmWasmClient } = {}

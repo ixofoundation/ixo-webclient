@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
 import { CloseButton, ModalStyles, ModalTitle, ModalWrapper } from '../styles'
 import { AlphaBondInfo } from 'types/bond'
-import { FlexBox } from 'components/App/App.styles'
-import { Button, Dropdown, TextArea } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { Button, Dropdown, TextArea } from 'screens/CreateEntity/Components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { useTheme } from 'styled-components'
 import { generateBondDid } from 'utils/bond'
@@ -15,7 +15,7 @@ import { errorToast, successToast } from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { convertCoinToDecCoin } from 'utils/currency'
 import { useGetBondDid } from 'graphql/bonds'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface Props {
@@ -185,7 +185,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <ModalWrapper>

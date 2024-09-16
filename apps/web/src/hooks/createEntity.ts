@@ -87,7 +87,7 @@ import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useService } from './service'
 

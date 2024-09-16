@@ -1,6 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-import { CodeMirror, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown, Input, Switch } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import { isAccountAddress, validateJSON } from 'utils/validation'

@@ -1,3 +1,4 @@
+'use client'
 import { ApexOptions } from 'apexcharts'
 import React, { useMemo } from 'react'
 import ReactApexChart from 'react-apexcharts'

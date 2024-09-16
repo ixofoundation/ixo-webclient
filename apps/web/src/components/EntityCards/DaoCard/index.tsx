@@ -1,6 +1,5 @@
 import { Skeleton } from '@mantine/core'
-import oracleDefault from 'assets/entities/oracleDefault.jpg'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import Lottie from 'react-lottie'
@@ -70,7 +69,7 @@ export const DaoCard: React.FC<Props> = ({
       <Skeleton visible={!cardImage || loading}>
         <FlexBox
           position='relative'
-          background={`url(${cardImage ?? oracleDefault})`}
+          background={`url(${cardImage ?? '/assets/entities/oracleDefault.jpg'})`}
           width='100%'
           height='200px'
           $backgroundSize='cover'

@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { useCreateEntity } from 'hooks/createEntity'

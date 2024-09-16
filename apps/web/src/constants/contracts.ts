@@ -30,4 +30,4 @@ function getMulticallAddress(rpcUrl?: string): string {
     : 'ixo1rrra808ggl30g27zdmp9ecc00u7le2tn5gunv86p8aa99jrc84qqk8dttm'
 }
 
-export const MULTI_CALL_CONTRACT_ADDRESS = getMulticallAddress(process.env.REACT_APP_CHAIN_ID)
+export const MULTI_CALL_CONTRACT_ADDRESS = getMulticallAddress(process.env.NEXT_PUBLIC_CHAIN_ID)

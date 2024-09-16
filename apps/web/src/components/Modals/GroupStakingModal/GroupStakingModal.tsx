@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
-import { SignStep, TXStatus } from '../common'
-import { Typography } from 'components/Typography'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
+
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
+import { Typography } from 'components/Typography'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
+import React, { useEffect, useState } from 'react'
 import {
   convertDenomToMicroDenomWithDecimals,
   convertMicroDenomToDenomWithDecimals,
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import { SignStep, TXStatus } from '../common'
+
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import CurrencyFormat from 'react-currency-format'
+
+import { Cw20BaseClient } from 'cosmwasm-clients'
 import { fee } from 'lib/protocol'
-import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
-import { errorToast } from 'utils/toast'
-import { useAppSelector } from 'redux/hooks'
-import { getEntityById, selectStakingGroupByCoreAddress } from 'redux/entities/entities.selectors'
-import { TDAOGroupModel } from 'types/entities'
-import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import CurrencyFormat from 'react-currency-format'
 import { useParams } from 'react-router-dom'
+import { getEntityById, selectStakingGroupByCoreAddress } from 'redux/entities/entities.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { Avatar } from 'screens/CurrentEntity/Components'
+import styled, { useTheme } from 'styled-components'
+import { TDAOGroupModel } from 'types/entities'
+import { errorToast } from 'utils/toast'
+import { useWallet } from 'wallet-connector'
 
 const StyledCurrencyFormat = styled(CurrencyFormat)`
   width: 100%;
@@ -148,7 +149,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
           amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
-          transactionConfig: { sequence: 1 }
+          transactionConfig: { sequence: 1 },
         },
         fee,
         undefined,
@@ -236,7 +237,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
@@ -255,7 +256,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                   The unstaking period is {secondsToWdhms(unstakingDuration, undefined, true, true)}
                 </Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
-                  <img src={NextStepImage} alt='' />
+                  <img src='/assets/images/modal/nextstep.svg' alt='' />
                 </Box>
               </FlexBox>
             </FlexBox>
