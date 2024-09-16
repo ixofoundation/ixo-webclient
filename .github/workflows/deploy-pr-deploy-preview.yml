@@ -220,7 +220,7 @@ jobs:
 
   build-and-deploy-stackworthdao:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: dev
     outputs:
       url: ${{ steps.stackworthdao_prod_deploy.outputs.NETLIFY_URL }}
     steps:
