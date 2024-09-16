@@ -119,15 +119,14 @@ const EntitiesExplorer = ({
       filter: {
         not: { type: { startsWith: 'asset' } },
         type: {
-          ...(type && getGQLEntitiesQueryTypeFilter(type))
+          ...(type && getGQLEntitiesQueryTypeFilter(type)),
         },
-
       },
     },
     onCompleted: async ({ entities }) => {
       const nodes = entities?.nodes ?? []
       if (nodes.length > 0) {
-        const updatedNodes = await populateEntitiesForEntityExplorer(nodes as Entity[])
+        const updatedNodes = await populateEntitiesForEntityExplorer(nodes.slice(0, 10) as Entity[])
         updateEntities(updatedNodes)
       }
     },
@@ -154,7 +153,7 @@ const EntitiesExplorer = ({
         <div className='container'>
           <EntitiesFilter filterSchema={filterSchema} />
           <EntitiesBody>
-          {filteredEntitiesCount === 0 && data?.entities?.nodes.length !== 0 && (
+            {filteredEntitiesCount === 0 && data?.entities?.nodes.length !== 0 && (
               <Flex direction={'row'} w='100%' gap={32}>
                 <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={columns}>
                   <EntityOverviewSkeletonCard />

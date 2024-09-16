@@ -2,11 +2,10 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useEffect, useState } from 'react'
 
-
 import { Button, InputWithLabel, TextArea } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Flex } from '@mantine/core'
+import { Box, Flex } from '@mantine/core'
 import { CardWrapper } from 'screens/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings.styles'
 
 const SetupProposalInfo: React.FC = (): JSX.Element => {
@@ -45,7 +44,9 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
       <Flex direction='column' gap={60} w={deviceWidth.tablet + 'px'}>
         <CardWrapper $direction='column' $gap={5}>
           <Flex gap={2} align='center'>
-            <img src="/assets/images/icon-info.svg"  />
+            <Box>
+              <img src='/assets/images/icon-info.svg' />
+            </Box>
             <Typography size='xl' weight='medium'>
               Proposal Info
             </Typography>

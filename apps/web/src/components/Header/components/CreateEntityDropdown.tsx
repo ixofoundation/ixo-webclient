@@ -30,39 +30,40 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
 
-
-  const isVisible = React.useMemo(() => {
-    const isViewedFromApp = !!window.MobileContext
-    if (isViewedFromApp) {
-      return false
-    }
-    if (!entityTypeMap) {
-      return false
-    }
-    const { UI } = entityTypeMap
-    if (!UI) {
-      return false
-    }
-    const { topMenu } = UI
-    if (!topMenu) {
-      return false
-    }
-    const isCreateItem = topMenu.find((menu) => menu.item === 'create')
-    if (!isCreateItem) {
-      return false
-    }
-    const { visible } = isCreateItem
-    return visible
-  }, [entityTypeMap])
+  // const isVisible = React.useMemo(() => {
+  //   const isViewedFromApp = !!window.MobileContext
+  //   if (isViewedFromApp) {
+  //     return false
+  //   }
+  //   if (!entityTypeMap) {
+  //     return false
+  //   }
+  //   const { UI } = entityTypeMap
+  //   if (!UI) {
+  //     return false
+  //   }
+  //   const { topMenu } = UI
+  //   if (!topMenu) {
+  //     return false
+  //   }
+  //   const isCreateItem = topMenu.find((menu) => menu.item === 'create')
+  //   if (!isCreateItem) {
+  //     return false
+  //   }
+  //   const { visible } = isCreateItem
+  //   return visible
+  // }, [entityTypeMap])
 
   const handleToggleModal = (): void => {
     setIsModalOpen(!isModalOpen)
   }
 
-  return isVisible ? (
+  return (
     <DropdownWrapper>
       <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''} color={buttonColor}>
-        <span className={`modal-text`} style={{ fontSize: isMobile ? "24px" : "inherit"}}>CREATE</span>
+        <span className={`modal-text`} style={{ fontSize: isMobile ? '24px' : 'inherit' }}>
+          CREATE
+        </span>
       </ModalButton>
 
       {entityTypeMap && (
@@ -154,15 +155,13 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
             >
               <ButtonContent>
                 <DataAssets fill='#000' width='18' />
-                {"Collection"}
+                {'Collection'}
               </ButtonContent>
             </LaunchEntityButton>
           </ButtonsWrapper>
         </DropdownModal>
       )}
     </DropdownWrapper>
-  ) : (
-    <></>
   )
 }
 

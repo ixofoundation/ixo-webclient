@@ -33,7 +33,7 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
   const handleAddEntityAccordedRight = (key: string): void => {
     setEntityAccordedRight((pre) => ({
       ...pre,
-      [key]: { ...EntityAccordedRightConfig[key] },
+      [key]: { ...EntityAccordedRightConfig[key as keyof typeof EntityAccordedRightConfig] },
     }))
   }
   const handleUpdateEntityAccordedRight = (key: string, data: any): void => {
@@ -62,12 +62,12 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
       <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(accordedRight).map(([key, value]) => {
-            const Icon = EntityAccordedRightConfig[key]?.icon
-            const label = EntityAccordedRightConfig[key]?.text
+            const Icon = EntityAccordedRightConfig[key as keyof typeof EntityAccordedRightConfig]?.icon
+            const label = EntityAccordedRightConfig[key as keyof typeof EntityAccordedRightConfig]?.text
             return (
               <PropertyBox
                 key={key}
-                icon={Icon && <img src={Icon} alt='replaced' />}
+                icon={<img src={Icon} alt='replaced' />}
                 label={label}
                 set={!!(value as any)?.data}
                 handleRemove={(): void => handleRemoveEntityAccordedRight(key)}

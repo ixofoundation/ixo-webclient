@@ -286,7 +286,7 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
                 disabled={isLedgeredGroup}
               >
                 <FlexBox $alignItems='center' $gap={2}>
-                  <PlusIcon color={theme.ixoWhite} />
+                  <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
                   Add a Member
                 </FlexBox>
               </Button>
@@ -295,7 +295,7 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
         </CardWrapper>
       ))}
       <CardWrapper className='cursor-pointer' width='100%' $alignItems='center' $gap={2} onClick={handleAddMembership}>
-        <PlusIcon />
+        <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
         <Typography color='blue' size='xl' weight='medium'>
           Add a Membership Category
         </Typography>
@@ -647,7 +647,7 @@ export const Staking = ({
                     onClick={(): void => handleAddMember(distributionIdx)}
                   >
                     <FlexBox $alignItems='center' $gap={2}>
-                      <PlusIcon color={theme.ixoWhite} />
+                      <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
                       Add a Member
                     </FlexBox>
                   </Button>
@@ -665,7 +665,7 @@ export const Staking = ({
             $marginBottom={7}
             onClick={handleAddMembership}
           >
-            <PlusIcon />
+            <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
             <Typography color='blue' size='xl' weight='medium'>
               Add a Distribution Category
             </Typography>
@@ -786,7 +786,7 @@ export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps)
             ))}
             <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
               <FlexBox $alignItems='center' $gap={2}>
-                <PlusIcon color={theme.ixoWhite} />
+                <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
                 Add a Member
               </FlexBox>
             </Button>

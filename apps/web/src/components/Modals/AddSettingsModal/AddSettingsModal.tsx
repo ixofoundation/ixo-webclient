@@ -2,7 +2,6 @@ import React from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import { EntitySettingsConfig } from 'constants/entity'
@@ -19,7 +18,7 @@ const AddSettingsModal: React.FC<Props> = ({ open, addedKeys, onClose, onChange 
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <ModalWrapper>
@@ -30,7 +29,7 @@ const AddSettingsModal: React.FC<Props> = ({ open, addedKeys, onClose, onChange 
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  icon={<value.icon />}
+                  icon={<img src={value.icon} alt='replaced' />}
                   label={value.text}
                   required={!value.required}
                   handleClick={(): void => {

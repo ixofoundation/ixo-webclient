@@ -55,7 +55,7 @@ const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }
         {Object.entries(investmentInstrument).map(([key, value]) => (
           <PropertyBox
             key={key}
-            icon={<value.icon />}
+            icon={<img src={value.icon} alt='replaced' />}
             label={value.text}
             set={!!bondDid}
             handleClick={(): void => handleOpenAddInstrumentModal(key, true)}
