@@ -204,6 +204,8 @@ export enum ELocalisation {
 }
 
 export enum EClaimType {
+  Identity = 'Identity',
+  Accreditation = 'Accreditation'
   Service = 'Service',
   Outcome = 'Outcome',
   Credential = 'Credential',
