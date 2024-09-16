@@ -1,19 +1,5 @@
-import React, { useEffect } from 'react'
-import { TProposalActionModel } from 'types/entities'
-import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { Accordion } from '@mantine/core'
-import {
-  SelectCreationProcess,
-  SetupMetadata,
-  SetupGroups,
-  SetupProperties,
-  Review,
-  SelectType,
-  SetupInstrument,
-  SetupDataCollection,
-} from 'components/Entities/CreateEntityFlow'
-import { SelectEntityType } from 'components/SelectEntityType'
-import { upperFirst } from 'lodash'
+import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
   LinkedClaim,
@@ -21,18 +7,32 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
+import { Accordion } from '@mantine/core'
+import {
+  Review,
+  SelectCreationProcess,
+  SelectType,
+  SetupDataCollection,
+  SetupGroups,
+  SetupInstrument,
+  SetupMetadata,
+  SetupProperties,
+} from 'components/Entities/CreateEntityFlow'
+import { SelectEntityType } from 'components/SelectEntityType'
 import { currentRelayerNode } from 'constants/common'
-import { CheckIidDoc, CreateIidDocForGroup, TSigner } from 'lib/protocol'
-import { useWallet } from 'wallet-connector'
-import { useParams } from 'react-router-dom'
-import { hexToUint8Array } from 'utils/encoding'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
-import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
-import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
-import { useAppSelector } from 'redux/hooks'
+import { CheckIidDoc, CreateIidDocForGroup, TSigner } from 'lib/protocol'
+import { upperFirst } from 'lodash'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
+import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
+import { TProposalActionModel } from 'types/entities'
+import { hexToUint8Array } from 'utils/encoding'
+import { useWallet } from 'wallet-connector'
+import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 interface Props {
   open: boolean
@@ -182,13 +182,16 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }, [entityType, createEntityState])
 
   const getEntityCreateMessage = async () => {
-    const accordedRight: AccordedRight[] = []
+    const accordedRight: AccordedRight[] = createEntityState?.accordedRight
+      ? Object.values(createEntityState?.accordedRight)
+          .map((accordedRight) => (accordedRight as any)?.data)
+          .flat()
+      : []
     const verification: Verification[] = []
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
-    // AccordedRight TODO:
 
     // Service
     service = createEntityState.service

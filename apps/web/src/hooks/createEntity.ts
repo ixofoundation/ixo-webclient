@@ -106,7 +106,7 @@ interface TCreateEntityStateHookRes {
   claim: { [id: string]: TEntityClaimModel }
   headlineMetricClaim: TEntityClaimModel | undefined
   linkedResource: { [id: string]: LinkedResource }
-  accordedRight: { [key: string]: AccordedRight }
+  accordedRight: { [key: string]: AccordedRight[] }
   linkedEntity: { [key: string]: LinkedEntity }
   assetInstances: TCreateEntityModel[]
   localisation: ELocalisation
@@ -133,7 +133,7 @@ interface TCreateEntityStateHookRes {
   updateService: (service: TEntityServiceModel[]) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
   updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
-  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight[] }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
   updateStartEndDate: ({ startDate, endDate }: { startDate: string; endDate: string }) => void
   addAssetInstances: (instances: TCreateEntityModel[]) => void
@@ -166,7 +166,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
   const headlineMetricClaim: TEntityClaimModel | undefined = useAppSelector(selectCreateEntityHeadlineClaim)
   const linkedResource: { [id: string]: LinkedResource } = useAppSelector(selectCreateEntityLinkedResource)
-  const accordedRight: { [key: string]: AccordedRight } = useAppSelector(selectCreateEntityAccordedRight)
+  const accordedRight: { [key: string]: AccordedRight[] } = useAppSelector(selectCreateEntityAccordedRight)
   const linkedEntity: { [key: string]: LinkedEntity } = useAppSelector(selectCreateEntityLinkedEntity)
   const assetInstances: TCreateEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
@@ -235,7 +235,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
-  const updateAccordedRight = (accordedRight: { [id: string]: AccordedRight }): void => {
+  const updateAccordedRight = (accordedRight: { [id: string]: AccordedRight[] }): void => {
     dispatch(updateAccordedRightAction(accordedRight))
   }
   const updateLinkedEntity = (linkedEntity: { [id: string]: LinkedEntity }): void => {
@@ -544,6 +544,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         relayerNode,
         controller = [],
       } = payload
+      console.log("🚀 ~ useCreateEntity ~ payload:", payload)
       const { startDate, endDate } = createEntityState
       const createEntityMessagePayload = await CreateEntityMessage(signer, [
         {

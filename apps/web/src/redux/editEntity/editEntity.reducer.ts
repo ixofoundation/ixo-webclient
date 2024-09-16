@@ -1,7 +1,9 @@
 import { TEntityModel } from 'types/entities'
 import { EditEntityActions, EditEntityActionTypes } from './editEntity.types'
 
-const initialState: TEntityModel = {} as any
+const initialState: TEntityModel = {
+  accordedRight: [],
+} as any
 
 export const reducer = (state = initialState, action: EditEntityActionTypes): TEntityModel => {
   switch (action.type) {

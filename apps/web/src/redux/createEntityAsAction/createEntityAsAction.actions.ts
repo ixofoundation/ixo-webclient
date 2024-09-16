@@ -114,7 +114,7 @@ export const updateLinkedResourceAction = (linkedResource: {
 })
 
 export const updateAccordedRightAction = (accordedRight: {
-  [id: string]: AccordedRight
+  [id: string]: AccordedRight[]
 }): TUpdateAccordedRightAction => ({
   type: ECreateEntityAsActionActions.UpdateAccordedRight,
   payload: accordedRight,

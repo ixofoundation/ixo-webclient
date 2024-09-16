@@ -12,18 +12,18 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
-import { Button } from 'screens/CreateEntity/Components'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Button } from 'screens/CreateEntity/Components'
 
-import { useTheme } from 'styled-components'
-import { CreationSuccessScreen } from './CreationSuccessScreen'
-import { createEntityCard, withEntityData } from 'components'
-import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
+import { createEntityCard, withEntityData } from 'components'
+import { currentRelayerNode } from 'constants/common'
+import { useTheme } from 'styled-components'
+import { EntityType } from 'types/entities'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from 'wallet-connector'
-import { currentRelayerNode } from 'constants/common'
+import { CreationSuccessScreen } from './CreationSuccessScreen'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme: any = useTheme()
@@ -52,15 +52,18 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
 
-    const accordedRight: AccordedRight[] = []
+    const accordedRight: AccordedRight[] = createEntityState?.accordedRight
+      ? Object.values(createEntityState?.accordedRight)
+          .map((accordedRight) => accordedRight)
+          .flat()
+      : []
+
     const verification: Verification[] = []
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
     let controller: string[] = []
-
-    // AccordedRight TODO:
 
     // Service
     service = serviceData
@@ -100,6 +103,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
     let protocolDid = protocolId
     if (!protocolDid) {
       const protocolResponse = await CreateProtocol({ sequence: 1 })
+
       protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
     }
 
