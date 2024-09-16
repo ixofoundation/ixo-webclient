@@ -3813,6 +3813,16 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "impact_credit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "compliance",
               "name": "Compliance",
               "icon": "tag.svg"
