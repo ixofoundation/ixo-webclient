@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     element: <AppConnected />,
     children: [
       {
-        path: 'explore',
+        path: 'browse',
         Component: ExploreLayout.Component,
         children: [
           {
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
         Component: Routes,
       },
       {
-        path: 'browse',
+        path: 'explore',
         element: <Explore.Component />,
       },
       {
