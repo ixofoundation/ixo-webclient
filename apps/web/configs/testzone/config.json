@@ -3808,6 +3808,26 @@
           "multiSelect": false,
           "tags": [
             {
+              "@type": "accreditation",
+              "name": "Accreditation",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "compliance",
+              "name": "Compliance",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "identity",
+              "name": "Identity",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "investment",
+              "name": "Investment",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "Tag",
               "name": "Service",
               "icon": "service.svg"
