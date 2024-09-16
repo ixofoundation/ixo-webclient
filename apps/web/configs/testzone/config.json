@@ -3854,6 +3854,16 @@
             },
             {
               "@type": "Tag",
+              "name": "Identity",
+              "icon": "identity.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "KYCAML",
+              "icon": "kycaml.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Investment",
               "icon": "investment.svg"
             },
@@ -3896,6 +3906,21 @@
               "@type": "Tag",
               "name": "Impact",
               "icon": "impact.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Impact Credit",
+              "icon": "impactCredit.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Token",
+              "icon": "token.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Stablecoin",
+              "icon": "stablecoin.svg"
             },
             {
               "@type": "Tag",
@@ -4637,6 +4662,21 @@
               "@type": "outcomeContract",
               "name": "Outcome Contract",
               "icon": "outcomecontract.svg"
+            },
+             {
+              "@type": "token",
+              "name": "Token",
+              "icon": "token.svg"
+            },
+             {
+              "@type": "pvSystem",
+              "name": "PV System",
+              "icon": "pvsystem.svg"
+            },
+            {
+              "@type": "ElectromagneticInductionStove",
+              "name": "Electromagnetic Induction Stove",
+              "icon": "electromagneticinductionstove.svg"
             },
             {
               "@type": "equity",
