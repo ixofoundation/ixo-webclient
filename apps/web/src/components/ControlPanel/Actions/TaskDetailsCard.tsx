@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import TaskCard from 'components/TaskCard/TaskCard'
 import { useGetIid } from 'graphql/iid'
 import { useClaimTableData } from 'hooks/claims/useClaimTableData'

@@ -1,7 +1,12 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { RPC_ENDPOINT, fee } from 'lib/protocol'
 import { getQueryClient } from 'lib/queryClient'
-import { MsgCreateCollection, MsgCreateCollectionProps, MsgCreateCollectionWithAuthZ, MsgCreateCollectionWithAuthZProps } from 'messages'
+import {
+  MsgCreateCollection,
+  MsgCreateCollectionProps,
+  MsgCreateCollectionWithAuthZ,
+  MsgCreateCollectionWithAuthZProps,
+} from 'messages'
 
 type CreateClaimCollectionProps = {
   entity: {
@@ -45,7 +50,7 @@ export const useCreateClaimCollection = () => {
     endDate,
     quota,
     payments,
-    grantee
+    grantee,
   }: MsgCreateCollectionWithAuthZProps) => {
     return MsgCreateCollectionWithAuthZ({
       signer,

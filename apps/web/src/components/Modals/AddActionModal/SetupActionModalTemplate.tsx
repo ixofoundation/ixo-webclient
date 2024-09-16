@@ -1,9 +1,9 @@
 import React from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
+import { Button } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
@@ -46,20 +46,23 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   noTitle,
 }): JSX.Element => {
   const theme: any = useTheme()
-  const Icon = ProposalActionConfig[action.group].items[action.text].icon
-  const description = ProposalActionConfig[action.group].items[action.text].description
+  // @ts-expect-error
+  const Icon = ProposalActionConfig[action.group as keyof typeof ProposalActionConfig].items[action.text].icon
+  const description =
+    // @ts-expect-error
+    ProposalActionConfig[action.group as keyof typeof ProposalActionConfig].items[action.text].description
 
   return (
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width={width}>
         <FlexBox $alignItems='center' $gap={4}>
           <SvgBox color={theme.ixoBlack} $svgWidth={8} $svgHeight={8}>
-            <Icon />
+            <img src={Icon} />
           </SvgBox>
           <Typography weight='medium' size='xl'>
             {!noTitle && action.text}

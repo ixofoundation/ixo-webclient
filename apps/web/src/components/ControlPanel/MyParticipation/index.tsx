@@ -1,11 +1,7 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-astronaut-solid.svg'
-import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
-import { ReactComponent as UserCheckIcon } from 'assets/images/icon-user-check-solid.svg'
+
 import { Card } from '../Card'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
@@ -23,7 +19,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   return (
     <FlexBox key={daoGroup.id} width='100%' $alignItems='center' $justifyContent='space-between'>
       <FlexBox $gap={2}>
-        <Typography size='md'>{truncate(daoGroup.config.name, {length: 20})}</Typography>
+        <Typography size='md'>{truncate(daoGroup.config.name, { length: 20 })}</Typography>
         <Typography size='md' color='blue'>
           {Intl.NumberFormat(undefined, { style: 'percent' }).format(myVotingPower)}
         </Typography>
@@ -41,7 +37,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <StarIcon />
+          <img src='/assets/images/icon-star.svg' />
         </SvgBox>
         <SvgBox
           width='40px'
@@ -54,7 +50,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <ProfileIcon />
+          <img src='/assets/images/icon-profile.svg' />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -63,13 +59,13 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
 
 const MyParticipationCard = () => {
   const theme: any = useTheme()
-  const { entityId = "" } = useParams<{entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile, daoGroups } = useAppSelector(getEntityById(entityId))
   const daoGroupsArr = Object.values(daoGroups ?? {})
 
   return (
     <Card
-      icon={<UserCheckIcon />}
+      icon={<img src='/assets/images/icon-user-check-solid.svg' />}
       title='My Participation'
       columns={1}
       items={
@@ -89,7 +85,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <ProfileIcon />
+                <img src='/assets/images/icon-profile.svg' />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -102,7 +98,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserAstronautIcon />
+                <img src='/assets/images/icon-user-astronaut-solid.svg' />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -115,7 +111,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserNinjaIcon />
+                <img src='/assets/images/icon-user-ninja-solid.svg' />
               </SvgBox>
             </FlexBox>
           </FlexBox>

@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/Modals/common/StepsTransactions/StepsTransactions'
-import EyeIcon from 'assets/images/icon-eye.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+
+
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import AlphabondIcon from 'assets/images/alpha-icon.svg'
-import RingIcon from 'assets/images/ring.svg'
+
+
 import { denomToMinimalDenom } from 'redux/account/account.utils'
 // import { updateAlphaBondInfo } from 'redux/createTemplate/createTemplate.action'
 import * as Toast from 'utils/toast'
@@ -285,12 +285,12 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
       {currentStep === 0 && (
         <>
           <InfoBox>
-            <img src={AlphabondIcon} alt='Name' />
+            <img src="/assets/images/alpha-icon.svg" alt='Name' />
             <span>{alphaBondInfo?.name}</span>
           </InfoBox>
           <div className='mt-3' />
           <InfoBox>
-            <img src={RingIcon} alt='Token' />
+            <img src="/assets/images/ring.svg" alt='Token' />
             <span>{alphaBondInfo?.token}</span>
           </InfoBox>
           <div className='mt-3' />
@@ -320,7 +320,7 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
           <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
             <div className='transaction mt-3' onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt='view transactions' />
+              <img src="/assets/images/icon-eye.svg" alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -328,12 +328,12 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       )}
     </Container>

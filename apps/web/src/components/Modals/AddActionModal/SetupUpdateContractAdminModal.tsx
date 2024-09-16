@@ -1,6 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Input } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import { isAccountAddress } from 'utils/validation'

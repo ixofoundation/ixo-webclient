@@ -1,5 +1,5 @@
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
-import { EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
+import { EntityAdditionalInfoForm } from 'screens/CreateEntity/Forms'
 
 export const AdditionalEntityInformation = () => {
   const { entityType, startDate, endDate, updateProfile, updateStartEndDate, profile } =

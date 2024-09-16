@@ -1,7 +1,7 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+
 import Tooltip from 'components/Tooltip/Tooltip'
 
 interface Props {
@@ -18,7 +18,7 @@ const TitleAndDescription: React.FC<Props> = ({ title, description }): JSX.Eleme
       {description && (
         <Tooltip text={description} width='20rem'>
           <SvgBox color='black' $svgWidth={5} $svgHeight={5} cursor='pointer'>
-            <InfoIcon />
+            <img src='/assets/images/icon-info.svg' />
           </SvgBox>
         </Tooltip>
       )}

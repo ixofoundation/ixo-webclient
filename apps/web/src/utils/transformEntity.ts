@@ -71,7 +71,7 @@ const getAccountsRestGQLQuery = async (address: string) => {
     },
   }
 
-  return await fetch(process.env.REACT_APP_BLOCK_SYNC_GRAPHQL as string, {
+  return await fetch(process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL as string, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

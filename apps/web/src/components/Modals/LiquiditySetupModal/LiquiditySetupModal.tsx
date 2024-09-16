@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLiquidityModel } from 'types/entities'
 import { Typography } from 'components/Typography'
@@ -39,7 +40,7 @@ const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handle
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

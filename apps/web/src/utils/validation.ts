@@ -2,7 +2,7 @@ import JSON5 from 'json5'
 import BigNumber from 'bignumber.js'
 import Ajv from 'ajv'
 import cosmosMsgSchema from 'constants/cosmos_msg.json'
-import { makeWasmMessage } from './messages'
+import { makeStargateMessage, makeWasmMessage } from './messages'
 
 export const isEmail = (email?: string): boolean => {
   if (!email) {
@@ -139,7 +139,22 @@ export const validateCustomMessage = (value: string) => {
     return e.message as string
   }
   if (msg.wasm) msg = makeWasmMessage(msg)
+  if (msg.stargate) {
+    try {
+      const customMessage = {
+        stargate: {
+          typeUrl: msg.stargate.type_url,
+          value: msg.stargate.value,
+        },
+      }
+      msg = makeStargateMessage(customMessage)
+    } catch (e: any) {
+      return false
+    }
+  }
   const validCosmos = validateCosmosMsg(msg)
+
+  console.log('validCosmos', validCosmos)
 
   if (!validCosmos.valid) {
     return 'INVALID_COSMOS_MSG'

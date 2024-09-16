@@ -1,5 +1,5 @@
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useClaimCollectionsWithClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
 import { useEffect, useState, useMemo } from 'react'
 import { coinsToUsd } from 'services/currency'

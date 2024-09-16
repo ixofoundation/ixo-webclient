@@ -13,10 +13,8 @@ import {
   TableState,
 } from 'react-table'
 import { Flex, Pagination, Select } from '@mantine/core'
-import { SvgBox, theme } from 'components/App/App.styles'
+import { SvgBox, theme } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
-import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -99,9 +97,9 @@ const Table: React.FC<TableProps> = ({
                       <span>
                         {column.isSorted
                           ? column.isSortedDesc
-                            ? column.customSortIcon?.desc ?? ' 🔽'
-                            : column.customSortIcon?.asc ?? ' 🔼'
-                          : column.customSortIcon?.no ?? ''}
+                            ? (column.customSortIcon?.desc ?? ' 🔽')
+                            : (column.customSortIcon?.asc ?? ' 🔼')
+                          : (column.customSortIcon?.no ?? '')}
                       </span>
                     )}
                   </th>
@@ -137,7 +135,7 @@ const Table: React.FC<TableProps> = ({
           })}
         </tbody>
       </table>
-      <Flex className='pagination' justify={'center'} align="center" w='100%' pt={10}>
+      <Flex className='pagination' justify={'center'} align='center' w='100%' pt={10}>
         <Pagination total={pageCount} onChange={(page) => gotoPage(page - 1)} />
 
         <Select
@@ -180,8 +178,8 @@ export const renderTableHeader = (
     </Typography>
     {sort && (
       <SvgBox color={theme.ixoDarkBlue}>
-        {sort.direction !== 'desc' && <SortLtoGIcon />}
-        {sort.direction === 'desc' && <SortGtoLIcon />}
+        {sort.direction !== 'desc' && <img src='/assets/images/icon-sort-ltog.svg' />}
+        {sort.direction === 'desc' && <img src='/assets/images/icon-sort-gtol.svg' />}
       </SvgBox>
     )}
   </Flex>

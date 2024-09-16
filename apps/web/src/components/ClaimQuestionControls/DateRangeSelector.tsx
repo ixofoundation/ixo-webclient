@@ -1,6 +1,6 @@
 import React from 'react'
 import { TClaimQuestionControlProps } from './types'
-import { DateRangePicker } from 'pages/CreateEntity/Components'
+import { DateRangePicker } from 'screens/CreateEntity/Components'
 
 const DateRangeSelector: React.FC<TClaimQuestionControlProps> = ({ id, value, onChange, ...rest }) => {
   const [startDate, endDate] = ((value as string) || '+').split('+')

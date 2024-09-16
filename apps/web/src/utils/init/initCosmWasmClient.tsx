@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 

@@ -1,4 +1,4 @@
-const activeExplorer = process.env.REACT_APP_BLOCK_EXPLORER || "mintscan";
+const activeExplorer = process.env.NEXT_PUBLIC_BLOCK_EXPLORER || "mintscan";
 
 const blockExplorersAccounts = {
   mintscan: "https://www.mintscan.io/ixo/account/",

@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, CountryDropDown, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
+import { Button, CountryDropDown, InputWithLabel, TextArea } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { useDropzone } from 'react-dropzone'
 import ImageCropModal from '../ImageCropModal/ImageCropModal'
@@ -118,7 +118,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
           if (response?.url) {
             handleFormDataChange('logo', response.url)
           } else {
-            handleFormDataChange('logo', process.env.REACT_APP_PDS_URL + '/' + response.key)
+            handleFormDataChange('logo', process.env.NEXT_PUBLIC_PDS_URL + '/' + response.key)
           }
         }
       })
@@ -138,7 +138,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
         ariaHideApp={false}
       >
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <img src='/assets/images/icon-close.svg' />
         </CloseButton>
 
         <FlexBox $direction='column' $gap={4} width='100%'>

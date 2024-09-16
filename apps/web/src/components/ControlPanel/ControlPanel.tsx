@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: remove entire component
 import React from 'react'
 import { ControlPanelScrollWrapper, ControlPanelWrapper, MobileControlPanelToggle } from './ControlPanel.styles'
 import Down from 'assets/icons/Down'

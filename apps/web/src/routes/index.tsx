@@ -3,7 +3,7 @@ import { Route, Routes as ReactRouterRoutes, Navigate } from 'react-router-dom'
 import { useIxoConfigs } from 'hooks/configs'
 import { Flex } from '@mantine/core'
 
-const Splash = lazy(() => import('pages/Splash/Splash'))
+const Splash = lazy(() => import('screens/Splash/Splash'))
 
 const App: React.FunctionComponent = () => {
   const { entityConfig } = useIxoConfigs()
@@ -12,7 +12,9 @@ const App: React.FunctionComponent = () => {
 
   return (
     <ReactRouterRoutes>
-      {!splashIsRootRoute && <Route index element={<Navigate to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`} />} />}
+      {!splashIsRootRoute && (
+        <Route index element={<Navigate to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`} />} />
+      )}
       <Route path='/' element={<Splash />} />
       <Route
         path='*'

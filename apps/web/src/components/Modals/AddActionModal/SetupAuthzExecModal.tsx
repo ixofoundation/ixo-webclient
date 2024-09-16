@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -187,7 +187,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
                     ...delegate.amount,
                     amount: convertToMinimalDenom({
                       amount: value.toString(),
-                      denom: delegate.amount ? convertToDenom(delegate.amount)?.denom ?? '' : '',
+                      denom: delegate.amount ? (convertToDenom(delegate.amount)?.denom ?? '') : '',
                     })?.amount,
                   })
                 }

@@ -1,16 +1,17 @@
 import { Card } from '../Card'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-bell.svg'
+
+
 import { Flex } from '@mantine/core'
 import Assistant from 'components/Assistant'
 
 const AssistantCard = () => {
   return (
     <Card
-      icon={<CommentIcon />}
+      icon={<img src="/assets/images/icon-bell.svg"  />}
       title={'Assistant'}
       columns={1}
       items={
-        <Flex direction='column'  w='100%' h='100%'>
+        <Flex direction='column' w='100%' h='100%'>
           <Assistant />
         </Flex>
       }

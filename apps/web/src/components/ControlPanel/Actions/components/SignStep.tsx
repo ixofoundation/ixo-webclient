@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Lottie from 'react-lottie'
 
-import EyeIcon from 'assets/images/icon-eye.svg'
+
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -102,7 +102,7 @@ const SignStep = ({ status, hash, customDesc, noLottie, children }: Props) => {
       {customDesc && <span className='custom-message'>{customDesc}</span>}
       {status === TXStatus.SUCCESS && hash && (
         <div className='transaction mt-3' onClick={handleViewTransaction}>
-          <img src={EyeIcon} alt='view transactions' />
+          <img src="/assets/images/icon-eye.svg" alt='view transactions' />
         </div>
       )}
     </TXStatusBoard>

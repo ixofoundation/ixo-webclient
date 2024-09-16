@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox } from 'components/App/App.styles'
-import { Dropdown } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { Dropdown } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'

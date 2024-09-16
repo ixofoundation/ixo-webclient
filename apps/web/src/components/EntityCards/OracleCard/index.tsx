@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
@@ -10,7 +10,6 @@ import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import oracleDefault from 'assets/entities/oracleDefault.jpg'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -67,7 +66,7 @@ export const OracleCard: React.FC<Props> = ({
     >
       <FlexBox
         position='relative'
-        background={`url(${cardImage ?? oracleDefault})`}
+        background={`url(${cardImage ?? '/assets/entities/oracleDefault.jpg'})`}
         width='100%'
         height='200px'
         $backgroundSize='cover'
