@@ -29,7 +29,7 @@ const AddInvestmentInstrumentModal: React.FC<Props> = ({ open, onClose, handleCh
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  icon={<value.icon />}
+                  icon={<img src={value.icon} alt='replaced' />}
                   label={value.text}
                   disabled={value.disabled}
                   required={!value.required}

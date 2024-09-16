@@ -79,6 +79,9 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <HeaderLink to={`/explore?type=${defaultEntity}`} color={buttonColor} onClick={resetKeyValue}>
             Explore
           </HeaderLink>
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <CreateEntityDropdown />
+          </MediaQuery>
         </Fragment>
       )
     } else {

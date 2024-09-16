@@ -32,6 +32,7 @@ import type {
   DepositRefundPolicy,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { PercentageThreshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalCondorcet.types'
+import { Box, Flex } from '@mantine/core'
 
 const inputHeight = 48
 
@@ -69,7 +70,9 @@ export const RenderGroupIdentity = ({ data, setData, isLedgeredGroup }: RenderGr
   return (
     <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
       <FlexBox $gap={2} $alignItems='center'>
-        <img src='/assets/images/icon-info.svg' />
+        <Box>
+          <img src='/assets/images/icon-info.svg' />
+        </Box>
         <Typography size='xl' weight='medium'>
           Group Identity
         </Typography>
@@ -191,7 +194,9 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
         <CardWrapper $direction='column' $gap={5} key={membershipIdx}>
           <FlexBox $justifyContent='space-between' $alignItems='center'>
             <FlexBox $gap={2} $alignItems='center'>
-              <img src='/assets/images/icon-profile.svg' />
+              <Box>
+                <img src='/assets/images/icon-profile.svg' />
+              </Box>
               <Typography size='xl' weight='medium'>
                 Group Membership
               </Typography>
@@ -205,9 +210,9 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
                 onChange={handleFileChange(membershipIdx)}
               />
               <Button variant='primary' size='custom' width={52} height={48} onClick={handleImportCsv(membershipIdx)}>
-                <SvgBox color='white'>
+                <Box>
                   <img src='/assets/images/icon-file-upload-solid.svg' />
-                </SvgBox>
+                </Box>
               </Button>
               <Button
                 variant='grey900'
@@ -286,7 +291,9 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
                 disabled={isLedgeredGroup}
               >
                 <FlexBox $alignItems='center' $gap={2}>
-                  <PlusIcon color={theme.ixoWhite} />
+                  <Box>
+                    <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
+                  </Box>
                   Add a Member
                 </FlexBox>
               </Button>
@@ -295,10 +302,14 @@ export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroup
         </CardWrapper>
       ))}
       <CardWrapper className='cursor-pointer' width='100%' $alignItems='center' $gap={2} onClick={handleAddMembership}>
-        <PlusIcon />
-        <Typography color='blue' size='xl' weight='medium'>
-          Add a Membership Category
-        </Typography>
+        <Flex align='center'>
+          <Box bg='gray.5' p={10} style={{ borderRadius: '10%' }} mr={10}>
+            <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
+          </Box>
+          <Typography color='blue' size='xl' weight='medium'>
+            Add a Membership Category
+          </Typography>
+        </Flex>
       </CardWrapper>
     </FlexBox>
   )
@@ -452,7 +463,9 @@ export const Staking = ({
           {/* Token Creation */}
           <CardWrapper $direction='column' $gap={5}>
             <FlexBox $gap={2} $alignItems='center'>
-              <img src='/assets/images/icon-token-contract.svg' />
+              <Box>
+                <img src='/assets/images/icon-token-contract.svg' />
+              </Box>
               <Typography size='xl' weight='medium'>
                 Token Creation
               </Typography>
@@ -578,7 +591,9 @@ export const Staking = ({
             <CardWrapper $direction='column' $gap={5} key={distributionIdx}>
               <FlexBox $justifyContent='space-between' $alignItems='center'>
                 <FlexBox $gap={2} $alignItems='center'>
-                  <img src='/assets/images/icon-profile.svg' />
+                  <Box>
+                    <img src='/assets/images/icon-profile.svg' />
+                  </Box>
                   <Typography size='xl' weight='medium'>
                     Distribution Category
                   </Typography>
@@ -647,7 +662,7 @@ export const Staking = ({
                     onClick={(): void => handleAddMember(distributionIdx)}
                   >
                     <FlexBox $alignItems='center' $gap={2}>
-                      <PlusIcon color={theme.ixoWhite} />
+                      <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
                       Add a Member
                     </FlexBox>
                   </Button>
@@ -665,10 +680,14 @@ export const Staking = ({
             $marginBottom={7}
             onClick={handleAddMembership}
           >
-            <PlusIcon />
-            <Typography color='blue' size='xl' weight='medium'>
-              Add a Distribution Category
-            </Typography>
+            <Flex align={'center'} gap={2}>
+              <Box bg='gray.5' p={10} style={{ borderRadius: '10%' }} mr={10}>
+                <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
+              </Box>
+              <Typography color='blue' size='xl' weight='medium'>
+                Add a Distribution Category
+              </Typography>
+            </Flex>
           </CardWrapper>
         </>
       ) : (
@@ -786,7 +805,7 @@ export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps)
             ))}
             <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
               <FlexBox $alignItems='center' $gap={2}>
-                <PlusIcon color={theme.ixoWhite} />
+                <img src={'/assets/images/icon-plus.svg'} alt='replaced' />
                 Add a Member
               </FlexBox>
             </Button>
@@ -871,7 +890,9 @@ export const UnstakingPeriod = ({ data, setData }: DataStateProps): JSX.Element 
   return (
     <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
       <FlexBox $alignItems='center' $gap={2}>
-        <img src='/assets/images/icon-calendar.svg' />
+        <Box>
+          <img src='/assets/images/icon-calendar.svg' />
+        </Box>
         <Typography size='xl' weight='medium'>
           Unstaking Period
         </Typography>
@@ -938,7 +959,9 @@ export const VotingDuration = ({ data, setData }: DataStateProps): JSX.Element =
   return (
     <CardWrapper $direction='column' $gap={5}>
       <FlexBox $alignItems='center' $gap={2}>
-        <img src='/assets/images/icon-sandclock.svg' />
+        <Box>
+          <img src='/assets/images/icon-sandclock.svg' />
+        </Box>
         <Typography size='xl' weight='medium'>
           Voting Duration
         </Typography>
@@ -988,7 +1011,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       {/* Allow Vote Switching */}
       <CardWrapper $direction='column' $gap={5}>
         <FlexBox $alignItems='center' $gap={2}>
-          <img src='/assets/images/icon-vote-switching.svg' />
+          <Box>
+            <img src='/assets/images/icon-vote-switching.svg' />
+          </Box>
           <Typography size='xl' weight='medium'>
             Allow Vote Switching
           </Typography>
@@ -1020,9 +1045,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       {/* Proposal Deposit */}
       <CardWrapper $direction='column' $gap={5}>
         <FlexBox $alignItems='center' $gap={2}>
-          <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
+          <Box>
             <img src='/assets/images/icon-coins-solid.svg' />
-          </SvgBox>
+          </Box>
           <Typography size='xl' weight='medium'>
             Proposal Deposit
           </Typography>
@@ -1138,7 +1163,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       {data.type !== 'multisig' && (
         <CardWrapper $direction='column' $gap={5}>
           <FlexBox $alignItems='center' $gap={2}>
-            <img src='/assets/images/icon-threshold.svg' />
+            <Box>
+              <img src='/assets/images/icon-threshold.svg' />
+            </Box>
             <Typography size='xl' weight='medium'>
               Passing Threshold
             </Typography>
@@ -1245,7 +1272,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       {data.type !== 'multisig' && (
         <CardWrapper $direction='column' $gap={5}>
           <FlexBox $alignItems='center' $gap={2}>
-            <img src='/assets/images/icon-sandclock.svg' />
+            <Box>
+              <img src='/assets/images/icon-sandclock.svg' />
+            </Box>
             <Typography size='xl' weight='medium'>
               Quorum
             </Typography>
@@ -1349,7 +1378,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       {/* Proposal Submission Policy */}
       <CardWrapper $direction='column' $gap={5}>
         <FlexBox $alignItems='center' $gap={2}>
-          <img src='/assets/images/icon-vote-switching.svg' />
+          <Box>
+            <img src='/assets/images/icon-vote-switching.svg' />
+          </Box>
           <Typography size='xl' weight='medium'>
             Proposal Submission Policy
           </Typography>

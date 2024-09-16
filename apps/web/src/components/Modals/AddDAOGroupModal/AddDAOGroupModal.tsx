@@ -65,7 +65,7 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): J
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  icon={<value.icon />}
+                  icon={<img src={value.icon} alt='replaced' />}
                   label={value.text}
                   required
                   hovered={key === selectedItem}
