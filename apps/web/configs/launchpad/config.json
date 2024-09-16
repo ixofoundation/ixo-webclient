@@ -2968,7 +2968,7 @@
             {
               "@type": "Tag",
               "name": "Service",
-              "icon": "service.svg"
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
@@ -2978,30 +2978,30 @@
             {
               "@type": "Tag",
               "name": "KYCAML",
-              "icon": "kycaml.svg"
+              "icon": "tag.svg"
             },
                         {
               "@type": "Tag",
               "name": "Compliance",
-              "icon": "Compliance.svg"
+              "icon": "tag.svg"
             },
             {
-              "@type": "coin",
+              "@type": "tag",
               "name": "Coin",
               "icon": "tag.svg"
             },
             {
               "@type": "Tag",
               "name": "Token",
-              "icon": "token.svg"
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",
               "name": "Stablecoin",
-              "icon": "stablecoin.svg"
+              "icon": "tag.svg"
             },
             {
-              "@type": "impact_credit",
+              "@type": "tag",
               "name": "Impact Credit",
               "icon": "tag.svg"
             },
