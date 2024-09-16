@@ -2977,6 +2977,36 @@
             },
             {
               "@type": "Tag",
+              "name": "KYCAML",
+              "icon": "kycaml.svg"
+            },
+                        {
+              "@type": "Tag",
+              "name": "Compliance",
+              "icon": "Compliance.svg"
+            },
+            {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Token",
+              "icon": "token.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Stablecoin",
+              "icon": "stablecoin.svg"
+            },
+            {
+              "@type": "impact_credit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Outcome",
               "icon": "outcome.svg"
             },
@@ -3622,6 +3652,16 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "impactCredit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "data",
               "name": "Data Asset",
               "icon": "tag.svg"
@@ -3712,6 +3752,16 @@
             {
               "@type": "nft",
               "name": "Non-Fungible Token",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "fungible-agnostic",
+              "name": "Fungible-agnostic",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "fiat-backed_stablecoin",
+              "name": "Fiat-Backed Stablecoin",
               "icon": "tag.svg"
             },
             {
