@@ -55,6 +55,8 @@ jobs:
         run: yarn
 
       - name: Build
+        env:
+          NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           yarn build  # Build Script
@@ -63,7 +65,6 @@ jobs:
         uses: netlify/actions/cli@master
         id: dev_ixo_earth_dev_deploy
         env:
-          NODE_ENV: production
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702 # Replace with your Netlify Site ID
         with:
