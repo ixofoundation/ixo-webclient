@@ -1,5 +1,5 @@
-import { Schema as FilterSchema } from '../pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
-import { Schema as HeaderSchema } from '../pages/EntitiesExplorer/Components/EntitiesHero/schema/types'
+import { Schema as FilterSchema } from '../screens/EntitiesExplorer/Components/EntitiesFilter/schema/types'
+import { Schema as HeaderSchema } from '../screens/EntitiesExplorer/Components/EntitiesHero/schema/types'
 import { Schema as ControlPanelSchema } from 'components/ControlPanel/types'
 import { AgentRole } from 'redux/account/account.types'
 import { Entity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
@@ -14,9 +14,9 @@ import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk
 import { Block } from '@blocknote/core'
 
 export const PDS_URL =
-  process.env.REACT_APP_USE_LOCAL_CELLNODE === 'true'
-    ? process.env.REACT_APP_PDS_LOCAL_URL
-    : process.env.REACT_APP_PDS_URL
+  process.env.NEXT_PUBLIC_USE_LOCAL_CELLNODE === 'true'
+    ? process.env.NEXT_PUBLIC_PDS_LOCAL_URL
+    : process.env.NEXT_PUBLIC_PDS_URL
 
 export interface Agent {
   status: string
@@ -34,6 +34,7 @@ export enum EntityType {
   ProtocolClaim = 'protocol/claim',
   ProtocolDeed = 'protocol/deed',
   Asset = 'asset',
+  DeedRequest = 'deed/request',
   AssetCollection = 'asset-collection',
 }
 
@@ -260,7 +261,7 @@ export interface EntityConfig extends EntityTypeStrategyMap {
       lottie: {
         idle: string
         active: string
-      },
+      }
       toolbar: {
         background: string
         color: string
@@ -478,8 +479,8 @@ export interface TEntityPageSectionLegacyModel {
   embedded: any
 }
 export type TEntityPageModel = {
-  featuredImage: string
-  pageTitle: string
+  featuredImage?: string
+  pageTitle?: string
   content?: Block[]
 }
 export interface TEntityDDOTagModel {

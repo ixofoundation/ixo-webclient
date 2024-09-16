@@ -1,28 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
-import { SignStep, TXStatus } from '../common'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
+import React, { useEffect, useMemo, useState } from 'react'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { Dropdown, Input } from 'pages/CreateEntity/Components'
-import CurrencyFormat from 'react-currency-format'
-import { BankSendTrx, fee } from 'lib/protocol'
-import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
-import { errorToast, successToast } from 'utils/toast'
+import { SignStep, TXStatus } from '../common'
+
 import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
-import { isContractAddress } from 'utils/validation'
-import { useAppSelector } from 'redux/hooks'
-import { isGreaterThanOrEqualTo } from 'utils/currency'
+import { BankSendTrx, fee } from 'lib/protocol'
+import CurrencyFormat from 'react-currency-format'
 import { getEntityById, selectGroupByCoreAddress } from 'redux/entities/entities.selectors'
-import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
-import { contracts } from '@ixo/impactxclient-sdk'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
+import { useAppSelector } from 'redux/hooks'
+import { Dropdown, Input } from 'screens/CreateEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
+import styled, { useTheme } from 'styled-components'
+import { isGreaterThanOrEqualTo } from 'utils/currency'
+import { errorToast, successToast } from 'utils/toast'
+import { isContractAddress } from 'utils/validation'
+
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { contracts } from '@ixo/impactxclient-sdk'
+
+import { Cw20BaseClient } from 'cosmwasm-clients'
 import { useParams } from 'react-router-dom'
+import { useWallet } from 'wallet-connector'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -82,7 +83,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
   const daoGroup = useAppSelector(selectGroupByCoreAddress(recipient))
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile } = useAppSelector(getEntityById(entityId))
   const daoGroupName = daoGroup?.config.name
 
@@ -147,7 +148,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
           amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
-          transactionConfig: { sequence: 1 }
+          transactionConfig: { sequence: 1 },
         },
         fee,
         undefined,
@@ -252,7 +253,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
@@ -272,7 +273,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   onClick={() => validAmount && handleSigning()}
                   color={validAmount ? theme.ixoNewBlue : theme.ixoDarkBlue}
                 >
-                  <NextStepImage />
+                  <img src='/assets/images/modal/nextstep.svg' />
                 </SvgBox>
               </FlexBox>
             </FlexBox>

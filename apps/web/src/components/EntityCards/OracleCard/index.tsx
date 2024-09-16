@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
@@ -10,7 +10,6 @@ import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import oracleDefault from 'assets/entities/oracleDefault.jpg'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -52,7 +51,7 @@ export const OracleCard: React.FC<Props> = ({
     <FlexBox
       onClick={() =>
         navigate({
-          pathname: `/entity/${id}/overview`,
+          pathname: `/entity/${id}/overview/page`,
         })
       }
       $direction='column'
@@ -67,7 +66,7 @@ export const OracleCard: React.FC<Props> = ({
     >
       <FlexBox
         position='relative'
-        background={`url(${cardImage ?? oracleDefault})`}
+        background={`url(${cardImage ?? '/assets/entities/oracleDefault.jpg'})`}
         width='100%'
         height='200px'
         $backgroundSize='cover'
@@ -127,7 +126,7 @@ export const OracleCard: React.FC<Props> = ({
           <FlexBox $direction='column' $gap={1} width='100%' mb={2}>
             <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(metrics?.minted, ',') ?? "N/A"}
+                {thousandSeparator(metrics?.minted, ',') ?? 'N/A'}
               </Typography>
               <Typography size='md' color='black' weight='bold'>
                 kgCO2
@@ -136,17 +135,17 @@ export const OracleCard: React.FC<Props> = ({
 
             <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='sm' color='grey700'>
-                {thousandSeparator(metrics?.totalEvaluatedClaims, ',') ?? "N/A"} claims
+                {thousandSeparator(metrics?.totalEvaluatedClaims, ',') ?? 'N/A'} claims
               </Typography>
               <Typography size='sm' color='green'>
-                {thousandSeparator(metrics?.minted, ',') ?? "N/A"} CARBON
+                {thousandSeparator(metrics?.minted, ',') ?? 'N/A'} CARBON
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Tag>Carbon</Tag>
-            <Tag>{(metrics?.approvedPercentage ?? 0).toFixed(2) ?? "N/A"}%</Tag>
+            <Tag>{(metrics?.approvedPercentage ?? 0).toFixed(2) ?? 'N/A'}%</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>

@@ -8,7 +8,7 @@ export const getProposals =
   (dispatch: Dispatch): GetProposalsAction => {
     return dispatch({
       type: EntityEconomyActions.GetProposals,
-      payload: Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/gov/v1beta1/proposals`)
+      payload: Axios.get(`${process.env.NEXT_PUBLIC_GAIA_URL}/cosmos/gov/v1beta1/proposals`)
         .then((response) => response.data)
         .then((response) => {
           const { proposals } = response
@@ -22,7 +22,7 @@ export const getProposers =
   (proposalIds: number[]) =>
   (dispatch: Dispatch): GetProposersAction => {
     const requests = proposalIds.map((proposalId: number) =>
-      Axios.get(`${process.env.REACT_APP_GAIA_URL}/gov/proposals/${proposalId}/proposer`),
+      Axios.get(`${process.env.NEXT_PUBLIC_GAIA_URL}/gov/proposals/${proposalId}/proposer`),
     )
 
     return dispatch({

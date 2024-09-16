@@ -1,12 +1,9 @@
 import { useTheme } from 'styled-components'
 import { Card } from '../Card'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
-import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
-import { ReactComponent as ThumbsUpIcon } from 'assets/images/icon-thumbs-up.svg'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
-import { ReactComponent as BookMarkIcon } from 'assets/images/icon-bookmark.svg'
+
 import { useState } from 'react'
 
 const FeedItem = () => {
@@ -37,7 +34,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsUpIcon />
+              <img src='/assets/images/icon-thumbs-up.svg' />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               32
@@ -53,7 +50,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <CommentIcon />
+              <img src='/assets/images/icon-comment-alt.svg' />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               123
@@ -71,7 +68,7 @@ const FeedCard = () => {
 
   return (
     <Card
-      icon={<BellIcon />}
+      icon={<img src='/assets/images/icon-bell.svg' />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <Typography variant='secondary' size='lg'>
@@ -101,7 +98,7 @@ const FeedCard = () => {
               onClick={() => setTab('favourite')}
             >
               <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoWhite}>
-                <BookMarkIcon />
+                <img src='/assets/images/icon-bookmark.svg' />
               </SvgBox>
               <Typography size='sm'>32</Typography>
             </FlexBox>

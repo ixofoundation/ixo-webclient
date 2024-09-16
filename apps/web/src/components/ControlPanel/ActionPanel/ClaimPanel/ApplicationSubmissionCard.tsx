@@ -1,20 +1,31 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { Box, Flex, Text, Button, Badge, Grid } from '@mantine/core'
 import { useGetIid } from 'graphql/iid'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { useMemo } from 'react'
-import { LiaUserCircleSolid } from 'react-icons/lia'
+import { LiaDotCircle, LiaUserCircleSolid } from 'react-icons/lia'
 import { useLocation, useNavigate, useParams, NavLink } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { AgentRoles } from 'types/models'
 import { toRootEntityType } from 'utils/entities'
+import RequestApplyCard from './RequestApplyCard'
+import { ActionCard } from 'components/ActionCard'
 
-const Apply = ({ collectionId }: { collectionId: string }) => {
+const Apply = ({
+  collectionId,
+  userRole,
+  applicationSent,
+}: {
+  collectionId: string
+  userRole?: AgentRoles
+  applicationSent: boolean
+}) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type } = useAppSelector(getEntityById(entityId))
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const isRequestsTask = pathname.includes('tasks')
 
   const openForm = (role: AgentRoles) => {
     return () => {
@@ -24,6 +35,10 @@ const Apply = ({ collectionId }: { collectionId: string }) => {
       navigate({ pathname: pathname, search: currentSearchParams.toString() })
     }
   }
+
+  if (isRequestsTask) return <RequestApplyCard userRole={userRole} openForm={openForm} />
+
+  if (applicationSent && userRole) return null
 
   return (
     <Box>
@@ -54,17 +69,26 @@ const ApplicationUnderReview = () => {
   )
 }
 
-const SubmitClaim = ({ data }: { data: any }) => {
+export const SubmitClaim = ({ data }: { data: any }) => {
   const { entityId = '' } = useParams()
-  const { claim } = useAppSelector(getEntityById(entityId))
+  const { claim, owner, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { wallet } = useWallet()
 
   const collectionProtocol = data?.collection?.protocol
 
   const claimWithProtocol = useMemo(() => {
     return Object.values(claim ?? {}).find((c) => c.template?.id.split('#')[0] === collectionProtocol)
   }, [claim, collectionProtocol])
+
+  const userRole = useGetUserGranteeRole(
+    wallet?.address ?? '',
+    owner,
+    accounts,
+    verificationMethod,
+    data?.collection?.id,
+  )
 
   const openClaimForm = () => {
     const currentSearchParams = new URLSearchParams(window.location.search)
@@ -98,64 +122,64 @@ const SubmitClaim = ({ data }: { data: any }) => {
     return { pending, approved, disputed, rejected }
   }, [data.collection?.claimsByCollectionId?.nodes])
 
+  if (userRole !== AgentRoles.serviceProviders) {
+    return null
+  }
+
   return (
-    <Box w='100%'>
-      <Flex justify={'space-between'} align='center'>
-        <Text>Role</Text>{' '}
-        <Badge size='lg' c='black' leftSection={<LiaUserCircleSolid size={15} />}>
-          Agent
-        </Badge>
-      </Flex>
-      <Grid mt={'md'}>
-        <Grid.Col span={6}>
-          <Badge
-            c='black'
-            leftSection={<Box bg='blue' h='12' w='12' style={{ borderRadius: '100%' }} />}
-            color='gray.2'
-            size='lg'
-            w='100%'
-          >
-            {pending} pending
-          </Badge>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Badge
-            c='black'
-            leftSection={<Box bg='green' h='12' w='12' style={{ borderRadius: '100%' }} />}
-            color='gray.2'
-            size='lg'
-            w='100%'
-          >
-            {approved} approved
-          </Badge>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Badge
-            c='black'
-            leftSection={<Box bg='orange' h='12' w='12' style={{ borderRadius: '100%' }} />}
-            color='gray.2'
-            size='lg'
-            w='100%'
-          >
-            {disputed} disputed
-          </Badge>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Badge
-            c='black'
-            leftSection={<Box bg='red' h='12' w='12' style={{ borderRadius: '100%' }} />}
-            color='gray.2'
-            size='lg'
-            w='100%'
-          >
-            {rejected} rejected
-          </Badge>
-        </Grid.Col>
-      </Grid>
-      <Button w='100%' radius={4} size='md' mt='md' onClick={openClaimForm}>
-        Submit new Claim
-      </Button>
-    </Box>
+    <ActionCard title='Claims' icon={<LiaDotCircle />} editable={false}>
+      <Box w='100%'>
+        <Grid mt={'md'}>
+          <Grid.Col span={6}>
+            <Badge
+              c='black'
+              leftSection={<Box bg='blue' h='12' w='12' style={{ borderRadius: '100%' }} />}
+              color='gray.2'
+              size='lg'
+              w='100%'
+            >
+              {pending} pending
+            </Badge>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Badge
+              c='black'
+              leftSection={<Box bg='green' h='12' w='12' style={{ borderRadius: '100%' }} />}
+              color='gray.2'
+              size='lg'
+              w='100%'
+            >
+              {approved} approved
+            </Badge>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Badge
+              c='black'
+              leftSection={<Box bg='orange' h='12' w='12' style={{ borderRadius: '100%' }} />}
+              color='gray.2'
+              size='lg'
+              w='100%'
+            >
+              {disputed} disputed
+            </Badge>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Badge
+              c='black'
+              leftSection={<Box bg='red' h='12' w='12' style={{ borderRadius: '100%' }} />}
+              color='gray.2'
+              size='lg'
+              w='100%'
+            >
+              {rejected} rejected
+            </Badge>
+          </Grid.Col>
+        </Grid>
+        <Button w='100%' radius={4} size='md' mt='md' onClick={openClaimForm}>
+          Submit Claim
+        </Button>
+      </Box>
+    </ActionCard>
   )
 }
 
@@ -176,7 +200,7 @@ const EvaluateClaim = () => {
   )
 }
 
-const ActionCard = ({ role, data }: { role: AgentRoles; data: any }) => {
+const EvaluationOrSubmissionCard = ({ role, data }: { role: AgentRoles; data: any }) => {
   switch (role) {
     case AgentRoles.serviceProviders:
       return <SubmitClaim data={data} />
@@ -210,11 +234,11 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   }, [iid?.linkedResource, data.collection?.id])
 
   return (
-    <Box mt={15} bg='#fff' p={20} style={{ borderRadius: 12 }}>
-      {!applicationSent && <Apply collectionId={data?.collection?.id} />}
+    <>
+      <Apply collectionId={data?.collection?.id} userRole={userRole} applicationSent={applicationSent} />
       {applicationSent && !userRole && <ApplicationUnderReview />}
-      {applicationSent && userRole && <ActionCard role={userRole} data={data} />}
-    </Box>
+      {applicationSent && userRole && <EvaluationOrSubmissionCard role={userRole} data={data} />}
+    </>
   )
 }
 

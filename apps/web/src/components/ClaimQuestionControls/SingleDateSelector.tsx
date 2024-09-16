@@ -1,7 +1,7 @@
 import React from 'react'
 import { TClaimQuestionControlProps } from './types'
 import styled from 'styled-components'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 
 const StyledSingleDateSelector = styled.div``
 

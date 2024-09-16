@@ -1,8 +1,8 @@
-import { Button, PropertyBox } from 'pages/CreateEntity/Components'
+import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+
 import { AddInvestmentInstrumentModal, CreateBondModal } from 'components/Modals'
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { InvestmentInstrumentsConfig } from 'constants/entity'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
@@ -61,7 +61,11 @@ const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }
             handleClick={(): void => handleOpenAddInstrumentModal(key, true)}
           />
         ))}
-        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddInstrumentModal(true)} />
+        <PropertyBox
+          icon={<img src='/assets/images/icon-plus.svg' />}
+          noData
+          handleClick={(): void => setOpenAddInstrumentModal(true)}
+        />
       </Box>
 
       {showNavigation && (

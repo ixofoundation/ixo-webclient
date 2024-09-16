@@ -1,4 +1,4 @@
-import { AppConnected } from 'components/App/App'
+import { AppConnected } from 'components/CoreEntry/App'
 import {
   Navigate,
   Route,
@@ -17,42 +17,63 @@ import {
   SetupInstrument,
   SetupDataCollection,
   SelectAssetType,
-  AddAssetToCollection
-} from 'pages/CreateEntity/EntityPages'
+  AddAssetToCollection,
+} from 'screens/CreateEntity/EntityPages'
 
 // Pages
-import * as CreateEntity from 'pages/CreateEntity/CreateEntity.route'
-import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
-import * as EntityOverview from 'pages/CurrentEntity/Overview/Overview.route'
-import * as EntityDashboard from 'pages/CurrentEntity/Dashboard/Dashboard.route'
-import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
-import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
-import * as MyAccount from 'pages/MyAccount/MyAccount.route'
-import * as ProposalOverview from 'pages/CurrentEntity/Proposal/ProposalOverview.route'
+import * as CreateEntity from 'screens/CreateEntity/CreateEntity.route'
+import * as CurrentEntity from 'screens/CurrentEntity/CurrentEntity.route'
+import * as EntityOverview from 'screens/CurrentEntity/Overview/Overview.route'
+import * as EntityDashboard from 'screens/CurrentEntity/Dashboard/Dashboard.route'
+import * as Explore from 'screens/EntitiesExplorer/EntitiesExplorer.route'
+import * as EntityExchange from 'screens/EntityExchange/EntityExchange.route'
+import * as MyAccount from 'screens/MyAccount/MyAccount.route'
+import * as ProposalOverview from 'screens/CurrentEntity/Proposal/ProposalOverview.route'
+import * as Requests from 'screens/Requests/Requests.route'
+import * as OverviewTabs from 'screens/CurrentEntity/Overview/OverviewTabs/OverviewTabs.route'
+import * as SelectedTabItem from 'screens/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/SelectedTabItem.route'
+import * as SelectProtocol from 'screens/CreateFlow/SelectProtocol/SelectProtocol.route'
+import * as Overview from 'screens/CreateFlow/Overview/Overview.route'
+import * as OverviewTab from 'screens/CreateFlow/OverviewTab/OverviewTab.route'
+import * as ExploreNew from 'screens/ExploreNew/ExploreNew.route'
+import * as Search from 'screens/ExploreNew/Search.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
 import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/EntityDashboardLayout.route'
+import * as ExploreLayout from 'components/Layout/ExploreLayout/ExploreLayout.route'
+import * as SelectProtocolLayout from 'components/Layout/SelectProtocolLayout/SelectProtocolLayout.route'
+import * as CreateFlowLayout from 'components/Layout/CreateFlowLayout/CreateFlowLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
-import SetupProposalInfo from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalInfo'
-import { SetupTargetGroup } from 'pages/CreateEntity/EntityPages/SetupTargetGroup'
-import SetupProposalPageContent from 'pages/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
-import { SetupActions } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
-import { ReviewProposal } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
+import SetupProposalInfo from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalInfo'
+import { SetupTargetGroup } from 'screens/CreateEntity/EntityPages/SetupTargetGroup'
+import SetupProposalPageContent from 'screens/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
+import { SetupActions } from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
+import { ReviewProposal } from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
 import { Suspense } from 'react'
 import { Spinner } from 'components/Spinner/Spinner'
 
 const router = createBrowserRouter([
   {
     path: '*',
-    element: (
-      <Suspense fallback={<Spinner info='Connecting to the Internet of Impacts' />}>
-        <AppConnected />
-      </Suspense>
-    ),
+    element: <AppConnected />,
     children: [
+      {
+        path: 'browse',
+        Component: ExploreLayout.Component,
+        children: [
+          {
+            index: true,
+            Component: ExploreNew.Component,
+          },
+          {
+            path: 'search',
+            Component: Search.Component,
+          },
+        ],
+      },
       {
         path: '*',
         Component: Routes,
@@ -74,25 +95,31 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':entityId/*',
-            element: <Outlet/>,
+            element: <Outlet />,
             children: [
               {
                 path: 'overview/*',
                 Component: EntityOverviewLayout.Component,
                 children: [
                   {
-                    path: "*",
+                    path: '*',
                     Component: EntityOverview.Component,
+                    children: [
+                      {
+                        path: ':tab',
+                        Component: OverviewTabs.Component,
+                      },
+                      {
+                        path: ':tab/:id',
+                        Component: SelectedTabItem.Component,
+                      },
+                    ],
                   },
                   {
-                    path: "proposal/:deedId",
+                    path: 'proposal/:deedId',
                     Component: ProposalOverview.Component,
                   },
-                  {
-                    path: ":tab",
-                    Component: EntityOverview.Component,
-                  }
-                ]
+                ],
               },
               {
                 path: 'dashboard/*',
@@ -107,6 +134,32 @@ const router = createBrowserRouter([
               {
                 path: '*',
                 Component: CurrentEntity.Component,
+              },
+            ],
+          },
+          {
+            path: 'select-or-create',
+            Component: SelectProtocolLayout.Component,
+            children: [
+              {
+                index: true,
+                Component: SelectProtocol.Component,
+              },
+            ],
+          },
+          {
+            path: 'create-new',
+            Component: CreateFlowLayout.Component,
+            children: [
+              {
+                path: ':protocolId',
+                Component: Overview.Component,
+                children: [
+                  {
+                    path: ':tab',
+                    Component: OverviewTab.Component,
+                  },
+                ],
               },
             ],
           },
@@ -197,6 +250,17 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // {
+      //   path: 'requests',
+      //   Component: ExploreLayout.Component,
+      //   children: [
+      //     {
+      //       index: true,
+      //       Component: Requests.Component,
+      //     },
+      //   ],
+      // },
+
       // {
       //   path: 'create/entity/:entityType',
 

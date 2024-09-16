@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
 import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -75,7 +75,7 @@ export function useGetUserGranteeRole(
     return AgentRoles.owners
   }
 
-  if (verificationMethod.some((verification) => verification?.blockchainAccountID === userAddress)) {
+  if (verificationMethod?.some((verification) => verification?.blockchainAccountID === userAddress)) {
     return AgentRoles.owners
   }
 

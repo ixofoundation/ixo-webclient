@@ -136,9 +136,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               </Board>
             </Flex>
           </StyledScrollArea>
-          <Flex style={{ flex: 1 }}>
-            {togglePanel && <ControlPanel tab='assistant' entityType={entityType ?? ''} />}
-          </Flex>
+          <Flex style={{ flex: 1 }}>{togglePanel && <ControlPanel />}</Flex>
         </Flex>
       </Container>
     </DashboardThemeContext.Provider>

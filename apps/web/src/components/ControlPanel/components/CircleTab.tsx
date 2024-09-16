@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
 import React from 'react'
@@ -13,7 +13,7 @@ interface Props {
 
 const CircleTab: React.FC<Props> = ({ active, icon, badge = 0, onClick }) => {
   const theme: any = useTheme()
-  const { toolbarActiveBackground, toolbarActiveColor, toolbarBackground, toolbarColor} = useCompanionDesignConfig()
+  const { toolbarActiveBackground, toolbarActiveColor, toolbarBackground, toolbarColor } = useCompanionDesignConfig()
 
   return (
     <SvgBox

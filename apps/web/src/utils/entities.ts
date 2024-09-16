@@ -373,7 +373,7 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
   return Promise.all(
     alphaBonds.map((alphaBond) => {
-      return Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
+      return Axios.get(`${process.env.NEXT_PUBLIC_GAIA_URL}/bonds/${alphaBond.id}`, {
         transformResponse: [
           (response: string): any => {
             const parsedResponse = JSON.parse(response)
@@ -434,4 +434,11 @@ export function toRootEntityType(entityType: string): string {
     return 'asset'
   }
   return entityType
+}
+
+export function getEntityTypeFromURLParam(type: string){
+  if(type.includes("-")){
+    return `${type.split("-")[0]}/${type.split("-")[1]}`
+  }
+  return type
 }

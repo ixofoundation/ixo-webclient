@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Card'
+export * from './DateRangeDisplay'
 export * from './DisplayInDevelopmentMode'
 export * from './EntityCards'
 export * from './Tag'

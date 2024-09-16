@@ -29,7 +29,7 @@ export function excerptText(theText: string, words = 20): string {
 }
 
 export function getCountryName(countryCode?: string) {
-  if(!countryCode) return undefined
+  if (!countryCode) return undefined
   if (countryCode === 'AA') {
     return 'Global'
   } else if (Object.hasOwnProperty.call(isoCountries, countryCode)) {
@@ -40,7 +40,7 @@ export function getCountryName(countryCode?: string) {
 }
 
 export function getIxoWorldRoute(path: string): string {
-  const origin = process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://ixo.world'
+  const origin = process.env.NEXT_PUBLIC_IXO_WORLD_ORIGIN || 'https://ixo.world'
   return origin + path
 }
 
@@ -112,4 +112,11 @@ export function getDifference(a: number, b: number) {
   } else {
     return '- ' + Math.abs(difference)
   }
+}
+
+export const customCapitalize = (str: string) => {
+  return str
+    .split(/([/-])/)
+    .map((part) => (part === '/' || part === '-' ? part : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join('')
 }

@@ -1,6 +1,6 @@
-import { StdFee } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
+import { StdFee } from '@cosmjs/amino'
 
-export const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
+export const RPC_ENDPOINT = process.env.NEXT_PUBLIC_RPC_URL
 
 export type KeyTypes = 'ed' | 'secp'
 

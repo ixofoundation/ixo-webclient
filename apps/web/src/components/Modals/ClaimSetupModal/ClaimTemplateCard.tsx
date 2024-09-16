@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import moment from 'moment'
 import React from 'react'

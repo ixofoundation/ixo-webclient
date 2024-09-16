@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/CoreEntry/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'

@@ -7,23 +7,22 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
-import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+
 import { useTheme } from 'styled-components'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
@@ -118,7 +117,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
         linkedEntity,
         linkedClaim,
         verification,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        relayerNode: process.env.NEXT_PUBLIC_RELAYER_NODE,
         ...(controller?.length > 0 && { controller }),
       },
       { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
@@ -168,7 +167,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <CheckCircleIcon />
+                <img src='/assets/images/icon-check-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -200,7 +199,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <ExclamationIcon />
+                <img src='/assets/images/icon-exclamation-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

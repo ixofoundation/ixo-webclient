@@ -1,0 +1,23 @@
+$header-background-color: #012639;
+$header-background-color-gradient: linear-gradient(180deg, #012639 0%, #002D42 100%);
+
+$header-border-color: lighten( $header-background-color, 10% );
+$header-value-color: #83D9F2;
+$header-title-color: white;
+$header-info-color: $header-title-color;
+
+$body-background-color: $header-background-color;
+$body-border-color: $header-border-color;
+
+$tab-title-color: white;
+$tab-title-color-active: #87DEF6;
+$tab-title-background-color: $header-background-color;
+$tab-body-background-color: #F0F4F9;
+
+$form-label-color: #333333;
+$form-subtitle-label-color: #828282;
+
+$token-ixo-background-color: #49BFE0;
+$token-ixo-color: #154058;
+$token-edu-background-color: #6FCF97;
+$token-edu-color: #166337;

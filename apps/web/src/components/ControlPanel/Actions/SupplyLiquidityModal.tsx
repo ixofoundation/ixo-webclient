@@ -5,9 +5,9 @@ import BigNumber from 'bignumber.js'
 import PoolSelector from 'components/Pool/PoolSelector'
 import PoolInfo from 'components/Pool/PoolInfo'
 import LiquidityAmount from 'components/LiquidityAmount/LiquidityAmount'
-import CheckIcon from 'assets/images/icon-check.svg'
-import AirdropIcon from 'assets/images/exchange/airdrop.svg'
-import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
+
+
+
 import { thousandSeparator } from 'utils/formatters'
 import { useAppSelector } from 'redux/hooks'
 import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.selectors'
@@ -257,7 +257,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
             placeholder={selectedPoolDetail?.name}
             border={currentStep === 0}
           />
-          {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+          {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
         </CheckWrapper>
         <CheckWrapper className='mb-3'>
           <PoolInfo
@@ -268,7 +268,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
             placeholder={denoms.join('/')}
             border={currentStep === 0}
           />
-          {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+          {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
         </CheckWrapper>
       </>
     ) : (
@@ -296,7 +296,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           error={validations[1]}
         />
 
-        {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+        {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
       </CheckWrapper>
     ) : (
       <div />
@@ -316,7 +316,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           disable={currentStep !== 1}
         />
 
-        {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+        {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
       </CheckWrapper>
     ) : (
       <div />

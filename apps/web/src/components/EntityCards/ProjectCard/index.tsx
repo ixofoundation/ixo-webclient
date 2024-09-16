@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
@@ -51,7 +51,7 @@ export const ProjectCard: React.FC<Props> = ({
       onClick={() =>
         id &&
         navigate({
-          pathname: `/entity/${id}/overview`,
+          pathname: `/entity/${id}/overview/page`,
         })
       }
       $direction='column'

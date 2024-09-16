@@ -87,7 +87,7 @@ import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useService } from './service'
 
@@ -332,17 +332,14 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateProposal,
     updateClaimQuestions,
     updateQuestionJSON,
-    updateProtocolId
+    updateProtocolId,
   }
 }
 
 interface TCreateEntityHookRes {
   UploadLinkedResource: () => Promise<LinkedResource[]>
   UploadLinkedClaim: () => Promise<LinkedClaim[]>
-  CreateProtocol: (transactionConfig: {
-    sequence: number
-    transactionSessionHash?: string
-  }) => Promise<any>
+  CreateProtocol: (transactionConfig: { sequence: number; transactionSessionHash?: string }) => Promise<any>
   CreateEntityBase: (
     entityType: string,
     protocolDid: string,
@@ -359,7 +356,7 @@ interface TCreateEntityHookRes {
     transactionConfig: {
       sequence: number
       transactionSessionHash?: string
-    }
+    },
   ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   uploadPublicDoc: (data: string, contentType: string) => Promise<CellnodePublicResource | Error>
@@ -534,7 +531,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     transactionConfig: {
       sequence: number
       transactionSessionHash?: string
-    }
+    },
   ): Promise<{ did?: string; adminAccount?: string }> => {
     try {
       const {
@@ -566,10 +563,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
 
-    console.log('createEntityMessagePayload', createEntityMessagePayload)
-
-
-      const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: createEntityMessagePayload,
+        transactionConfig,
+      })) as unknown as DeliverTxResponse
       const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
         response,
@@ -736,7 +733,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
     const instantiateWasmPayload = await WasmInstantiateMessage(signer, [message])
 
     if (instantiateWasmPayload) {
-      const response = (await execute({ data: instantiateWasmPayload, transactionConfig: { sequence: 1 } })) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: instantiateWasmPayload,
+        transactionConfig: { sequence: 1 },
+      })) as unknown as DeliverTxResponse
       const contractAddress = utils.common.getValueFromEvents(response!, 'instantiate', '_contract_address')
       if (!contractAddress) {
         throw new Error(response?.rawLog)

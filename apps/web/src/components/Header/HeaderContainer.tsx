@@ -6,7 +6,7 @@ import { EntityType } from 'types/entities'
 import { TopBar } from './HeaderContainer.styles'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { NavigationTabs } from 'components/NavigationTabs'
 import { Flex } from '@mantine/core'
 interface HeaderProps {

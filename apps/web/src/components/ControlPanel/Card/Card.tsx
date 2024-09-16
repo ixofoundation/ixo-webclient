@@ -1,8 +1,8 @@
-import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 
@@ -10,6 +10,7 @@ export interface ICardItems {
   icon?: React.ReactNode
   content: string | JSX.Element
   active?: boolean
+  withoutSvgBox?: boolean
   onClick?: () => void
 }
 
@@ -25,9 +26,17 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
 
-
   return (
-    <FlexBox width='100%' height='auto' $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5} mt={4}>
+    <FlexBox
+      width='100%'
+      height='auto'
+      $direction='column'
+      $gap={5}
+      background='#ffffff'
+      $borderRadius='12px'
+      p={5}
+      mt={4}
+    >
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <FlexBox $gap={2} $alignItems='center'>
           <SvgBox $svgWidth={5} $svgHeight={5} color={primaryColor}>
@@ -38,11 +47,11 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
           </Typography>
         </FlexBox>
         <SvgBox $svgWidth={6} $svgHeight={6} color={primaryColor}>
-          <AssistantIcon />
+          <img src='/assets/images/icon-assistant.svg' />
         </SvgBox>
       </FlexBox>
 
-      <GridContainer width='100%' height="100%" columns={columns} $gridGap={2}>
+      <GridContainer width='100%' height='100%' columns={columns} $gridGap={2}>
         {Array.isArray(items)
           ? items.map((item, index) => (
               <FlexBox
@@ -59,11 +68,14 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
                 onClick={item.onClick && item.onClick}
                 cursor={item.onClick && 'pointer'}
               >
-                {item.icon && (
-                  <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-                    {item.icon}
-                  </SvgBox>
-                )}
+                {item.icon &&
+                  (item.withoutSvgBox ? (
+                    item.icon
+                  ) : (
+                    <SvgBox $svgWidth={5} $svgHeight={5}>
+                      {item.icon}
+                    </SvgBox>
+                  ))}
                 <Typography size='sm' color='black'>
                   {item.content}
                 </Typography>

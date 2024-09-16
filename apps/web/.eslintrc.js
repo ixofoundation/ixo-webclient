@@ -43,5 +43,6 @@ module.exports = {
     'no-useless-computed-key': 'off',
     'react/jsx-pascal-case': 'off',
     'react/display-name': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 }

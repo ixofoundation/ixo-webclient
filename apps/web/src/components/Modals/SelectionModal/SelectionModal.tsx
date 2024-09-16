@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+
 import {
   ModalStyles,
   CloseButton,
@@ -12,8 +13,8 @@ import {
   SelectionButton,
   SDGSelectionButton,
 } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/Components'
-import sdgIcons from 'pages/Splash/splash-config.json'
+import { Button } from 'screens/CreateEntity/Components'
+import sdgIcons from 'screens/Splash/splash-config.json'
 import { Typography } from 'components/Typography'
 const SDG_ICONS = sdgIcons.sdgIcons
 
@@ -46,6 +47,8 @@ const SelectionModal: React.FC<Props> = ({
   const [selections, setSelections] = useState<string[]>([])
   const isSDG = name === 'SDG'
 
+  console.log({ values })
+
   useEffect(() => {
     setSelections(values)
   }, [values])
@@ -72,7 +75,7 @@ const SelectionModal: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>
@@ -101,6 +104,7 @@ const SelectionModal: React.FC<Props> = ({
                   if (!value) {
                     return null
                   }
+                  console.log({ value })
                   const sdgIcon = getSDGIcon(value)
                   if (!sdgIcon) {
                     return null

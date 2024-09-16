@@ -1,9 +1,8 @@
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
-import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
+
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
-import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
+import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
 import { useTheme } from 'styled-components'
@@ -11,6 +10,9 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { getEntity } from 'services/entities/getGQLEntity'
+import { gqlClientByChain } from 'services/gql/clients'
+import { currentChainId } from 'constants/common'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -36,7 +38,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
-  const [chainId, setChainId] = useState(undefined)
+  const [chainId, setChainId] = useState(currentChainId)
   const { data: selectedEntity } = useGetEntityById(existingDid)
   const { navigateToNextStep } = useCreateEntityStepState()
 
@@ -46,8 +48,13 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     navigateToNextStep()
   }
 
-  const handleClone = (): void => {
-    apiEntityToEntity({ entity: selectedEntity }, (key: string, value: any, merge) => {
+  const handleClone = async (): Promise<void> => {
+    if (!chainId) return
+    const entity = await getEntity({
+      id: existingDid,
+      gqlClient: gqlClientByChain[chainId as keyof typeof gqlClientByChain],
+    })
+    apiEntityToEntity({ entity: entity }, (key: string, value: any, merge) => {
       switch (key) {
         case 'profile':
           updateProfile(value)
@@ -93,9 +100,13 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Selections>
-        <CateSelector icon={<CreatorIcon />} label='Create a New Entity' onClick={handleCreate} />
         <CateSelector
-          icon={<EntityIcon />}
+          icon={<img src='/assets/images/icon-creator.svg' />}
+          label='Create a New Entity'
+          onClick={handleCreate}
+        />
+        <CateSelector
+          icon={<img src='/assets/images/icon-entity.svg' />}
           label='Clone an Existing Entity'
           active={isClone}
           onClick={(): void => setIsClone((pre) => !pre)}

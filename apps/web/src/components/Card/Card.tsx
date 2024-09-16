@@ -1,6 +1,6 @@
 // Card.tsx
 import { Flex, Text } from '@mantine/core'
-import { HTMLDivProps } from 'components/App/App.styles'
+import { HTMLDivProps } from 'components/CoreEntry/App.styles'
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 

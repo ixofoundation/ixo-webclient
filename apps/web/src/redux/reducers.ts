@@ -1,4 +1,3 @@
-import { connectRouter } from 'connected-react-router'
 import { combineReducers } from 'redux'
 import { reducer as accountReducer } from 'redux/account/account.reducer'
 import { reducer as configsReducer } from 'redux/configs/configs.reducer'
@@ -18,8 +17,10 @@ import { reducer as economyReducer } from 'redux/entityEconomy/entityEconomy.red
 import assistantReducer from 'redux/assistant/assistant.slice'
 import exchangeReducer from 'redux/exchange/exchange.reducer'
 import { multiStepReducer } from './entityMultiStepCreation/slice'
+import createFlowReducer from 'redux/createFlow/slice'
+import entitiesStateReducer from 'redux/entitiesState/slice'
 
-export const rootReducer = (history: any) =>
+export const rootReducer = () =>
   combineReducers({
     entities,
     activeBond: bondReducer,
@@ -39,5 +40,6 @@ export const rootReducer = (history: any) =>
     economy: economyReducer,
     assistant: assistantReducer,
     multiStepCreation: multiStepReducer,
-    router: connectRouter(history),
+    createFlow: createFlowReducer,
+    entitiesState: entitiesStateReducer,
   })

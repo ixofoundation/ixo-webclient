@@ -1,0 +1,10 @@
+diff --git a/node_modules/@ixo/signx-sdk/module/utils/encoding.js b/node_modules/@ixo/signx-sdk/module/utils/encoding.js
+index 61ce1b1..8e53c47 100644
+--- a/node_modules/@ixo/signx-sdk/module/utils/encoding.js
++++ b/node_modules/@ixo/signx-sdk/module/utils/encoding.js
+@@ -1,4 +1,4 @@
+-import crypto from 'crypto';
++import crypto from 'crypto-browserify';
+ import * as Constants from '../constants/signx';
+ 
+ /**
