@@ -10,7 +10,7 @@ export const UseProtocolCard = () => {
   const { entityId = '' } = useParams()
   const { type } = useAppSelector(getEntityById(entityId))
 
-  if (!type.includes('protocol')) return null
+  if (!type?.includes('protocol')) return null
 
   return (
     <ActionCard title='Protocol' icon={<IconCircleDashed size={24} />} editable={false}>
