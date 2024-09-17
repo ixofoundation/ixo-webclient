@@ -1,3 +1,6 @@
+import { ChainNetwork } from "@ixo/impactxclient-sdk/types/custom_queries/chain.types";
+import { chainNetwork } from "wallet-connector/constants";
+
 const activeExplorer = process.env.NEXT_PUBLIC_BLOCK_EXPLORER || "mintscan";
 
 const blockExplorersAccounts = {
@@ -6,11 +9,18 @@ const blockExplorersAccounts = {
   pingpub: "https://ping.pub/ixo/account/",
 } as const;
 
+
+const mintScan: Record<ChainNetwork, string> = {
+  mainnet: 'https://ezstaking.app/impacthub/txs/',
+  testnet: 'https://explorer.ixo.earth/testnet-ixo/tx',
+  devnet: 'https://explorer.ixo.earth/devnet-ixo/tx',
+}
+
 const blockExplorersTransactions = {
-  mintscan: "https://www.mintscan.io/ixo/tx/",
-  atomscan: "https://atomscan.com/ixo/transactions/",
-  pingpub: "https://ping.pub/ixo/tx/",
-} as const;
+  mintscan: mintScan[chainNetwork],
+  atomscan: 'https://atomscan.com/ixo/transactions/',
+  pingpub: 'https://ping.pub/ixo/tx/',
+} as const
 
 function getBlockExplorerAccountEndpoint(explorer: keyof typeof blockExplorersAccounts): string {
   const endpoint = blockExplorersAccounts[explorer];
