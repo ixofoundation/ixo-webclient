@@ -9,6 +9,7 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { omitKey } from 'utils/objects'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import ProposalActionModal from 'components/Modals/ProposalActionModal/ProposalActionModal'
+import { getLinkedResourceTypeFromPrefix } from 'utils/common'
 
 const initialLinkedResource = {
   id: '',
@@ -51,6 +52,8 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
     updateLinkedResource(omitKey({ ...linkedResource }, id))
   }
 
+
+
   return (
     <>
       <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
@@ -58,8 +61,9 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
           {Object.entries(linkedResource)
             .filter(([key, value]) => value)
             .map(([key, value]) => {
-              const Icon = EntityLinkedResourceConfig[value?.type || '']?.icon
-              const label = EntityLinkedResourceConfig[value?.type || '']?.text || value?.type
+              const entityType = getLinkedResourceTypeFromPrefix(value.type)
+              const Icon = EntityLinkedResourceConfig[entityType]?.icon
+              const label = EntityLinkedResourceConfig[entityType]?.text || entityType
 
               return (
                 <PropertyBox
@@ -85,18 +89,20 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
         onAdd={handleAddLinkedResource}
       />
 
-      {selectedId && !!linkedResource[selectedId] && linkedResource[selectedId].type !== 'proposalAction' && (
-        <LinkedResourceSetupModal
-          linkedResource={linkedResource[selectedId] as any}
-          open={!!selectedId}
-          onClose={(): void => setSelectedId('')}
-          onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
-        />
-      )}
+      {selectedId &&
+        !!linkedResource[selectedId] &&
+        getLinkedResourceTypeFromPrefix(linkedResource[selectedId].type) !== 'proposalAction' && (
+          <LinkedResourceSetupModal
+            linkedResource={linkedResource[selectedId] as any}
+            open={!!selectedId}
+            onClose={(): void => setSelectedId('')}
+            onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
+          />
+        )}
       {selectedId &&
         !!linkedResource[selectedId] &&
         !linkedResource[selectedId].serviceEndpoint &&
-        linkedResource[selectedId].type === 'proposalAction' && (
+        getLinkedResourceTypeFromPrefix(linkedResource[selectedId].type) === 'proposalAction' && (
           <ProposalActionModal
             linkedResource={linkedResource[selectedId] as any}
             open={!!selectedId}

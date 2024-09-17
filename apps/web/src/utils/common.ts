@@ -23,3 +23,8 @@ export function findKeyValuePairs(obj: Record<string, any>, propertyName: string
   });
   return result;
 }
+
+export const LINKED_RESOURCE_TYPES_PREFIX = "display:";
+export function getLinkedResourceTypeFromPrefix(linkedResourceType: string): string {
+  return linkedResourceType.replace(LINKED_RESOURCE_TYPES_PREFIX, '')
+}

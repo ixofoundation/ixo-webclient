@@ -16,7 +16,6 @@ interface Props {
 }
 
 const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAccordedRight }): JSX.Element => {
-  console.log('🚀 ~ accordedRight:', accordedRight)
   const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
   const [openAddAccordedRightDetailsModalKey, setOpenAddAccordedRightDetailsModalKey] = useState<string | null>(null)
 

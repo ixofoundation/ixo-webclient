@@ -1,21 +1,22 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import { useDropzone } from 'react-dropzone'
-import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
-import { FormData } from 'components/JsonForm/types'
-import { deviceWidth } from 'constants/device'
-import { Box, FlexBox } from 'components/CoreEntry/App.styles'
-import { Typography } from 'components/Typography'
-import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
-import { toTitleCase } from 'utils/formatters'
-import { errorToast } from 'utils/toast'
-import { useTheme } from 'styled-components'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
-import { chainNetwork } from 'hooks/configs'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Checkbox, Flex } from '@mantine/core'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
+import { FormData } from 'components/JsonForm/types'
+import { CloseButton, ModalStyles } from 'components/Modals/styles'
+import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
+import { Typography } from 'components/Typography'
+import { deviceWidth } from 'constants/device'
 import { EntityLinkedResourceConfig } from 'constants/entity'
+import { chainNetwork } from 'hooks/configs'
+import { useDropzone } from 'react-dropzone'
+import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
+import { useTheme } from 'styled-components'
+import { getLinkedResourceTypeFromPrefix } from 'utils/common'
+import { errorToast } from 'utils/toast'
 
 interface Props {
   linkedResource: LinkedResource
@@ -24,7 +25,17 @@ interface Props {
   onChange?: (linkedResource: LinkedResource) => void
 }
 
-const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
+const LinkedResourceSetupModal: React.FC<Props> = ({
+  linkedResource: _linkedResource,
+  open,
+  onClose,
+  onChange,
+}): JSX.Element => {
+  const linkedResource = {
+    ..._linkedResource,
+    display: _linkedResource?.display ?? _linkedResource?.type?.startsWith('display:'),
+    type: getLinkedResourceTypeFromPrefix(_linkedResource.type),
+  }
   const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData>(linkedResource!)
   const [uploading, setUploading] = useState(false)
@@ -34,13 +45,15 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
     [formData],
   )
 
+  const linkResourceType = linkedResource?.type
+
   const {
     getRootProps,
     getInputProps,
     open: openDropZone,
   } = useDropzone({
     noClick: true,
-    accept: EntityLinkedResourceConfig[linkedResource?.type || '']?.accept,
+    accept: EntityLinkedResourceConfig[linkResourceType]?.accept,
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
       const [file] = acceptedFiles
@@ -50,8 +63,6 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
         const fileSrc = e.target.result
         const mediaType = fileSrc.split(',')[0].split(';')[0].split(':').pop()
         const base64 = fileSrc.split(',').pop()
-
-        console.log({ fileSrc, mediaType, base64 })
 
         setUploading(true)
 
@@ -82,7 +93,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
     },
   })
 
-  const handleFormDataChange = (key: string, value: string): void => {
+  const handleFormDataChange = (key: string, value: string | boolean): void => {
     onChange && setFormData((pre) => ({ ...pre, [key]: value }))
   }
 
@@ -156,16 +167,8 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   onClick={onChange && openDropZone}
                   title='Click to replace'
                 >
-                  {/* <iframe
-                    src={formData?.serviceEndpoint}
-                    title='media'
-                    width={'100%'}
-                    height={'100%'}
-                    frameBorder='0'
-                    style={{ pointerEvents: 'none' }}
-                  /> */}
                   <Typography color='blue' weight='bold' size='2xl'>
-                    {EntityLinkedResourceConfig[linkedResource?.type || '']?.text || linkedResource?.type}
+                    {EntityLinkedResourceConfig[linkResourceType]?.text || linkResourceType}
                   </Typography>
                 </FlexBox>
               )}
@@ -195,19 +198,28 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
             />
 
             {/* Type of Resource */}
-            <InputWithLabel
-              name='linked_resource_type'
-              height='48px'
-              label='Type of Resource'
-              inputValue={formData?.type}
-              handleChange={(value) => handleFormDataChange('type', value)}
-              style={{ fontWeight: 500 }}
-            />
+            <Flex gap={8} w='100%' align={'center'}>
+              <InputWithLabel
+                name='linked_resource_type'
+                height='48px'
+                width='100%'
+                label='Type of Resource'
+                inputValue={formData?.type}
+                disabled
+                style={{ fontWeight: 500 }}
+              />
+              <Checkbox
+                checked={formData?.display}
+                onChange={(event) => handleFormDataChange('display', event.currentTarget.checked)}
+                label='Display'
+                size='lg'
+                radius={'sm'}
+              />
+            </Flex>
 
             {/* Media Type */}
             <InputWithLabel
               name='linked_resource_media_type'
-              height='48px'
               label='Media Type'
               inputValue={formData?.mediaType}
               style={{ fontWeight: 500 }}

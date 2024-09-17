@@ -11,6 +11,7 @@ import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ProposalActionConfigMap } from 'constants/entity'
+import { getLinkedResourceTypeFromPrefix } from 'utils/common'
 
 interface Props {
   linkedResource: LinkedResource
@@ -19,7 +20,16 @@ interface Props {
   onChange?: (linkedResource: LinkedResource) => void
 }
 
-const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
+const ProposalActionModal: React.FC<Props> = ({
+  linkedResource: _linkedResource,
+  open,
+  onClose,
+  onChange,
+}): JSX.Element => {
+  const linkedResource = {
+    ..._linkedResource,
+    type: getLinkedResourceTypeFromPrefix(_linkedResource.type),
+  }
   const [type, setType] = useState<string>('')
   const [uploading, setUploading] = useState(false)
   const options = useMemo(
