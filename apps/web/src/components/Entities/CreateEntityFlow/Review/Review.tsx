@@ -148,7 +148,6 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} $gap={10} $alignItems='stretch'>
-      here
       {renderEntityCard(entityType, { ...createEntityState })}
       <FlexBox $direction='column' $justifyContent='space-between' $gap={4} width='100%' style={{ flex: 1 }}>
         {!success && (

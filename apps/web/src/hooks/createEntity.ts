@@ -544,7 +544,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
         relayerNode,
         controller = [],
       } = payload
-      console.log("🚀 ~ useCreateEntity ~ payload:", payload)
       const { startDate, endDate } = createEntityState
       const createEntityMessagePayload = await CreateEntityMessage(signer, [
         {

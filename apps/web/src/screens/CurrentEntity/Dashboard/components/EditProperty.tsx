@@ -55,8 +55,7 @@ const EditProperty: React.FC = (): JSX.Element => {
   }, [])
 
   const PropertiesFormProps = useMemo(() => {
-    console.log('🚀 ~ editEntity:', editEntity?.accordedRight)
-    const obj = Array.isArray(editEntity?.accordedRight)
+    const accordedRight = Array.isArray(editEntity?.accordedRight)
       ? editEntity?.accordedRight?.reduce((acc, item) => {
           const type = item.type.startsWith?.('capability') ? 'agentCapability' : item.type
           if (type) {
@@ -79,7 +78,7 @@ const EditProperty: React.FC = (): JSX.Element => {
           .map((item) => [item.id, item]),
       ),
       claim: editEntity.claim ?? {},
-      accordedRight: obj,
+      accordedRight,
       linkedEntity: Object.fromEntries(
         (editEntity.linkedEntity ?? []).map((item) => [item.id.replace('{id}#', ''), item]),
       ),
