@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
-import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
+import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isContractAddress, validateJSON } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -133,14 +132,14 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
             />
 
             <SvgBox color='black' onClick={() => handleRemoveFund(index)} cursor='pointer'>
-              <TimesIcon />
+              <img src='/assets/images/icon-times.svg' />
             </SvgBox>
           </FlexBox>
         ))}
 
         <AddFundButton $alignItems='center' $gap={2.5} onClick={handleAddFund}>
           <SvgBox color='black'>
-            <PlusIcon />
+            <img src='/assets/images/icon-plus.svg' />
           </SvgBox>
           <Typography size='xl' weight='medium'>
             Add Payment

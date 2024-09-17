@@ -4,7 +4,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import { NodeType, TEntityClaimModel, TEntityCreatorModel, TEntityDDOTagModel, TEntityPageModel } from 'types/entities'
 import { chainNetwork } from './configs'
 import { TSigner } from 'lib/protocol'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { currentRelayerNode } from 'constants/common'
 
 export function useService() {
@@ -263,7 +263,7 @@ export function useService() {
     service: Service,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      if (questionJSON.pages.length === 0) {
+      if (questionJSON?.pages?.length === 0) {
         throw new Error('No Questions')
       }
 

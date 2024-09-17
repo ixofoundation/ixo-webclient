@@ -31,7 +31,7 @@ import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { NodeType, TDAOGroupModel, TEntityModel, TEntityPageModel } from 'types/entities'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { getEntityById, selectAllClaimProtocols } from 'redux/entities/entities.selectors'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useService } from './service'
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
@@ -44,7 +44,7 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
   const { execute, wallet } = useWallet()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const currentEntity = useAppSelector(getEntityById(entityId))
@@ -76,8 +76,8 @@ export default function useEditEntity(): {
   }
 
   const getUsedService = (serviceEndpoint = ''): Service => {
-    console.log({serviceEndpoint})
-    console.log({services})
+    console.log({ serviceEndpoint })
+    console.log({ services })
     let service: Service | undefined = undefined
     if (serviceEndpoint) {
       const currentServiceType = extractServiceTypeFromEndpoint(serviceEndpoint)
@@ -121,11 +121,13 @@ export default function useEditEntity(): {
       return []
     }
 
-    const service = editEntity.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
-      id: '{id}#ipfs',
-      type: NodeType.Ipfs,
-      serviceEndpoint: 'https://ipfs.io/ipfs',
-    }
+    const service = editEntity.settings?.Profile?.serviceEndpoint
+      ? getUsedService(editEntity.settings.Profile?.serviceEndpoint)
+      : {
+          id: '{id}#ipfs',
+          type: NodeType.Ipfs,
+          serviceEndpoint: 'https://ipfs.io/ipfs',
+        }
 
     const res = await SaveProfile(editEntity.profile, service)
     if (!res) {
@@ -143,7 +145,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings?.Profile)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity.settings?.Profile,
+    )
     return messages
   }
 
@@ -151,7 +158,7 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.token ?? {}) === JSON.stringify(currentEntity.token ?? {})) {
       return []
     }
-    
+
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
     const res = await SaveTokenMetadata(editEntity.token, service)
     if (!res) {
@@ -169,7 +176,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'))
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'),
+    )
     return messages
   }
 
@@ -195,7 +207,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'))
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'),
+    )
     return messages
   }
 
@@ -203,9 +220,7 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.creator) === JSON.stringify(currentEntity.creator)) {
       return []
     }
-    const service = getUsedService(
-      editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint,
-    )
+    const service = getUsedService(editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint)
     const res = await SaveProfile(editEntity.creator, service)
     if (!res) {
       throw new Error('Save Creator failed!')
@@ -222,7 +237,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'))
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'),
+    )
     return messages
   }
 
@@ -249,7 +269,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'))
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'),
+    )
     return messages
   }
 
@@ -274,7 +299,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Page)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity.settings.Page,
+    )
     return messages
   }
 
@@ -299,7 +329,12 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Tags)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity.settings.Tags,
+    )
     return messages
   }
 
@@ -332,7 +367,12 @@ export default function useEditEntity(): {
         ...acc,
         ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
           ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur, editEntity?.linkedResource?.find((v) => v.id === cur.id))
+            ? GetReplaceLinkedResourceMsgs(
+                editEntity.id,
+                signer,
+                cur,
+                editEntity?.linkedResource?.find((v) => v.id === cur.id),
+              )
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
       ],
@@ -573,7 +613,6 @@ export default function useEditEntity(): {
     return messages
   }
 
-
   const getEditedMsgs = async (): Promise<readonly EncodeObject[]> => {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
@@ -589,7 +628,7 @@ export default function useEditEntity(): {
       ...(await getEditedVerificationMethodMsgs()),
       ...(await getEditedSurveyTemplateMsgs()),
       ...(await getEditedServiceMsgs()),
-      ...(await getEditedCreatorMsgs()),  
+      ...(await getEditedCreatorMsgs()),
     ]
   }
 
@@ -601,7 +640,10 @@ export default function useEditEntity(): {
     }
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await execute({ data: { messages: messages as any, fee: updatedFee, memo: undefined }, transactionConfig: { sequence: 1 }})
+    const response = await execute({
+      data: { messages: messages as any, fee: updatedFee, memo: undefined },
+      transactionConfig: { sequence: 1 },
+    })
 
     if (typeof response === 'string') {
       throw Error('Connect your wallet')

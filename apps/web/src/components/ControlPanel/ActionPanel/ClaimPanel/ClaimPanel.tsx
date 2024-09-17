@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import ApplicationSubmissionCard, { SubmitClaim } from './ApplicationSubmissionCard'
 import WithdrawEarningsCard from './WithdrawEarningsCard'
 import FundingAccountCard from 'components/ControlPanel/Actions/FundingAccountCard'
-import RewardsList from 'pages/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/RewardsList'
+import RewardsList from 'screens/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/RewardsList'
 
 const ClaimPanel = ({ data }: { data: any }) => {
   return (

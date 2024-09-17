@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { ReactComponent as EnvelopeIcon } from 'assets/images/exchange/envelope.svg'
+
+import EnvelopeIcon from 'assets/images/exchange/envelope.svg'
 
 export const Container = styled.div`
   position: relative;
@@ -9,7 +10,8 @@ export const Container = styled.div`
   padding: 40px;
   border-radius: 12px;
   border: 3px solid #0000;
-  background: linear-gradient(#ffffff, #ffffff) padding-box,
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
     linear-gradient(180deg, #78eac7 0%, #9f9af7 100%) border-box;
 
   form {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { TClaimQuestionControlProps } from './types'
 import styled from 'styled-components'
-import { CheckBox } from 'pages/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
+import { CheckBox } from 'screens/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 
 const StyledMultipleSelect = styled(FlexBox)``
 

@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { ResponsiveContainer, PieChart as NativePieChart, Pie, Cell } from 'recharts'
 import { useTheme } from 'styled-components'

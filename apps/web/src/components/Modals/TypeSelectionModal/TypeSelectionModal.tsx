@@ -1,7 +1,8 @@
 import React from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { TypeButton } from './TypeSelectionModal.styles'
 
@@ -18,7 +19,7 @@ const TypeSelectionModal: React.FC<Props> = ({ open, onClose, title, options, ha
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>

@@ -1,8 +1,8 @@
 import { CSSProperties } from "react";
 
 import { Flex, Text } from "@mantine/core";
-import SortUpIcon from "@/assets/icons/sort-amount-up.svg";
-import SortDownIcon from "@/assets/icons/sort-amount-down.svg";
+
+
 
 import { IBaseTableConfig } from "./types";
 import { useTheme } from "styled-components";

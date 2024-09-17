@@ -1,7 +1,7 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { Input, Switch } from 'pages/CreateEntity/Components'
+import { Input, Switch } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/entities'
@@ -34,7 +34,7 @@ interface Props {
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string; entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 

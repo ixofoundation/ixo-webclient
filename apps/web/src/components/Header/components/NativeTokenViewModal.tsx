@@ -1,8 +1,8 @@
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { SendModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
@@ -14,8 +14,8 @@ import {
   GetDelegatorUnbondingDelegations,
   GetDelegatorValidators,
 } from 'lib/protocol'
-import { Button } from 'pages/CreateEntity/Components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { useTheme } from 'styled-components'

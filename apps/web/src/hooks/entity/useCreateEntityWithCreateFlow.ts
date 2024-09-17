@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { insertToAlgoliaIndex } from 'hooks/algolia/insert-to-algolia-index'
@@ -69,7 +69,6 @@ export const useCreateEntityWithCreateFlow = () => {
 
     return updatedLinkedResources.map(({ data, ...rest }) => rest)
   }
-
 
   const signCreateEntityTransaction = useCallback(async () => {
     try {
@@ -146,20 +145,20 @@ export const useCreateEntityWithCreateFlow = () => {
   return { signCreateEntityTransaction, isLoading, completedDid }
 }
 
-  const determineEntityType = (type: string) => {
-    switch (type) {
-      case 'protocol/project':
-      case 'protocol/oracle':
-      case 'protocol/dao':
-      case 'protocol/investment':
-      case 'protocol/asset':
-        return type.split('/').pop() // project, oracle, dao, investment, asset
+const determineEntityType = (type: string) => {
+  switch (type) {
+    case 'protocol/project':
+    case 'protocol/oracle':
+    case 'protocol/dao':
+    case 'protocol/investment':
+    case 'protocol/asset':
+      return type.split('/').pop() // project, oracle, dao, investment, asset
 
-      case 'protocol/request':
-      case 'protocol/deed':
-        return 'deed/request'
+    case 'protocol/request':
+    case 'protocol/deed':
+      return 'deed/request'
 
-      default:
-        return type
-    }
+    default:
+      return type
   }
+}

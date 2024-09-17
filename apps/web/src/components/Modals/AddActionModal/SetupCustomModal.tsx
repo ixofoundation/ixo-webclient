@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox } from 'components/App/App.styles'
-import { CodeMirror } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { CodeMirror } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { validateCustomMessage } from 'utils/validation'
@@ -29,6 +29,7 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
+    console.log('handleUpdateFormData', key, value)
     onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 

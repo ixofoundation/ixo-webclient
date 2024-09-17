@@ -1,14 +1,12 @@
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
-import { AccountValidStatus, Button, Dropdown, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, Dropdown, Input } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { ReactComponent as SyncIcon } from 'assets/images/icon-sync-alt-solid.svg'
-import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+
 import { useTheme } from 'styled-components'
 
 export interface Counterparty {
@@ -199,14 +197,14 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               </FlexBox>
               <FlexBox $gap={1} $alignItems='center' color={theme.ixoRed}>
                 <SvgBox color={theme.ixoRed} $svgWidth={5} $svgHeight={5}>
-                  <TimesIcon />
+                  <img src='/assets/images/icon-times.svg' />
                 </SvgBox>
                 <Typography>Unpaid</Typography>
               </FlexBox>
             </FlexBox>
 
             <SvgBox color='black'>
-              <SyncIcon />
+              <img src='/assets/images/icon-sync-alt-solid.svg' />
             </SvgBox>
 
             <FlexBox
@@ -228,7 +226,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               </FlexBox>
               <FlexBox $gap={1} $alignItems='center' color={theme.ixoRed}>
                 <SvgBox color={theme.ixoRed} $svgWidth={5} $svgHeight={5}>
-                  <TimesIcon />
+                  <img src='/assets/images/icon-times.svg' />
                 </SvgBox>
                 <Typography>Unpaid</Typography>
               </FlexBox>
@@ -242,7 +240,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <FlexBox $alignItems='center' $gap={4}>
             <Typography size='xl'>{formData.tokenSwapContractAddress}</Typography>
             <SvgBox color='black'>
-              <CopyIcon />
+              <img src='/assets/images/icon-copy.svg' />
             </SvgBox>
           </FlexBox>
         </>

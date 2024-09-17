@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
-import { SignStep, TXStatus } from '../common'
-import { Typography } from 'components/Typography'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
+
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
+import { Typography } from 'components/Typography'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
+import React, { useEffect, useState } from 'react'
 import {
   convertDenomToMicroDenomWithDecimals,
   convertMicroDenomToDenomWithDecimals,
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { Input } from 'pages/CreateEntity/Components'
+import { SignStep, TXStatus } from '../common'
+
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import CurrencyFormat from 'react-currency-format'
+
+import { Cw20StakeClient } from 'cosmwasm-clients'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { fee } from 'lib/protocol'
-import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
-import { TDAOGroupModel } from 'types/entities'
-import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entities/entities.selectors'
+import CurrencyFormat from 'react-currency-format'
 import { useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entities/entities.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { Input } from 'screens/CreateEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
+import styled, { useTheme } from 'styled-components'
+import { TDAOGroupModel } from 'types/entities'
+import { useWallet } from 'wallet-connector'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -65,7 +66,7 @@ interface Props {
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))
   const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress, daoGroups)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
@@ -145,7 +146,10 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
-        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(), transactionConfig: { sequence: 1 } },
+        {
+          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
+          transactionConfig: { sequence: 1 },
+        },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,
@@ -199,7 +203,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* Amount & Denom */}
@@ -242,7 +246,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                   be available after that.
                 </Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
-                  <img src={NextStepImage} alt='' />
+                  <img src='/assets/images/modal/nextstep.svg' alt='' />
                 </Box>
               </FlexBox>
             </FlexBox>

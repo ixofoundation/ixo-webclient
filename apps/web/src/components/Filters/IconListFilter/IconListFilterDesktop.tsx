@@ -11,11 +11,10 @@ import {
   FilterSelectButton,
   ButtonImage,
 } from '../Filters.styles'
-import { requireCheckDefault } from 'utils/images'
 import { ReactSVG } from 'react-svg'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 
 const IconListFilterDesktop: FC<Props> = ({
   selectType,
@@ -46,9 +45,7 @@ const IconListFilterDesktop: FC<Props> = ({
         className={`${utils.getTitleClassName(items)} ${primaryButton ? 'contained' : ''}`}
       >
         <ButtonInner>
-          {renderIcon && icon && (
-            <ButtonImage alt={icon} src={requireCheckDefault(require(`./assets/icons/${icon}`))} />
-          )}
+          {renderIcon && icon && <ButtonImage alt={icon} src={`/assets/icons/${icon}`} />}
           <Typography size='md'>{utils.getTitle(name, items, selectType)}</Typography>
         </ButtonInner>
       </ButtonOuter>
@@ -72,7 +69,7 @@ const IconListFilterDesktop: FC<Props> = ({
                   {itemName}
                 </Typography>
                 <SvgBox color='currentColor' $svgWidth={12.5} $svgHeight={12.5}>
-                  <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
+                  <ReactSVG src={`/assets/icons/${itemIcon}`} />
                 </SvgBox>
               </FilterSelectButton>
             )

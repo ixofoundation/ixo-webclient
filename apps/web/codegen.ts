@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
+  schema: process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL,
   documents: ['src/graphql/**/*.graphql'],
   generates: {
     'src/generated/graphql.tsx': {

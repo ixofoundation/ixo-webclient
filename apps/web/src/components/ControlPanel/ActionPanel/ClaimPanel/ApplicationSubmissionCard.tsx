@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { Box, Flex, Text, Button, Badge, Grid } from '@mantine/core'
 import { useGetIid } from 'graphql/iid'
 import { useGetUserGranteeRole } from 'hooks/claim'

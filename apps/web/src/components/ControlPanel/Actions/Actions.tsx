@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
-import { ReactComponent as HandPaperIcon } from 'assets/images/icon-hand-paper.svg'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+
+
+
+
 import { ApplyToJoinModal } from 'components/Modals'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { AgentRoles } from 'types/models'
@@ -33,19 +35,15 @@ const ActionsCard: React.FC<Props> = () => {
   const showActions = claimCollections?.length > 0
 
   const actions = [
-    ...(type === 'deed/request' ? [{ icon: <PlusIcon />, content: 'Submit Offer', onClick: () => setApplyToJoinModalOpen(true) }] : []),
-    ...(showActions ? [{ icon: <PlusIcon />, content: 'Offer', onClick: () => setApplyToJoinModalOpen(true) }] : []),
+    ...(type === 'deed/request'
+      ? [{ icon: <img src="/assets/images/icon-plus.svg"  />, content: 'Submit Offer', onClick: () => setApplyToJoinModalOpen(true) }]
+      : []),
+    ...(showActions ? [{ icon: <img src="/assets/images/icon-plus.svg"  />, content: 'Offer', onClick: () => setApplyToJoinModalOpen(true) }] : []),
   ]
-  
 
   return (
     <>
-      <Card
-        icon={<HandPaperIcon />}
-        title='Actions'
-        columns={2}
-        items={actions.filter(Boolean)}
-      />
+      <Card icon={<img src="/assets/images/icon-hand-paper.svg"  />} title='Actions' columns={2} items={actions.filter(Boolean)} />
       {applyToJoinModalOpen && (
         <ApplyToJoinModal
           claimCollections={claimCollections}
