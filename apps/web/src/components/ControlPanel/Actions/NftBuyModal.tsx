@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import { Container, NextStep, OverlayDiv } from './Modal.styles'
 import { AssetType } from 'redux/configs/configs.types'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
 import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { displayTokenAmount } from 'utils/currency'
 import SignStep, { TXStatus } from './components/SignStep'
-import CashIcon from 'assets/images/assets/cash.svg'
+
 import CircleCheckoutStep from './components/CircleCheckoutStep'
 
 const NftBuyPanel = styled.div`
@@ -171,7 +171,7 @@ const NftBuyModal: React.FunctionComponent<Props> = ({
 
         {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
-            <img src={NextStepIcon} alt='next-step' />
+            <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
           </NextStep>
         )}
       </Container>

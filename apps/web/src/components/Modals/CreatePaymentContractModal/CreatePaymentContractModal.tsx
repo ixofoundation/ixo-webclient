@@ -3,9 +3,9 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import CurrencyIcon from 'assets/icons/Currency'
 import SyncIcon from 'assets/icons/Sync'
-import CheckIcon from 'assets/images/icon-check.svg'
-import CopyIcon from 'assets/images/modal/copy.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+
+
+
 import DiscountsSelector from 'components/Selector/DiscountsSelector/DiscountsSelector'
 import ModalInput from 'components/Modal/ModalInput/ModalInput'
 import ModalSelector from 'components/Selector/ModalSelector/ModalSelector'
@@ -290,7 +290,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                 disable={true}
                 icon={<CurrencyIcon fill='#00D2FF' />}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <div className='mt-2' />
             <CheckWrapper>
@@ -300,7 +300,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                 value={paymentTemplate!}
                 hideLabel={true}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <div className='mt-2' />
             <CheckWrapper>
@@ -316,7 +316,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                   hideLabel={true}
                 />
               </PaymentTemplateBoundaryWrapper>
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             {availableDiscounts.length > 0 && (
               <>
@@ -337,7 +337,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                     label={currentStep === 1 ? 'Grant a Discount' : 'Granted Discount'}
                     alignClass=''
                   />
-                  {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+                  {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
                 </CheckWrapper>
               </>
             )}
@@ -369,17 +369,17 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                   Toast.successToast(null, 'Contract ID Copied')
                 }}
               >
-                <img src={CopyIcon} alt='view transactions' />
+                <img src="/assets/images/modal/copy.svg" alt='view transactions' />
               </div>
             )}
           </TXStatusBoard>
         )}
 
         <NextStep show={showNext} onClick={handleNextStep}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
         <PrevStep show={showPrev} onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

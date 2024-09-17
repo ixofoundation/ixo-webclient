@@ -92,9 +92,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
             </option>
           ))}
       </SelectContainer>
-      {selectedIconSRC && (
-        <img src={requireCheckDefault(require(`../../../assets${selectedIconSRC.toLowerCase()}`))} alt='icon' />
-      )}
+      {selectedIconSRC && <img src={`/assets${selectedIconSRC.toLowerCase()}`} alt='icon' />}
     </Container>
   )
 }

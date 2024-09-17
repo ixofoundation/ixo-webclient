@@ -3,10 +3,10 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import CurrencyIcon from 'assets/icons/Currency'
 import SyncIcon from 'assets/icons/Sync'
-import CalendarSortIcon from 'assets/images/modal/calendar-sort.svg'
-import CheckIcon from 'assets/images/icon-check.svg'
-import CopyIcon from 'assets/images/modal/copy.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+
+
+
+
 import cx from 'classnames'
 import DiscountsSelector from 'components/Selector/DiscountsSelector/DiscountsSelector'
 import ModalInput from 'components/Modal/ModalInput/ModalInput'
@@ -243,7 +243,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                 placeholder='Select a Payment Currency'
                 icon={<CurrencyIcon fill='#00D2FF' />}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <div className='mt-2' />
             <CheckWrapper>
@@ -259,7 +259,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                 }}
                 hideLabel={true}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
           </>
         )}
@@ -355,14 +355,14 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                   hideLabel={true}
                 />
               </PaymentTemplateBoundaryWrapper>
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <div className='mt-2' />
             <CheckWrapper className='d-flex justify-content-between w-100'>
               {selectedPaymentTemplateMethod === PaymentTemplateMethod.RECURRING && currentStep === 2 && (
                 <div className='d-flex justify-content-center align-items-center'>
                   <IconWrapper>
-                    <img src={CalendarSortIcon} alt='check-icon' />
+                    <img src="/assets/images/modal/calendar-sort.svg" alt='check-icon' />
                   </IconWrapper>
                   <span className='ml-5 mr-2'>{paymentPeriods}</span>
                 </div>
@@ -386,7 +386,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                     : 'Allowed Discounts'
                 }
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
           </>
         )}
@@ -416,17 +416,17 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                   Toast.successToast(null, 'Template Id Copied')
                 }}
               >
-                <img src={CopyIcon} alt='view transactions' />
+                <img src="/assets/images/modal/copy.svg" alt='view transactions' />
               </div>
             )}
           </TXStatusBoard>
         )}
 
         <NextStep show={showNext} onClick={handleNextStep}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
         <PrevStep show={showPrev} onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

@@ -1,8 +1,8 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
+import { Button, Dropdown, Input, Switch } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DepositRefundPolicy, UncheckedDepositInfo } from 'types/dao'
@@ -54,7 +54,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   onClose,
   onSubmit,
 }): JSX.Element => {
-  const { coreAddress = '', entityId = "" } = useParams<{ coreAddress: string, entityId: string }>()
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string; entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig

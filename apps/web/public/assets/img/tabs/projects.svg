@@ -1,0 +1,12 @@
+<svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #FFFFFF;
+      }
+    </style>
+  </defs>
+  <circle class="cls-1" cx="60" cy="60" r="30" />
+  <path class="cls-1"
+    d="M60,10.91A49.09,49.09,0,1,1,10.91,60,49.14,49.14,0,0,1,60,10.91M60,0a60,60,0,1,0,60,60A60,60,0,0,0,60,0Z" />
+</svg>

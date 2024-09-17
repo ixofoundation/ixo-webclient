@@ -7,7 +7,8 @@ import { LiaPlusCircleSolid } from 'react-icons/lia'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
+
+
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 const CoinCard = ({ denom, amount }: { denom: string; amount: string }) => {
@@ -15,7 +16,7 @@ const CoinCard = ({ denom, amount }: { denom: string; amount: string }) => {
     <Box w='100%' px='md' bg='#F9F9F9' p='sm' style={{ borderRadius: '10px' }}>
       <Flex>
         <Avatar size={40}>
-          <IXOIcon height={20} width={20} />
+          <img src="/assets/images/icon-ixo.svg" height={20} width={20}  />
         </Avatar>
         <Flex direction='column' ml={4}>
           <Text size='md'>{convertMicroDenomToDenomWithDecimals(amount, 6)} IXO</Text>
@@ -34,7 +35,7 @@ const FundingAccountCard = () => {
   const entity = useAppSelector(getEntityById(entityId))
 
   useEffect(() => {
-    const address = entity.accounts.find((account) => account.name === 'admin')?.address
+    const address = entity.accounts?.find((account) => account.name === 'admin')?.address
     if (address) {
       GetBalances(address).then((balance) => setBalances(balance))
     }

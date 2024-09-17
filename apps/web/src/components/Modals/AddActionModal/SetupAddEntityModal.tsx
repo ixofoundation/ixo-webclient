@@ -1,19 +1,5 @@
-import React, { useEffect } from 'react'
-import { TProposalActionModel } from 'types/entities'
-import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { Accordion } from '@mantine/core'
-import {
-  SelectCreationProcess,
-  SetupMetadata,
-  SetupGroups,
-  SetupProperties,
-  Review,
-  SelectType,
-  SetupInstrument,
-  SetupDataCollection,
-} from 'components/Entities/CreateEntityFlow'
-import { SelectEntityType } from 'components/SelectEntityType'
-import { upperFirst } from 'lodash'
+import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
   LinkedClaim,
@@ -21,18 +7,32 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
+import { Accordion } from '@mantine/core'
+import {
+  Review,
+  SelectCreationProcess,
+  SelectType,
+  SetupDataCollection,
+  SetupGroups,
+  SetupInstrument,
+  SetupMetadata,
+  SetupProperties,
+} from 'components/Entities/CreateEntityFlow'
+import { SelectEntityType } from 'components/SelectEntityType'
 import { currentRelayerNode } from 'constants/common'
-import { CheckIidDoc, CreateIidDocForGroup, TSigner } from 'lib/protocol'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { useParams } from 'react-router-dom'
-import { hexToUint8Array } from 'utils/encoding'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
-import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
-import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
-import { useAppSelector } from 'redux/hooks'
+import { CheckIidDoc, CreateIidDocForGroup, TSigner } from 'lib/protocol'
+import { upperFirst } from 'lodash'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
+import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
+import { TProposalActionModel } from 'types/entities'
+import { hexToUint8Array } from 'utils/encoding'
+import { useWallet } from 'wallet-connector'
+import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 interface Props {
   open: boolean
@@ -103,7 +103,7 @@ const getCreateEntityMessageForProposal = ({
   linkedResource: LinkedResource[]
   accordedRight: AccordedRight[]
   linkedClaim: LinkedClaim[]
-  linkedEntity: LinkedEntity[] 
+  linkedEntity: LinkedEntity[]
   startDate: string
   endDate: string
   entityType: string
@@ -166,7 +166,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   const { coreAddress } = useParams()
   const { wallet, execute, close } = useWallet()
 
-  console.log({createEntityState})
+  console.log({ createEntityState })
 
   const signer = {
     address: wallet?.address as string,
@@ -176,19 +176,22 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
 
   useEffect(() => {
-    if(entityType && createEntityState.entityType !== entityType){
+    if (entityType && createEntityState.entityType !== entityType) {
       createEntityState.updateEntityType(entityType)
     }
   }, [entityType, createEntityState])
 
   const getEntityCreateMessage = async () => {
-    const accordedRight: AccordedRight[] = []
+    const accordedRight: AccordedRight[] = createEntityState?.accordedRight
+      ? Object.values(createEntityState?.accordedRight)
+          .map((accordedRight) => (accordedRight as any)?.data)
+          .flat()
+      : []
     const verification: Verification[] = []
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
-    // AccordedRight TODO:
 
     // Service
     service = createEntityState.service
@@ -198,18 +201,22 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
 
     // LinkedResource
     linkedResource = linkedResource.concat(Object.values(createEntityState.linkedResource))
-    linkedResource = linkedResource.concat(await transformEntityStateToLinkedResources({
-      profile: createEntityState.profile,
-      creator: createEntityState.creator,
-      administrator: createEntityState.administrator,
-      page: createEntityState.page,
-      ddoTags: createEntityState.ddoTags,
-      questionJSON: createEntityState.questionJSON,
-      signerDid: signer.did,
-    }))
+    linkedResource = linkedResource.concat(
+      await transformEntityStateToLinkedResources({
+        profile: createEntityState.profile,
+        creator: createEntityState.creator,
+        administrator: createEntityState.administrator,
+        page: createEntityState.page,
+        ddoTags: createEntityState.ddoTags,
+        questionJSON: createEntityState.questionJSON,
+        signerDid: signer.did,
+      }),
+    )
 
     // LinkedClaim
-    linkedClaim = linkedClaim.concat(await transformEntityStateToLinkedClaims({claimProtocols, claim: createEntityState.claim}))
+    linkedClaim = linkedClaim.concat(
+      await transformEntityStateToLinkedClaims({ claimProtocols, claim: createEntityState.claim }),
+    )
 
     // const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
 

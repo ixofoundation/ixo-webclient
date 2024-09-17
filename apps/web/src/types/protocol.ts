@@ -15,76 +15,146 @@ import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
 import { ControlType, Type } from 'components/JsonForm/types'
-import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
-import { ReactComponent as UserIcon } from 'assets/images/icon-user.svg'
-import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle.svg'
-import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
-import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
-import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
-import { ReactComponent as ImageIcon } from 'assets/images/icon-image-outline.svg'
-import { ReactComponent as TextIcon } from 'assets/images/icon-text.svg'
-import { ReactComponent as DatabaseIcon } from 'assets/images/icon-database.svg'
-import { ReactComponent as CredentialIcon } from 'assets/images/icon-credential.svg'
-import { ReactComponent as AuthorisationIcon } from 'assets/images/icon-authorisation.svg'
-import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
-import { ReactComponent as AlgorithmIcon } from 'assets/images/icon-algorithm.svg'
-import { ReactComponent as SmartContractIcon } from 'assets/images/icon-smart-contract.svg'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { ReactComponent as DashboardIcon } from 'assets/images/icon-dashboard.svg'
-import { ReactComponent as DocumentIcon } from 'assets/images/icon-document.svg'
-import { ReactComponent as AgentAuthorisationIcon } from 'assets/images/icon-agent-autorisation.svg'
-import { ReactComponent as AgentCapabilityIcon } from 'assets/images/icon-agent-capability.svg'
-import { ReactComponent as AgentUsageLicenseIcon } from 'assets/images/icon-usage-license.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
-import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
-import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
-import { ReactComponent as ConvertibleIcon } from 'assets/images/icon-convertible.svg'
-import { ReactComponent as ClaimSchemaStoreIcon } from 'assets/images/icon-claim-schema-store.svg'
-import { ReactComponent as PublicDataNodeIcon } from 'assets/images/icon-public-data-node.svg'
-import { ReactComponent as ChainServicesIcon } from 'assets/images/icon-chain-services.svg'
-import { ReactComponent as Web2ServicesIcon } from 'assets/images/icon-web2-services.svg'
-import { ReactComponent as OracleServicesIcon } from 'assets/images/icon-oracle-services.svg'
-import { ReactComponent as DataSourceIcon } from 'assets/images/icon-data-source.svg'
-import { ReactComponent as VerifiableDisplaySourceIcon } from 'assets/images/icon-verifiable-display-source.svg'
-import { ReactComponent as AuthenticationSourceIcon } from 'assets/images/icon-authentication-source.svg'
-import { ReactComponent as WebKeyManagementIcon } from 'assets/images/icon-web-key-management.svg'
-import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-contract2.svg'
-import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
-import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
-import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
-import { ReactComponent as HandshakeIcon } from 'assets/images/icon-handshake.svg'
-import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
-import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
-import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'
-import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-coins-solid.svg'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { ReactComponent as HandHoldingUSDIcon } from 'assets/images/icon-hand-holding-usd-solid.svg'
-import { ReactComponent as CycleIcon } from 'assets/images/icon-cycle.svg'
-import { ReactComponent as ArrowUpIcon } from 'assets/images/icon-arrow-up.svg'
-import { ReactComponent as AuthGrantIcon } from 'assets/images/icon-auth-grant.svg'
-import { ReactComponent as MemberGroupIcon } from 'assets/images/icon-member-group.svg'
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import { ReactComponent as AnnouncementIcon } from 'assets/images/icon-announcement.svg'
-import { ReactComponent as PaperIcon } from 'assets/images/icon-paper2.svg'
-import { ReactComponent as ProposalIcon } from 'assets/images/icon-proposal.svg'
-import { ReactComponent as SmartContract3Icon } from 'assets/images/icon-smart-contract3.svg'
-import { ReactComponent as SmartContract4Icon } from 'assets/images/icon-smart-contract4.svg'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.svg'
-import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
-import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
-import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-solid.svg'
-import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
-import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
-import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
-import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
-import { ReactComponent as UserPlusIcon } from 'assets/images/icon-user-plus-solid.svg'
+
+const CreatorIcon = '/assets/images/icon-creator.svg'
+
+const UserIcon = '/assets/images/icon-user.svg'
+
+const UserCircleIcon = '/assets/images/icon-user-circle.svg'
+
+const TagsIcon = '/assets/images/icon-tag.svg'
+
+const PageIcon = '/assets/images/icon-laptop.svg'
+
+const PaymentIcon = '/assets/images/icon-payment.svg'
+
+const ImageIcon = '/assets/images/icon-image-outline.svg'
+
+const TextIcon = '/assets/images/icon-text.svg'
+
+const DatabaseIcon = '/assets/images/icon-database.svg'
+
+const CredentialIcon = '/assets/images/icon-credential.svg'
+
+const AuthorisationIcon = '/assets/images/icon-authorisation.svg'
+
+const GlobeIcon = '/assets/images/icon-globe.svg'
+
+const AlgorithmIcon = '/assets/images/icon-algorithm.svg'
+
+const SmartContractIcon = '/assets/images/icon-smart-contract.svg'
+
+const ClaimIcon = '/assets/images/icon-claim.svg'
+
+const DashboardIcon = '/assets/images/icon-dashboard.svg'
+
+const DocumentIcon = '/assets/images/icon-document.svg'
+
+const AgentAuthorisationIcon = '/assets/images/icon-agent-autorisation.svg'
+
+const AgentCapabilityIcon = '/assets/images/icon-agent-capability.svg'
+
+const AgentUsageLicenseIcon = '/assets/images/icon-usage-license.svg'
+
+const ProjectIcon = '/assets/images/icon-project.svg'
+
+const AlphaBondIcon = '/assets/images/icon-alphabond.svg'
+
+const LBPIcon = '/assets/images/icon-lbp.svg'
+
+const QuadraticIcon = '/assets/images/icon-quadratic.svg'
+
+const ConvertibleIcon = '/assets/images/icon-convertible.svg'
+
+const ClaimSchemaStoreIcon = '/assets/images/icon-claim-schema-store.svg'
+
+const PublicDataNodeIcon = '/assets/images/icon-public-data-node.svg'
+
+const ChainServicesIcon = '/assets/images/icon-chain-services.svg'
+
+const Web2ServicesIcon = '/assets/images/icon-web2-services.svg'
+
+const OracleServicesIcon = '/assets/images/icon-oracle-services.svg'
+
+const DataSourceIcon = '/assets/images/icon-data-source.svg'
+
+const VerifiableDisplaySourceIcon = '/assets/images/icon-verifiable-display-source.svg'
+
+const AuthenticationSourceIcon = '/assets/images/icon-authentication-source.svg'
+
+const WebKeyManagementIcon = '/assets/images/icon-web-key-management.svg'
+
+const SmartContract2Icon = '/assets/images/icon-smart-contract2.svg'
+
+const JamboDAppIcon = '/assets/images/icon-jambo-dapp.svg'
+
+const MatrixServerIcon = '/assets/images/icon-matrix-server.svg'
+
+const EvaluationMethodologyIcon = '/assets/images/icon-evaluation-methodology.svg'
+
+const HandshakeIcon = '/assets/images/icon-handshake.svg'
+
+const StakingIcon = '/assets/images/icon-staking.svg'
+
+const MultisigIcon = '/assets/images/icon-multisig.svg'
+
+const PlusIcon = '/assets/images/icon-plus.svg'
+
+const LockOpenIcon = '/assets/images/icon-lock-open-solid.svg'
+
+const StarIcon = '/assets/images/icon-star.svg'
+
+const FireIcon = '/assets/images/icon-fire.svg'
+
+const TreasuryIcon = '/assets/images/icon-treasury.svg'
+
+const DatabaseMultiIcon = '/assets/images/icon-coins-solid.svg'
+
+const ArrowDownIcon = '/assets/images/icon-arrow-down.svg'
+
+const HandHoldingUSDIcon = '/assets/images/icon-hand-holding-usd-solid.svg'
+
+const CycleIcon = '/assets/images/icon-cycle.svg'
+
+const ArrowUpIcon = '/assets/images/icon-arrow-up.svg'
+
+const AuthGrantIcon = '/assets/images/icon-auth-grant.svg'
+
+const MemberGroupIcon = '/assets/images/icon-member-group.svg'
+
+const DAOIcon = '/assets/images/icon-dao.svg'
+
+const InfoIcon = '/assets/images/icon-info.svg'
+
+const AnnouncementIcon = '/assets/images/icon-announcement.svg'
+
+const PaperIcon = '/assets/images/icon-paper2.svg'
+
+const ProposalIcon = '/assets/images/icon-proposal.svg'
+
+const SmartContract3Icon = '/assets/images/icon-smart-contract3.svg'
+
+const SmartContract4Icon = '/assets/images/icon-smart-contract4.svg'
+
+const ProfileIcon = '/assets/images/icon-profile.svg'
+
+const GearMultiIcon = '/assets/images/icon-gear-multi.svg'
+
+const Plus2Icon = '/assets/images/icon-plus2.svg'
+
+const CodeIcon = '/assets/images/icon-code-solid.svg'
+
+const BoxOpenSolidIcon = '/assets/images/icon-box-open-solid.svg'
+
+const SlidersHSolidIcon = '/assets/images/icon-sliders-h-solid.svg'
+
+const VoteYeaIcon = '/assets/images/icon-vote-yea-solid.svg'
+
+const VolumeUpIcon = '/assets/images/icon-volume-up-solid.svg'
+
+const LinkedAccountIcon = '/assets/images/icon-linked-account.svg'
+
+const UserPlusIcon = '/assets/images/icon-user-plus-solid.svg'
 import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import SetupUpdateVotingConfigModal from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import {
@@ -134,6 +204,8 @@ export enum ELocalisation {
 }
 
 export enum EClaimType {
+  Identity = 'Identity',
+  Accreditation = 'Accreditation',
   Service = 'Service',
   Outcome = 'Outcome',
   Credential = 'Credential',
@@ -904,6 +976,7 @@ export const ProposalActionConfigMap = {
 
 export enum EAssetType {
   ImpactToken = 'Impact Token',
+  Coin = 'Coin',
   Commodity = 'Commodity',
   Inventory = 'Inventory',
   Data = 'Data',
@@ -1255,13 +1328,13 @@ export type TDAOGroupModel = {
     totalWeight: number
   }
   token:
-  | {
-    config: Cw20StakeConfig
-    tokenInfo: TokenInfoResponse
-    marketingInfo: MarketingInfoResponse
-    treasuryPercent?: number
-  }
-  | undefined
+    | {
+        config: Cw20StakeConfig
+        tokenInfo: TokenInfoResponse
+        marketingInfo: MarketingInfoResponse
+        treasuryPercent?: number
+      }
+    | undefined
   selected?: boolean
   memberships?: {
     category?: string

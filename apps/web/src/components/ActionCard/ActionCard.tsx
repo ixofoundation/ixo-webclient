@@ -1,5 +1,5 @@
 import { ActionIcon, Badge, Card, Flex, Text } from '@mantine/core'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { LiaCheckSolid, LiaEdit } from 'react-icons/lia'
 
 type ActionCardProps = {
@@ -47,6 +47,11 @@ const ActionCard = ({
       </Badge>
     )
   }
+
+  const childrenArray = React.Children.toArray(children)
+  const footerChild = childrenArray.find((child) => React.isValidElement(child) && child.type === ActionCard.Footer)
+  const contentChildren = childrenArray.filter((child) => child !== footerChild)
+
   return (
     <Card shadow='md' radius='md' w='100%'>
       <Card.Section px='md' pt='md' mb={4} display={'flex'} styles={{ section: { justifyContent: 'space-between' } }}>
@@ -55,9 +60,18 @@ const ActionCard = ({
         </Badge>
         {editable && editActions()}
       </Card.Section>
-      <Card.Section {...childrenProps}>{children}</Card.Section>
+      <Card.Section {...childrenProps}>{contentChildren}</Card.Section>
+      {footerChild}
     </Card>
   )
 }
+
+ActionCard.Footer = ({ children }: { children: ReactNode }) => (
+  <Card.Section mt='auto' pt='sm' bg='#F2FEFF'>
+    <Flex justify='flex-end' px='md' py='sm'>
+      {children}
+    </Flex>
+  </Card.Section>
+)
 
 export default ActionCard

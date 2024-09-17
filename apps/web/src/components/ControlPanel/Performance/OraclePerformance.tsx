@@ -1,9 +1,13 @@
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token2.svg'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+
+
+
+
+
+
+
+
 import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
 import { useParams } from 'react-router-dom'
 
@@ -15,20 +19,20 @@ const OraclePerformance: React.FC = () => {
 
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={1}
       items={[
         {
-          icon: <ClaimIcon />,
-          content: `${(totalEvaluatedClaims).toLocaleString()} Claims processed`,
+          icon: <img src="/assets/images/icon-claim.svg"  />,
+          content: `${totalEvaluatedClaims.toLocaleString()} Claims processed`,
         },
         {
-          icon: <ImpactTokenIcon />,
-          content: `${(minted).toLocaleString()} Impact Tokens Issued`, 
+          icon: <img src="/assets/images/icon-impact-token2.svg"  />,
+          content: `${minted.toLocaleString()} Impact Tokens Issued`,
         },
         {
-          icon: <CheckCircleIcon />,
+          icon: <img src="/assets/images/icon-check-circle.svg"  />,
           content: `${approvedPercentage.toFixed(2)} Approval Rate`,
         },
       ]}

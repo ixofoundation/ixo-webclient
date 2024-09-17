@@ -7,9 +7,9 @@ import {
   EvaluationsDocument,
   GetTokensTotalForCollectionAmountsDocument,
 } from 'generated/graphql'
-import { gqlClient } from 'index'
+import { gqlClient } from 'main'
 
-export const getEvaluations = async ({filter} :{filter: EvaluationFilter}) => {
+export const getEvaluations = async ({ filter }: { filter: EvaluationFilter }) => {
   try {
     const { data } = await gqlClient.query({
       query: EvaluationsDocument,
@@ -52,15 +52,13 @@ export const getCarbonOracleAggregate = async ({ entityId }: { entityId: string 
   let minted = 0,
     retired = 0
 
-  const evaluations = await getEvaluations({ filter: { oracle: { equalTo: entityId } }})
+  const evaluations = await getEvaluations({ filter: { oracle: { equalTo: entityId } } })
 
+  const claimCollections = await getclaimsCollections({
+    filter: { id: { in: evaluations?.nodes.map((evaluation: Evaluation) => evaluation?.collectionId) } },
+  })
 
-  const claimCollections = await getclaimsCollections({ filter: { id: { in: evaluations?.nodes.map((evaluation: Evaluation) => evaluation?.collectionId) } } })
-
-
-  const oracleCollectionIds =
-    claimCollections?.nodes.map((collection: ClaimCollection) => collection.entity) ?? []
-
+  const oracleCollectionIds = claimCollections?.nodes.map((collection: ClaimCollection) => collection.entity) ?? []
 
   for await (const collectionId of oracleCollectionIds) {
     const results = await getTokensTotalForCollectionAmounts({ did: collectionId })
@@ -68,22 +66,24 @@ export const getCarbonOracleAggregate = async ({ entityId }: { entityId: string 
     minted = minted + (results?.CARBON?.minted ?? 0)
     retired = retired + (results?.CARBON?.retired ?? 0)
   }
-//   oracleCollectionIds.forEach(async (collectionId: string) => {
-//     const results = await getTokensTotalForCollectionAmounts({ did: collectionId })
+  //   oracleCollectionIds.forEach(async (collectionId: string) => {
+  //     const results = await getTokensTotalForCollectionAmounts({ did: collectionId })
 
-//     minted = minted + (results.data?.CARBON?.minted ?? 0)
-//     retired = retired + (results.data?.CARBON?.retired ?? 0)
-//   })
+  //     minted = minted + (results.data?.CARBON?.minted ?? 0)
+  //     retired = retired + (results.data?.CARBON?.retired ?? 0)
+  //   })
 
-  const totalEvaluatedClaims = claimCollections?.nodes.reduce((acc: any, collection: any) => {
+  const totalEvaluatedClaims =
+    claimCollections?.nodes.reduce((acc: any, collection: any) => {
       return acc + collection.evaluated
     }, 0) ?? 0
 
-  const claimsApproved =claimCollections?.nodes.reduce((acc: any, collection: any) => {
+  const claimsApproved =
+    claimCollections?.nodes.reduce((acc: any, collection: any) => {
       return acc + collection.approved
     }, 0) ?? 0
 
-  const approvedPercentage = (claimsApproved / (totalEvaluatedClaims)) * 100
+  const approvedPercentage = (claimsApproved / totalEvaluatedClaims) * 100
 
-  return { minted, totalEvaluatedClaims, approvedPercentage}
+  return { minted, totalEvaluatedClaims, approvedPercentage }
 }

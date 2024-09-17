@@ -22,7 +22,7 @@ export interface TCreateEntityModel {
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: LinkedResource }
-  accordedRight: { [id: string]: AccordedRight }
+  accordedRight: { [id: string]: AccordedRight[] }
   linkedEntity: { [id: string]: LinkedEntity }
 
   startDate?: string
@@ -150,7 +150,7 @@ export interface TUpdateLinkedResourceAction {
 }
 export interface TUpdateAccordedRightAction {
   type: typeof ECreateEntityActions.UpdateAccordedRight
-  payload: { [id: string]: AccordedRight }
+  payload: { [id: string]: AccordedRight[] }
 }
 export interface TUpdateLinkedEntityAction {
   type: typeof ECreateEntityActions.UpdateLinkedEntity

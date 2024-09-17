@@ -6,15 +6,11 @@ import { Link, useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
-const includedTypes = ['protocol/project', 'protocol/oracle', 'protocol/request', 'protocol/dao']
-
 export const UseProtocolCard = () => {
   const { entityId = '' } = useParams()
   const { type } = useAppSelector(getEntityById(entityId))
 
-  if (!includedTypes.includes(type)) {
-    return null
-  }
+  if (!type.includes('protocol')) return null
 
   return (
     <ActionCard title='Protocol' icon={<IconCircleDashed size={24} />} editable={false}>

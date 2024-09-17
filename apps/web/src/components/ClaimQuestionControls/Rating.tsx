@@ -3,7 +3,7 @@ import React from 'react'
 import { TClaimQuestionControlProps } from './types'
 import styled, { useTheme } from 'styled-components'
 import ReactRating from 'react-rating'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 
 const StyledRating = styled.div``
 

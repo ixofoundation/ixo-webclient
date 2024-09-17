@@ -49,7 +49,7 @@ import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/no
 import { ConnectedWallet, WalletType } from 'types/wallet'
 import { Cw20Token, NativeToken } from 'types/tokens'
 import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs } from './configs'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { convertDecCoinToCoin, plus } from 'utils/currency'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
@@ -123,13 +123,13 @@ export function useAccount(): {
       if (persistedWallet) {
         try {
           // Attempt to parse the persisted wallet
-          const parsedWallet = JSON.parse(persistedWallet);
+          const parsedWallet = JSON.parse(persistedWallet)
           // If parsing was successful, set the wallet
-          setWallet(parsedWallet);
-          dispatch(connectAction(parsedWallet));
+          setWallet(parsedWallet)
+          dispatch(connectAction(parsedWallet))
         } catch (e) {
           // If parsing fails, handle it as a string or invalid JSON
-          localStorage.removeItem(WALLET_STORE_LOCAL_STORAGE_KEY);
+          localStorage.removeItem(WALLET_STORE_LOCAL_STORAGE_KEY)
         }
       }
     }

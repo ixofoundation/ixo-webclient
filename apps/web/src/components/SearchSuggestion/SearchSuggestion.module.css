@@ -1,0 +1,7 @@
+.searchSuggestion {
+  cursor: pointer;
+}
+
+.searchSuggestion:hover {
+  background: #f2feff !important;
+}

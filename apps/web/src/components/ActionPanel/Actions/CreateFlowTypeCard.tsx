@@ -51,7 +51,7 @@ export const CreateFlowTypeCard: React.FC = () => {
   }
 
   const typeTags = useMemo(() => {
-    return data?.entityTags?.find((tag: any) => tag.category === 'Project Type').tags ?? []
+    return data?.entityTags?.find((tag: any) => tag?.category === 'Project Type')?.tags ?? []
   }, [data?.entityTags])
 
   const typeOptions = useMemo(() => {

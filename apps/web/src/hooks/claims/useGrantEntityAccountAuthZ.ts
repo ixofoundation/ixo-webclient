@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { createRegistry, ixo } from '@ixo/impactxclient-sdk'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { RPC_ENDPOINT, fee } from 'lib/protocol'
@@ -46,7 +46,7 @@ export const useGrantEntityAccountAuthZ = () => {
     ownerAddress,
     entityDid,
     granteeAddress,
-    maxAmounts
+    maxAmounts,
   }: {
     agentQuota: number
     admin: string
@@ -69,7 +69,7 @@ export const useGrantEntityAccountAuthZ = () => {
       agentQuota,
       currentAuthConstraints: currentAuthZ.currentAuthConstraints,
       claimIds,
-      maxAmounts
+      maxAmounts,
     })
 
     const grantEvaluatorAuthZMessage = MsgGrantEntityAccountAuthz({
@@ -85,10 +85,12 @@ export const useGrantEntityAccountAuthZ = () => {
 
     const grantEvaluatorAuthZMessageWithAuthZExec = MsgExecAuthZ({
       grantee: wallet?.address ?? '',
-      msgs: [    {
-        ...grantEvaluatorAuthZMessage,
-        value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.encode(grantEvaluatorAuthZMessage.value).finish(),
-      },],
+      msgs: [
+        {
+          ...grantEvaluatorAuthZMessage,
+          value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.encode(grantEvaluatorAuthZMessage.value).finish(),
+        },
+      ],
     })
 
     return execute({ data: { messages: [grantEvaluatorAuthZMessageWithAuthZExec], fee: fee, memo: undefined } })

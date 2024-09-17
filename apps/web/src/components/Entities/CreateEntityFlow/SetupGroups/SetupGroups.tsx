@@ -1,8 +1,8 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
+
+import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
 import { TDAOGroupModel } from 'types/entities'
@@ -129,7 +129,7 @@ export const initialMultisigGroup: TDAOGroupModel = {
 
 const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController } =
-  useCreateEntityStateAsActionState()
+    useCreateEntityStateAsActionState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const canSubmit = useMemo(
@@ -249,7 +249,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
             return (
               <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
-                  icon={Icon && <Icon />}
+                  icon={Icon && <img src={Icon} alt='replaced' />}
                   label={text}
                   set={!!value.coreAddress}
                   handleRemove={(): void => handleRemoveGroup(key)}
@@ -272,7 +272,11 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
               </FlexBox>
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddGroupModal(true)}
+          />
         </FlexBox>
 
         <FlexBox $gap={5} $marginTop={10}>

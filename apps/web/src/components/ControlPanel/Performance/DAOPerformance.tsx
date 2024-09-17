@@ -1,20 +1,25 @@
 import React, { useMemo } from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
-import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle.svg'
-import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
+
+
+
+
+
+
+
+
+
+
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const DAOPerformance: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const entity = useAppSelector(getEntityById(entityId))
   const daoGroups = entity?.daoGroups
 
-  const daoGroupsArr = useMemo(() => daoGroups ? Object.values(daoGroups) : [], [daoGroups])
+  const daoGroupsArr = useMemo(() => (daoGroups ? Object.values(daoGroups) : []), [daoGroups])
 
   const members = useMemo(
     () => daoGroupsArr.reduce((pre, cur) => pre + cur.votingModule.members.length, 0),
@@ -28,24 +33,24 @@ const DAOPerformance: React.FC = () => {
 
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={2}
       items={[
         {
-          icon: <UserCircleIcon />,
+          icon: <img src="/assets/images/icon-user-circle.svg"  />,
           content: `${members} members`,
         },
         {
-          icon: <ProposalsIcon />,
+          icon: <img src="/assets/images/icon-proposals.svg"  />,
           content: `${proposals} proposals`,
         },
         {
-          icon: <ProjectIcon />,
+          icon: <img src="/assets/images/icon-project.svg"  />,
           content: '0 projects', // TODO: number of Projects?
         },
         {
-          icon: <FundingIcon />,
+          icon: <img src="/assets/images/icon-funding.svg"  />,
           content: '$' + Number(0).toLocaleString(),
         },
       ]}

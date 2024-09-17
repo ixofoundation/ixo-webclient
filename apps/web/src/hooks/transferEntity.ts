@@ -15,10 +15,18 @@ import {
 import { chainNetwork } from './configs'
 import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { AddVerificationMethod, CheckIidDoc, CreateIidDocForGroup, DeleteLinkedResource, GetAddLinkedResourcePayload, TransferEntityMessage, UpdateEntityMessage, fee } from 'lib/protocol'
+import {
+  AddVerificationMethod,
+  CheckIidDoc,
+  CreateIidDocForGroup,
+  DeleteLinkedResource,
+  GetAddLinkedResourcePayload,
+  TransferEntityMessage,
+  UpdateEntityMessage,
+  fee,
+} from 'lib/protocol'
 import { useAccount } from './account'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-
+import { useWallet } from 'wallet-connector'
 
 export function useTransferEntityState() {
   const dispatch = useAppDispatch()
@@ -43,8 +51,24 @@ export function useTransferEntityState() {
     dispatch(updateRecipientDidAction(recipientDid))
   }
 
-  const handleTransfer = async ({ reEnableKeys, keys, entityId }: { reEnableKeys: boolean, keys: Array<VerificationMethod & { description?: string }>, entityId: string }) => {
-    const getDocumentPayload = async ({ reEnableKeys, keys, entityId }: { reEnableKeys: boolean, keys: Array<VerificationMethod & { description?: string }>, entityId: string }) => {
+  const handleTransfer = async ({
+    reEnableKeys,
+    keys,
+    entityId,
+  }: {
+    reEnableKeys: boolean
+    keys: Array<VerificationMethod & { description?: string }>
+    entityId: string
+  }) => {
+    const getDocumentPayload = async ({
+      reEnableKeys,
+      keys,
+      entityId,
+    }: {
+      reEnableKeys: boolean
+      keys: Array<VerificationMethod & { description?: string }>
+      entityId: string
+    }) => {
       try {
         const payload = {
           reEnableKeys,
@@ -87,7 +111,13 @@ export function useTransferEntityState() {
       }
     }
 
-    const getSigningTransferPayload = async ({ entityId, recipientDid }: { entityId: string, recipientDid: string }) => {
+    const getSigningTransferPayload = async ({
+      entityId,
+      recipientDid,
+    }: {
+      entityId: string
+      recipientDid: string
+    }) => {
       try {
         const signingTransferMessages = []
         if (!entityId || !recipientDid) {
@@ -112,7 +142,10 @@ export function useTransferEntityState() {
       const signingTransferPayload = await getSigningTransferPayload({ entityId, recipientDid })
 
       const transferPayload = [...signingTransferPayload]
-      return await execute({ data: { messages: transferPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
+      return await execute({
+        data: { messages: transferPayload, fee: fee, memo: undefined },
+        transactionConfig: { sequence: 1 },
+      })
     }
 
     const createDocumentPayload = await getDocumentPayload({ reEnableKeys, keys, entityId })
@@ -120,11 +153,22 @@ export function useTransferEntityState() {
     const signingTransferPayload = await getSigningTransferPayload({ entityId, recipientDid })
 
     const transferPayload = [...createDocumentPayload, ...updateStatusToTransferredPayload, ...signingTransferPayload]
-    return await execute({ data: { messages: transferPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
+    return await execute({
+      data: { messages: transferPayload, fee: fee, memo: undefined },
+      transactionConfig: { sequence: 1 },
+    })
   }
 
-  const handleReEnableKeys = async ({ entityId, transferDocument, verificationMethods}: { entityId: string, transferDocument: any, verificationMethods: any[]}) => {
-    const getRemoveDocumentPayload = ({ entityId, transferDocument }: { entityId: string, transferDocument: any }) => {
+  const handleReEnableKeys = async ({
+    entityId,
+    transferDocument,
+    verificationMethods,
+  }: {
+    entityId: string
+    transferDocument: any
+    verificationMethods: any[]
+  }) => {
+    const getRemoveDocumentPayload = ({ entityId, transferDocument }: { entityId: string; transferDocument: any }) => {
       const deleteLinkedResourcePayload = DeleteLinkedResource(signer, { entityId, resourceId: transferDocument?.id })
       return deleteLinkedResourcePayload.messages
     }
@@ -134,7 +178,13 @@ export function useTransferEntityState() {
       return transactionData.messages
     }
 
-    const getVerificationsPayload = ({ verificationMethods, entityId }: { entityId: string, verificationMethods: any[] }) => {
+    const getVerificationsPayload = ({
+      verificationMethods,
+      entityId,
+    }: {
+      entityId: string
+      verificationMethods: any[]
+    }) => {
       const verifications = verificationMethods
         .filter((v) => v.reEnable)
         .map((v) => {
@@ -154,15 +204,17 @@ export function useTransferEntityState() {
 
       const payload = AddVerificationMethod(signer, { did: entityId ?? '', verifications })
       return payload.messages
-
     }
 
-    const removeDocumentPayload =  getRemoveDocumentPayload({ entityId, transferDocument })
+    const removeDocumentPayload = getRemoveDocumentPayload({ entityId, transferDocument })
     const updateMessagePayload = await getUpdateMessagePayload({ entityId })
-    const verificationsPayload =  getVerificationsPayload({ entityId, verificationMethods })
+    const verificationsPayload = getVerificationsPayload({ entityId, verificationMethods })
 
     const reEnableKeysPayload = [...removeDocumentPayload, ...updateMessagePayload, ...verificationsPayload]
-    return await execute({ data: { messages: reEnableKeysPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
+    return await execute({
+      data: { messages: reEnableKeysPayload, fee: fee, memo: undefined },
+      transactionConfig: { sequence: 1 },
+    })
   }
 
   return {
@@ -175,6 +227,6 @@ export function useTransferEntityState() {
     updateSubtitle,
     updateRecipientDid,
     handleTransfer,
-    handleReEnableKeys
+    handleReEnableKeys,
   }
 }

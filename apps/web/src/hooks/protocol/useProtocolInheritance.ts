@@ -60,6 +60,7 @@ export const useProtocolInheritance = ({ protocolId }: { protocolId: string }) =
           controller: entity?.controller ?? [],
           verification: entity?.verificationMethod ?? [],
           context: entity?.context ?? [],
+          daoController: '',
         }),
       )
       setLoading(false)

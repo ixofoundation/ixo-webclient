@@ -1,5 +1,5 @@
 import { EntityDocument } from 'generated/graphql'
-import { gqlClient } from 'index'
+import { gqlClient } from 'main'
 
 export const getEntity = async ({ id }: { id: string }) => {
   try {

@@ -17,7 +17,7 @@ export const CreateFlowDateRangeCard = () => {
   }
 
   const dates = useMemo(() => {
-    return [new Date(startDate) ?? null, new Date(endDate) ?? null] as DatesRangeValue
+    return [startDate ? new Date(startDate) : new Date(), endDate ? new Date(endDate) : null] as DatesRangeValue
   }, [startDate, endDate])
 
   return (

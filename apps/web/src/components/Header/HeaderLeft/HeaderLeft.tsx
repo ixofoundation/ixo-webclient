@@ -30,6 +30,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useMediaQuery } from '@mantine/hooks'
 import { em } from '@mantine/core'
 import { DisplayInDevelopmentMode } from 'components/DisplayInDevelopmentMode'
+import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -53,12 +54,13 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   }, [headerUIConfig])
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
+  const { resetKeyValue } = useKeyValueViewerContext()
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink color={buttonColor} to={`explore?type=${defaultEntity}`}>
+          {/* <HeaderLink color={buttonColor} to={`explore?type=${defaultEntity}`}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -73,12 +75,13 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             <HeaderLink to={`/entity/select-or-create`} color={buttonColor}>
               Protocols
             </HeaderLink>
-          </DisplayInDevelopmentMode>
-          <DisplayInDevelopmentMode>
-            <HeaderLink to={`/explore-new`} color={buttonColor}>
-              Explore New
-            </HeaderLink>
-          </DisplayInDevelopmentMode>
+          </DisplayInDevelopmentMode> */}
+          <HeaderLink to={`/explore?type=${defaultEntity}`} color={buttonColor} onClick={resetKeyValue}>
+            Explore
+          </HeaderLink>
+          <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <CreateEntityDropdown />
+          </MediaQuery>
         </Fragment>
       )
     } else {
@@ -118,7 +121,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
         <div className='d-flex align-items' style={{ marginTop: isMobile ? 15 : 0 }}>
           <a href={logoLink}>
-            <AppLogo alt='Logo' src={requireCheckDefault(require(`../../../assets/images/${logoConfig}.svg`))} />
+            <AppLogo alt='Logo' src={`/assets/images/${logoConfig}.svg`} />
           </a>
         </div>
         <NavItems>

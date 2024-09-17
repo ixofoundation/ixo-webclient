@@ -1,5 +1,5 @@
-import { FlexBox } from 'components/App/App.styles'
-import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { Button, DateRangePicker } from 'screens/CreateEntity/Components'
 import { useEffect, useState } from 'react'
 import Back from '../../../assets/icons/Back'
 import {

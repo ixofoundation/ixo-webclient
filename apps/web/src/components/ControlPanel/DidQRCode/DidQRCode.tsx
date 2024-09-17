@@ -1,10 +1,9 @@
 import React from 'react'
-import { ReactComponent as MobileIcon } from 'assets/images/icon-mobile.svg'
+
 import { Button, Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import './DidQRCode.css'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 import { useDisclosure } from '@mantine/hooks'
@@ -34,7 +33,7 @@ const QrCode = ({ did }: { did: string }) => {
         width='100%'
       >
         <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-          <PlusIcon />
+          <img src='/assets/images/icon-plus.svg' />
         </SvgBox>
         <Typography size='sm' color='black'>
           Add to Impacts X
@@ -75,7 +74,7 @@ const DidQrCode: React.FC = () => {
 
   if (type !== 'project') return null
   return (
-    <ActionCard title='Mobile' icon={<MobileIcon />} editable={false}>
+    <ActionCard title='Mobile' icon={<img src='/assets/images/icon-mobile.svg' />} editable={false}>
       <QrCode did={entityId} />
     </ActionCard>
   )

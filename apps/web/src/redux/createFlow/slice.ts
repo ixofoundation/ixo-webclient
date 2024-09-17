@@ -38,6 +38,9 @@ const createFlowSlice = createSlice({
     addLinkedEntity: (state, action: PayloadAction<LinkedEntity>) => {
       state.linkedEntity.push(action.payload)
     },
+    removeLinkedEntity: (state, action: PayloadAction<string>) => {
+      state.linkedEntity = state.linkedEntity.filter((entity) => entity.id !== action.payload)
+    },
     addService: (state, action: PayloadAction<Service>) => {
       state.service.push(action.payload)
     },
@@ -71,6 +74,9 @@ const createFlowSlice = createSlice({
         }
       }
     },
+    updateDAOController: (state, action: PayloadAction<string>) => {
+      state.daoController = action.payload
+    },
     cloneProtocol: (state, action: PayloadAction<InitialEntityFlowState>) => {
       Object.assign(state, action.payload)
     },
@@ -94,6 +100,8 @@ export const {
   addVerification,
   addContext,
   updateLinkedResource,
+  updateDAOController,
   cloneProtocol,
+  removeLinkedEntity,
 } = createFlowSlice.actions
 export default createFlowSlice.reducer

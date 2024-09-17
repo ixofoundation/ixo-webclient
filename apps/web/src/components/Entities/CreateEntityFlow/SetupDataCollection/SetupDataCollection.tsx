@@ -1,6 +1,6 @@
 import React from 'react'
 import { Wrapper, Row } from './SetupDataCollection.styles'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 import { ICreatorOptions } from 'survey-creator-core'
 import 'survey-core/survey.i18n.js'

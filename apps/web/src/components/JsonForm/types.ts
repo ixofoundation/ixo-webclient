@@ -17,7 +17,6 @@ import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTe
 import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
 import ResourceType from './CustomWidgets/ResourceType/ResourceType'
 import Switch from './CustomWidgets/Switch/Switch'
-import BaseBondingCurve from './CustomWidgets/BaseBondingCurve/BaseBondingCurve'
 import InlineSwitch from './CustomWidgets/InlineSwitch/InlineSwitch'
 import AffixText from './CustomWidgets/AffixText/AffixText'
 
@@ -103,6 +102,5 @@ export const customControls = {
   [ControlType.ResourceType]: ResourceType,
   [ControlType.Switch]: Switch,
   [ControlType.InlineSwitch]: InlineSwitch,
-  [ControlType.BaseBondingCurve]: BaseBondingCurve,
   [ControlType.AffixText]: AffixText,
 }

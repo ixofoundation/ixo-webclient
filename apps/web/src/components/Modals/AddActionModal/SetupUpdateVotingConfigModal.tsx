@@ -1,8 +1,8 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL } from 'constants/chains'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { Dropdown, NumberCounter, Switch } from 'pages/CreateEntity/Components'
+import { Dropdown, NumberCounter, Switch } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/entities'
@@ -51,7 +51,7 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string; entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const proposalConfig = daoGroup?.proposalModule.proposalConfig

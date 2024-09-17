@@ -1,38 +1,40 @@
-name: Build and deploy to development environments
+name: Build and deploy to production
 on:
   push:
     branches:
-      - main 
+      - main
 
-env: 
+env:
   NODE_OPTIONS: "--max_old_space_size=8192"
-  REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
-  REACT_APP_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
-  REACT_APP_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
-  REACT_APP_BLOCK_SCAN_URL: ${{ vars.REACT_APP_BLOCK_SCAN_URL }}
-  REACT_APP_GAIA_URL: ${{ vars.REACT_APP_GAIA_URL }}
-  REACT_APP_RPC_URL: ${{ vars.REACT_APP_RPC_URL }}
-  REACT_APP_PDS_URL: ${{ vars.REACT_APP_PDS_URL }}
-  REACT_APP_CONFIG_APP: ${{ vars.REACT_APP_CONFIG_APP }}
-  REACT_APP_CLIENT_URL: ${{ vars.REACT_APP_CLIENT_URL }}
-  REACT_APP_IXO_WORLD_ORIGIN: ${{ vars.REACT_APP_IXO_WORLD_ORIGIN }}
-  REACT_APP_KYC_LINK: ${{ vars.REACT_APP_KYC_LINK }}
-  REACT_APP_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
-  REACT_APP_ENTITY_VERSION: ${{ vars.REACT_APP_ENTITY_VERSION }}
-  REACT_APP_ENTITY_PAGE_VERSION: ${{ vars.REACT_APP_ENTITY_PAGE_VERSION }}
-  REACT_APP_EMBEDLY_KEY: ${{ vars.REACT_APP_EMBEDLY_KEY }}
-  REACT_APP_GOOGLE_API_KEY: ${{ vars.REACT_APP_GOOGLE_API_KEY }}
-  REACT_APP_FEE_PER_CLAIM_FEE: ${{ vars.REACT_APP_FEE_PER_CLAIM_FEE }}
-  REACT_APP_FEE_PER_EVALUATION: ${{ vars.REACT_APP_FEE_PER_EVALUATION }}
-  REACT_APP_FEE_OVERHEAD: ${{ vars.REACT_APP_FEE_OVERHEAD }}
-  REACT_APP_RELAYER_NODE: ${{ vars.REACT_APP_RELAYER_NODE }}
-  REACT_APP_MULTI_CALL_CONTRACT_ADDRESS: ${{ vars.REACT_APP_MULTI_CALL_CONTRACT_ADDRESS }}
-  REACT_APP_CONFIG_ASSETLIST_URL: ${{ vars.REACT_APP_CONFIG_ASSETLIST_URL }}
-  REACT_APP_CONFIG_EXCHANGE_URL: ${{ vars.REACT_APP_CONFIG_EXCHANGE_URL }}
-  REACT_APP_CONFIG_RELAYER_URL: ${{ vars.REACT_APP_CONFIG_RELAYER_URL }}  
-  REACT_APP_CONFIG_SCHEMA_URL: ${{ vars.REACT_APP_CONFIG_SCHEMA_URL }}
-  REACT_APP_CUSTOM_THEME_URL: ${{ vars.REACT_APP_CUSTOM_THEME_URL }}
-  REACT_APP_ASSISTANT_API_KEY: ${{ vars.REACT_APP_ASSISTANT_API_KEY }}
+  NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
+  NEXT_PUBLIC_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
+  NEXT_PUBLIC_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
+  NEXT_PUBLIC_BLOCK_SCAN_URL: ${{ vars.REACT_APP_BLOCK_SCAN_URL }}
+  NEXT_PUBLIC_GAIA_URL: ${{ vars.REACT_APP_GAIA_URL }}
+  NEXT_PUBLIC_RPC_URL: ${{ vars.REACT_APP_RPC_URL }}
+  NEXT_PUBLIC_PDS_URL: ${{ vars.REACT_APP_PDS_URL }}
+  NEXT_PUBLIC_CONFIG_APP: ${{ vars.REACT_APP_CONFIG_APP }}
+  NEXT_PUBLIC_CLIENT_URL: ${{ vars.REACT_APP_CLIENT_URL }}
+  NEXT_PUBLIC_IXO_WORLD_ORIGIN: ${{ vars.REACT_APP_IXO_WORLD_ORIGIN }}
+  NEXT_PUBLIC_KYC_LINK: ${{ vars.REACT_APP_KYC_LINK }}
+  NEXT_PUBLIC_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
+  NEXT_PUBLIC_ENTITY_VERSION: ${{ vars.REACT_APP_ENTITY_VERSION }}
+  NEXT_PUBLIC_ENTITY_PAGE_VERSION: ${{ vars.REACT_APP_ENTITY_PAGE_VERSION }}
+  NEXT_PUBLIC_EMBEDLY_KEY: ${{ vars.REACT_APP_EMBEDLY_KEY }}
+  NEXT_PUBLIC_GOOGLE_API_KEY: ${{ vars.REACT_APP_GOOGLE_API_KEY }}
+  NEXT_PUBLIC_FEE_PER_CLAIM_FEE: ${{ vars.REACT_APP_FEE_PER_CLAIM_FEE }}
+  NEXT_PUBLIC_FEE_PER_EVALUATION: ${{ vars.REACT_APP_FEE_PER_EVALUATION }}
+  NEXT_PUBLIC_FEE_OVERHEAD: ${{ vars.REACT_APP_FEE_OVERHEAD }}
+  NEXT_PUBLIC_RELAYER_NODE: ${{ vars.REACT_APP_RELAYER_NODE }}
+  NEXT_PUBLIC_MULTI_CALL_CONTRACT_ADDRESS: ${{ vars.REACT_APP_MULTI_CALL_CONTRACT_ADDRESS }}
+  NEXT_PUBLIC_CONFIG_ASSETLIST_URL: ${{ vars.REACT_APP_CONFIG_ASSETLIST_URL }}
+  NEXT_PUBLIC_CONFIG_EXCHANGE_URL: ${{ vars.REACT_APP_CONFIG_EXCHANGE_URL }}
+  NEXT_PUBLIC_CONFIG_RELAYER_URL: ${{ vars.REACT_APP_CONFIG_RELAYER_URL }}
+  NEXT_PUBLIC_CONFIG_SCHEMA_URL: ${{ vars.REACT_APP_CONFIG_SCHEMA_URL }}
+  NEXT_PUBLIC_CUSTOM_THEME_URL: ${{ vars.REACT_APP_CUSTOM_THEME_URL }}
+  NEXT_PUBLIC_ASSISTANT_API_KEY: ${{ vars.REACT_APP_ASSISTANT_API_KEY }}
+  NEXT_PUBLIC_ALGOLIA_APP_ID: ${{ vars.REACT_APP_ALGOLIA_APP_ID }}
+  NEXT_PUBLIC_ALGOLIA_SEARCH_KEY: ${{ vars.REACT_APP_ALGOLIA_SEARCH_KEY }}
   NODE_ENV: ${{ vars.NODE_ENV }}
 
 jobs:
@@ -47,12 +49,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.2'  # Node Version
+          node-version: "18.18.2" # Node Version
 
       - name: Install Dependencies
         run: yarn
 
       - name: Build
+        env:
+          NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           yarn build  # Build Script
@@ -62,9 +66,9 @@ jobs:
         id: launchpad_ixo_world_prod_deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 1f94cb83-da26-4709-ab97-ccb75c0068e9  # Replace with your Netlify Site ID
+          NETLIFY_SITE_ID: 1f94cb83-da26-4709-ab97-ccb75c0068e9 # Replace with your Netlify Site ID
         with:
-          args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
 
   build-and-deploy-refi-ixo-earth:
     runs-on: ubuntu-latest
@@ -72,37 +76,38 @@ jobs:
     outputs:
       url: ${{ steps.refi_ixo_earth_prod_deploy.outputs.NETLIFY_LIVE_URL }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.2'  # Node Version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
 
-    - name: Install Dependencies
-      run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-    - name: Build
-      env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:50a336298abaaaa248d08d794b2e6231
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/theme.json
-      run: |
-        export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build  # Build Script
+      - name: Build
+        env:
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:50a336298abaaaa248d08d794b2e6231
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/theme.json
+          NODE_ENV: production
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          yarn build  # Build Script
 
-    - name: Deploy to refi.ixo.earth
-      uses: netlify/actions/cli@master
-      id: refi_ixo_earth_prod_deploy
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: 982884ec-0cf4-4280-8d73-6ec9ce9a321d  # Replace with your Netlify Site ID
+      - name: Deploy to refi.ixo.earth
+        uses: netlify/actions/cli@master
+        id: refi_ixo_earth_prod_deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 982884ec-0cf4-4280-8d73-6ec9ce9a321d # Replace with your Netlify Site ID
 
-      with:
-        args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+        with:
+          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
 
   build-and-deploy-platform-impacts-ai:
     runs-on: ubuntu-latest
@@ -110,40 +115,46 @@ jobs:
     outputs:
       url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_LIVE_URL }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.2'  # Node Version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
 
-    - name: Install Dependencies
-      run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-    - name: Build
-      env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
-      run: |
-        export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build  # Build Script
+      - name: Build
+        env:
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
+          NODE_ENV: production
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          yarn build  # Build Script
 
-    - name: Deploy to platform.impacts.ai
-      uses: netlify/actions/cli@master
-      id: platform_impacts_ai_prod_deploy
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43  # Replace with your Netlify Site ID
+      - name: Deploy to platform.impacts.ai
+        uses: netlify/actions/cli@master
+        id: platform_impacts_ai_prod_deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43 # Replace with your Netlify Site ID
 
-      with:
-        args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+        with:
+          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
 
   notify-slack:
-    needs: [build-and-deploy-launchpad-ixo-world, build-and-deploy-refi-ixo-earth, build-and-deploy-platform-impacts-ai]
+    needs:
+      [
+        build-and-deploy-launchpad-ixo-world,
+        build-and-deploy-refi-ixo-earth,
+        build-and-deploy-platform-impacts-ai,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack

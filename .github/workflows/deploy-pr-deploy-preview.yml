@@ -2,38 +2,40 @@ name: Build and deploy previews on PR to dev
 on:
   pull_request:
     branches:
-      - dev 
+      - dev
     types: [opened, synchronize]
 
-env: 
+env:
   NODE_OPTIONS: "--max_old_space_size=8192"
-  REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
-  REACT_APP_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
-  REACT_APP_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
-  REACT_APP_BLOCK_SCAN_URL: ${{ vars.REACT_APP_BLOCK_SCAN_URL }}
-  REACT_APP_GAIA_URL: ${{ vars.REACT_APP_GAIA_URL }}
-  REACT_APP_RPC_URL: ${{ vars.REACT_APP_RPC_URL }}
-  REACT_APP_PDS_URL: ${{ vars.REACT_APP_PDS_URL }}
-  REACT_APP_CONFIG_APP: ${{ vars.REACT_APP_CONFIG_APP }}
-  REACT_APP_CLIENT_URL: ${{ vars.REACT_APP_CLIENT_URL }}
-  REACT_APP_IXO_WORLD_ORIGIN: ${{ vars.REACT_APP_IXO_WORLD_ORIGIN }}
-  REACT_APP_KYC_LINK: ${{ vars.REACT_APP_KYC_LINK }}
-  REACT_APP_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
-  REACT_APP_ENTITY_VERSION: ${{ vars.REACT_APP_ENTITY_VERSION }}
-  REACT_APP_ENTITY_PAGE_VERSION: ${{ vars.REACT_APP_ENTITY_PAGE_VERSION }}
-  REACT_APP_EMBEDLY_KEY: ${{ vars.REACT_APP_EMBEDLY_KEY }}
-  REACT_APP_GOOGLE_API_KEY: ${{ vars.REACT_APP_GOOGLE_API_KEY }}
-  REACT_APP_FEE_PER_CLAIM_FEE: ${{ vars.REACT_APP_FEE_PER_CLAIM_FEE }}
-  REACT_APP_FEE_PER_EVALUATION: ${{ vars.REACT_APP_FEE_PER_EVALUATION }}
-  REACT_APP_FEE_OVERHEAD: ${{ vars.REACT_APP_FEE_OVERHEAD }}
-  REACT_APP_RELAYER_NODE: ${{ vars.REACT_APP_RELAYER_NODE }}
-  REACT_APP_MULTI_CALL_CONTRACT_ADDRESS: ${{ vars.REACT_APP_MULTI_CALL_CONTRACT_ADDRESS }}
-  REACT_APP_CONFIG_ASSETLIST_URL: ${{ vars.REACT_APP_CONFIG_ASSETLIST_URL }}
-  REACT_APP_CONFIG_EXCHANGE_URL: ${{ vars.REACT_APP_CONFIG_EXCHANGE_URL }}
-  REACT_APP_CONFIG_RELAYER_URL: ${{ vars.REACT_APP_CONFIG_RELAYER_URL }}  
-  REACT_APP_CONFIG_SCHEMA_URL: ${{ vars.REACT_APP_CONFIG_SCHEMA_URL }}
-  REACT_APP_CUSTOM_THEME_URL: ${{ vars.REACT_APP_CUSTOM_THEME_URL }}
-  REACT_APP_ASSISTANT_API_KEY: ${{ vars.REACT_APP_ASSISTANT_API_KEY }}
+  NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
+  NEXT_PUBLIC_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
+  NEXT_PUBLIC_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
+  NEXT_PUBLIC_BLOCK_SCAN_URL: ${{ vars.REACT_APP_BLOCK_SCAN_URL }}
+  NEXT_PUBLIC_GAIA_URL: ${{ vars.REACT_APP_GAIA_URL }}
+  NEXT_PUBLIC_RPC_URL: ${{ vars.REACT_APP_RPC_URL }}
+  NEXT_PUBLIC_PDS_URL: ${{ vars.REACT_APP_PDS_URL }}
+  NEXT_PUBLIC_CONFIG_APP: ${{ vars.REACT_APP_CONFIG_APP }}
+  NEXT_PUBLIC_CLIENT_URL: ${{ vars.REACT_APP_CLIENT_URL }}
+  NEXT_PUBLIC_IXO_WORLD_ORIGIN: ${{ vars.REACT_APP_IXO_WORLD_ORIGIN }}
+  NEXT_PUBLIC_KYC_LINK: ${{ vars.REACT_APP_KYC_LINK }}
+  NEXT_PUBLIC_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
+  NEXT_PUBLIC_ENTITY_VERSION: ${{ vars.REACT_APP_ENTITY_VERSION }}
+  NEXT_PUBLIC_ENTITY_PAGE_VERSION: ${{ vars.REACT_APP_ENTITY_PAGE_VERSION }}
+  NEXT_PUBLIC_EMBEDLY_KEY: ${{ vars.REACT_APP_EMBEDLY_KEY }}
+  NEXT_PUBLIC_GOOGLE_API_KEY: ${{ vars.REACT_APP_GOOGLE_API_KEY }}
+  NEXT_PUBLIC_FEE_PER_CLAIM_FEE: ${{ vars.REACT_APP_FEE_PER_CLAIM_FEE }}
+  NEXT_PUBLIC_FEE_PER_EVALUATION: ${{ vars.REACT_APP_FEE_PER_EVALUATION }}
+  NEXT_PUBLIC_FEE_OVERHEAD: ${{ vars.REACT_APP_FEE_OVERHEAD }}
+  NEXT_PUBLIC_RELAYER_NODE: ${{ vars.REACT_APP_RELAYER_NODE }}
+  NEXT_PUBLIC_MULTI_CALL_CONTRACT_ADDRESS: ${{ vars.REACT_APP_MULTI_CALL_CONTRACT_ADDRESS }}
+  NEXT_PUBLIC_CONFIG_ASSETLIST_URL: ${{ vars.REACT_APP_CONFIG_ASSETLIST_URL }}
+  NEXT_PUBLIC_CONFIG_EXCHANGE_URL: ${{ vars.REACT_APP_CONFIG_EXCHANGE_URL }}
+  NEXT_PUBLIC_CONFIG_RELAYER_URL: ${{ vars.REACT_APP_CONFIG_RELAYER_URL }}
+  NEXT_PUBLIC_CONFIG_SCHEMA_URL: ${{ vars.REACT_APP_CONFIG_SCHEMA_URL }}
+  NEXT_PUBLIC_CUSTOM_THEME_URL: ${{ vars.REACT_APP_CUSTOM_THEME_URL }}
+  NEXT_PUBLIC_ASSISTANT_API_KEY: ${{ vars.REACT_APP_ASSISTANT_API_KEY }}
+  NEXT_PUBLIC_ALGOLIA_APP_ID: ${{ vars.REACT_APP_ALGOLIA_APP_ID }}
+  NEXT_PUBLIC_ALGOLIA_SEARCH_KEY: ${{ vars.REACT_APP_ALGOLIA_SEARCH_KEY }}
   NODE_ENV: ${{ vars.NODE_ENV }}
 
 jobs:
@@ -48,7 +50,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.2'  # Node Version
+          node-version: "18.18.2" # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -56,16 +58,15 @@ jobs:
       - name: Build
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to dev.ixo.earth
-        uses: netlify/actions/cli@master
-        id: dev_ixo_earth_dev_deploy
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
-        with:
-          args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+          NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702
 
   build-and-deploy-test-ixo-earth:
     runs-on: ubuntu-latest
@@ -73,45 +74,43 @@ jobs:
     outputs:
       url: ${{ steps.test_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.2'  # Node Version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
 
-    - name: Install Dependencies
-      run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-    - name: Build
-      env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:3d079ebc0b332aad3305bb4a51c72edb
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
-        # Testnet config
-        REACT_APP_CHAIN_ID: pandora-8
-        REACT_APP_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
-        REACT_APP_BLOCK_SYNC_GRAPHQL: https://testnet-blocksync-graphql.ixo.earth/graphql
-        REACT_APP_BLOCK_SCAN_URL: https://blockscan.testnet.ixo.earth/ixo
-        REACT_APP_GAIA_URL: https://testnet.ixo.earth/rest/
-        REACT_APP_RPC_URL: https://testnet.ixo.earth/rpc/
-        REACT_APP_PDS_URL: https://cellnode-pandora.ixo.earth/
-      run: |
-        export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build  # Build Script
+      - name: Build
+        env:
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:3d079ebc0b332aad3305bb4a51c72edb
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
+          # Testnet config
+          NEXT_PUBLIC_CHAIN_ID: pandora-8
+          NEXT_PUBLIC_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
+          NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: https://testnet-blocksync-graphql.ixo.earth/graphql
+          NEXT_PUBLIC_BLOCK_SCAN_URL: https://blockscan.testnet.ixo.earth/ixo
+          NEXT_PUBLIC_GAIA_URL: https://testnet.ixo.earth/rest/
+          NEXT_PUBLIC_RPC_URL: https://testnet.ixo.earth/rpc/
+          NEXT_PUBLIC_PDS_URL: https://cellnode-pandora.ixo.earth/
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
+          yarn build  # Build Script
 
-    - name: Deploy to test.ixo.earth
-      uses: netlify/actions/cli@master
-      id: test_ixo_earth_dev_deploy
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
-
-      with:
-        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+      - name: Deploy to test.ixo.earth
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --filter @ixo-webclient/web
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56
 
   build-and-deploy-yoma-ixo-earth:
     runs-on: ubuntu-latest
@@ -124,31 +123,30 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.2'  # Node Version
+          node-version: "18.18.2" # Node Version
 
       - name: Install Dependencies
         run: yarn
 
       - name: Build
         env:
-          REACT_APP_RELAYER_NODE: did:ixo:entity:50a7d92f449ab5752f63c64521adb3cc
-          REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/asset-list.json
-          REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/exchange.json
-          REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/app-config.json 
-          REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/config.json
-          REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:50a7d92f449ab5752f63c64521adb3cc
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to yoma.ixo.earth deploy preview
-        uses: netlify/actions/cli@master
-        id: yoma_ixo_earth_dev_deploy
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3  # Replace with your Netlify Site ID
-        with:
-          args: deploy --dir=apps/web/build --filter @ixo-webclient/web  
+          NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3
 
   build-and-deploy-idcc-ixo-earth:
     runs-on: ubuntu-latest
@@ -161,70 +159,118 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18.2'  # Node Version
+          node-version: "18.18.2" # Node Version
 
       - name: Install Dependencies
         run: yarn
 
       - name: Build
         env:
-          REACT_APP_RELAYER_NODE: did:ixo:entity:ff581af6e2e071758b1f94835933d038
-          REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
-          REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
-          REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:ff581af6e2e071758b1f94835933d038
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to idcc.ixo.earth deploy preview
-        uses: netlify/actions/cli@master
-        id: idcc_ixo_earth_dev_deploy
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
-        with:
-          args: deploy --dir=apps/web/build --filter @ixo-webclient/web  
-  
+          NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b
+
   build-and-deploy-platform-impacts-ai:
     runs-on: ubuntu-latest
     environment: dev
     outputs:
       url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_URL }}
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.2'  # Node Version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
 
-    - name: Install Dependencies
-      run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-    - name: Build
-      env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
-      run: |
-        export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build  # Build Script
+      - name: Build
+        env:
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
+          yarn build  # Build Script
 
-    - name: Deploy to platform.impacts.ai
-      uses: netlify/actions/cli@master
-      id: platform_impacts_ai_prod_deploy
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43  # Replace with your Netlify Site ID
+      - name: Deploy to platform.impacts.ai
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --filter @ixo-webclient/web
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43
 
-      with:
-        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+  build-and-deploy-stackworthdao:
+    runs-on: ubuntu-latest
+    environment: dev
+    outputs:
+      url: ${{ steps.stackworthdao_prod_deploy.outputs.NETLIFY_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
+
+      - name: Install Dependencies
+        run: yarn
+
+      # - name: Build
+      #   env:
+      #     NETLIFY_PUBLIC_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
+      #     NETLIFY_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
+      #     NETLIFY_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
+      #     NETLIFY_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
+      #     NETLIFY_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
+      #     NETLIFY_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
+      #   run: |
+      #     export NODE_OPTIONS="--max_old_space_size=8192"
+      #     export NODE_ENV=production
+      # yarn build  # Build Script
+
+      - name: Deploy to stackworth
+        run: |
+          npx netlify-cli deploy --dir=apps/web/out --build --filter @ixo-webclient/web
+        env:
+          NODE_ENV: production`
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: b320fbd1-e447-41e4-b6ce-cbe4a7533cbc
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
 
   notify-slack:
-    needs: [build-and-deploy-dev-ixo-earth, build-and-deploy-test-ixo-earth, build-and-deploy-yoma-ixo-earth, build-and-deploy-idcc-ixo-earth, build-and-deploy-platform-impacts-ai]
+    needs:
+      [
+        build-and-deploy-dev-ixo-earth,
+        build-and-deploy-test-ixo-earth,
+        build-and-deploy-yoma-ixo-earth,
+        build-and-deploy-idcc-ixo-earth,
+        build-and-deploy-platform-impacts-ai,
+        build-and-deploy-stackworthdao,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack
@@ -236,7 +282,8 @@ jobs:
           URL3=${{ needs.build-and-deploy-idcc-ixo-earth.outputs.url }}
           URL4=${{ needs.build-and-deploy-yoma-ixo-earth.outputs.url }}
           URL5=${{ needs.build-and-deploy-platform-impacts-ai.outputs.url }}
+          URL6=${{ needs.build-and-deploy-stackworthdao.outputs.url }}
 
-          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to development environment for platform.impacts.ai: $URL5\n"
+          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to development environment for platform.impacts.ai: $URL5\n Deployment to development environment for stackworth: $URL6\n"
 
           curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL

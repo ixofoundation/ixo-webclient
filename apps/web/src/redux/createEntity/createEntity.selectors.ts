@@ -90,7 +90,7 @@ export const selectCreateEntityLinkedResource = createSelector(
 
 export const selectCreateEntityAccordedRight = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: AccordedRight } => createEntity.accordedRight ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: AccordedRight[] } => createEntity.accordedRight ?? {},
 )
 
 export const selectCreateEntityLinkedEntity = createSelector(

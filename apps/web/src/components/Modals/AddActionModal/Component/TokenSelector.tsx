@@ -1,5 +1,5 @@
 import { useIxoConfigs } from 'hooks/configs'
-import { Dropdown } from 'pages/CreateEntity/Components'
+import { Dropdown } from 'screens/CreateEntity/Components'
 import React from 'react'
 
 interface Props {

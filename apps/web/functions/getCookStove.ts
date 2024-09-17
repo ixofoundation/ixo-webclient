@@ -11,9 +11,9 @@ const handler: Handler = async (event) => {
         'Content-Type': 'application/json',
       },
       auth: {
-        username: process.env.SUPAMOTO_USERNAME,
-        password: process.env.SUPAMOTO_PASSWORD,
-    },
+        username: process.env.SUPAMOTO_USERNAME!,
+        password: process.env.SUPAMOTO_PASSWORD!,
+      },
     })
 
     return {
