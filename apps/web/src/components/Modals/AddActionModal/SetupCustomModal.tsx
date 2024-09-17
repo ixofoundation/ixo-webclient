@@ -34,7 +34,16 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }
 
   const handleConfirm = () => {
-    onSubmit && onSubmit({ ...action, data: formData })
+    const message = JSON.parse(formData.message)
+    let executionAction = {}
+    if (message?.stargate) {
+      executionAction = message.stargate
+    }
+    if (message?.wasm) {
+      executionAction = message.wasm
+    }
+
+    onSubmit && onSubmit({ ...action, data: executionAction })
     onClose()
   }
 
