@@ -1,6 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/CoreEntry/App.styles'
 import { deviceWidth } from 'constants/device'
+import { EntityLinkedResourceConfig } from 'constants/entity'
+import useEditEntity from 'hooks/editEntity'
+import React, { useCallback, useMemo } from 'react'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import {
   TEntityAdministratorModel,
@@ -9,9 +12,6 @@ import {
   TEntityDDOTagModel,
   TEntityServiceModel,
 } from 'types/entities'
-import useEditEntity from 'hooks/editEntity'
-import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const EditProperty: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -45,8 +45,8 @@ const EditProperty: React.FC = (): JSX.Element => {
     setEditedField('claim', claim)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const updateAccordedRight = useCallback((accordedRight: { [id: string]: AccordedRight }) => {
-    setEditedField('accordedRight', Object.values(accordedRight))
+  const updateAccordedRight = useCallback((accordedRight: { [id: string]: AccordedRight[] }) => {
+    setEditedField('accordedRight', accordedRight)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateLinkedEntity = useCallback((linkedEntity: { [id: string]: LinkedEntity }) => {
@@ -55,6 +55,16 @@ const EditProperty: React.FC = (): JSX.Element => {
   }, [])
 
   const PropertiesFormProps = useMemo(() => {
+    const accordedRight = Array.isArray(editEntity?.accordedRight)
+      ? editEntity?.accordedRight?.reduce((acc, item) => {
+          const type = item.type.startsWith?.('capability') ? 'agentCapability' : item.type
+          if (type) {
+            acc[type] = [...(acc[type] || []), item]
+          }
+          return acc
+        }, {} as any)
+      : editEntity?.accordedRight
+
     return {
       entityType: editEntity.type || '',
       creator: editEntity.creator!,
@@ -68,7 +78,7 @@ const EditProperty: React.FC = (): JSX.Element => {
           .map((item) => [item.id, item]),
       ),
       claim: editEntity.claim ?? {},
-      accordedRight: Object.fromEntries((editEntity.accordedRight ?? []).map((item) => [item.id, item])),
+      accordedRight,
       linkedEntity: Object.fromEntries(
         (editEntity.linkedEntity ?? []).map((item) => [item.id.replace('{id}#', ''), item]),
       ),

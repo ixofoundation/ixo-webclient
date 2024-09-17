@@ -1,13 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Badge } from './PropertiesForm.styles'
-import { SetupSettings } from './SetupSettings'
-import { Typography } from 'components/Typography'
-import { SetupClaim } from './SetupClaim'
-import { SetupLinkedResource } from './SetupLinkedResource'
-import { SetupAccordedRight } from './SetupAccordedRight'
-import { SetupLinkedEntity } from './SetupLinkedEntity'
-import { SetupService } from './SetupService'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/CoreEntry/App.styles'
+import { Typography } from 'components/Typography'
+import { useQuery } from 'hooks/window'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   TDAOGroupModel,
   TEntityAdministratorModel,
@@ -17,8 +12,13 @@ import {
   TEntityPageModel,
   TEntityServiceModel,
 } from 'types/entities'
-import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useQuery } from 'hooks/window'
+import { Badge } from './PropertiesForm.styles'
+import { SetupAccordedRight } from './SetupAccordedRight'
+import { SetupClaim } from './SetupClaim'
+import { SetupLinkedEntity } from './SetupLinkedEntity'
+import { SetupLinkedResource } from './SetupLinkedResource'
+import { SetupService } from './SetupService'
+import { SetupSettings } from './SetupSettings'
 
 const Properties = [
   // 'Services',
@@ -38,7 +38,7 @@ interface Props {
   service: TEntityServiceModel[]
   linkedResource: { [id: string]: LinkedResource }
   claim: { [id: string]: TEntityClaimModel }
-  accordedRight: { [key: string]: AccordedRight }
+  accordedRight: { [key: string]: AccordedRight[] }
   linkedEntity: { [key: string]: LinkedEntity }
   daoGroups?: { [id: string]: TDAOGroupModel }
   updateCreator?: (creator: TEntityCreatorModel) => void
@@ -48,7 +48,7 @@ interface Props {
   updateService: (service: TEntityServiceModel[]) => void
   updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
-  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight[] }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
 }
 
@@ -114,6 +114,7 @@ const PropertiesForm: React.FC<Props> = ({
     accordedRight,
     updateAccordedRight,
   }
+  console.log("🚀 ~ AccordedRightProps.accordedRight:", AccordedRightProps.accordedRight)
 
   const LinkedEntityProps = {
     linkedEntity,

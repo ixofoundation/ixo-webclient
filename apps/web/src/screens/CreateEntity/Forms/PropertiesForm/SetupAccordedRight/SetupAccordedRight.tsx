@@ -1,61 +1,42 @@
 import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
-import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
+import { PropertyBox } from 'screens/CreateEntity/Components'
 import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import SetupAgentCapabilityModal from 'components/Modals/SetupAccordedRights/SetupAgentCapabilityModal'
 import { EntityAccordedRightConfig } from 'constants/entity'
 
 interface Props {
   hidden: boolean
-  accordedRight: { [key: string]: AccordedRight }
-  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  accordedRight: { [key: string]: AccordedRight[] }
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight[] }) => void
 }
 
 const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAccordedRight }): JSX.Element => {
-  const [entityAccordedRight, setEntityAccordedRight] = useState<{ [key: string]: any }>({})
+  console.log('🚀 ~ accordedRight:', accordedRight)
   const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
-
-  // popups - accorded rights modal
-  const handleOpenEntityAccordedRightModal = (key: string, open: boolean): void => {
-    setEntityAccordedRight((pre) => ({
-      ...pre,
-      [key]: {
-        ...pre[key],
-        openModal: open,
-      },
-    }))
-  }
+  const [openAddAccordedRightDetailsModalKey, setOpenAddAccordedRightDetailsModalKey] = useState<string | null>(null)
 
   // entity accorded rights
   const handleAddEntityAccordedRight = (key: string): void => {
-    setEntityAccordedRight((pre) => ({
-      ...pre,
-      [key]: { ...EntityAccordedRightConfig[key as keyof typeof EntityAccordedRightConfig] },
-    }))
+     updateAccordedRight({
+       ...accordedRight,
+       [key]: [],
+     })
   }
-  const handleUpdateEntityAccordedRight = (key: string, data: any): void => {
-    setEntityAccordedRight((pre) => ({
-      ...pre,
-      [key]: { ...pre[key], data },
-    }))
+  const handleUpdateEntityAccordedRight = (key: string, data: AccordedRight[]): void => {
+    updateAccordedRight({
+      ...accordedRight,
+      [key]: data,
+    })
   }
   const handleRemoveEntityAccordedRight = (id: string): void => {
-    setEntityAccordedRight((pre) => omitKey(pre, id))
+    updateAccordedRight(omitKey(accordedRight, id)) 
   }
 
-  // hooks - accordedRight
-  useEffect(() => {
-    if (Object.values(accordedRight).length > 0) {
-      setEntityAccordedRight(accordedRight)
-    }
-  }, [accordedRight])
-  useEffect(() => {
-    updateAccordedRight(entityAccordedRight ?? {})
-    // eslint-disable-next-line
-  }, [entityAccordedRight])
 
   return (
     <>
@@ -71,7 +52,7 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
                 label={label}
                 set={!!(value as any)?.data}
                 handleRemove={(): void => handleRemoveEntityAccordedRight(key)}
-                handleClick={(): void => handleOpenEntityAccordedRightModal(key, true)}
+                handleClick={(): void => setOpenAddAccordedRightDetailsModalKey(key)}
               />
             )
           })}
@@ -87,11 +68,23 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
         onClose={(): void => setOpenAddAccordedRightModal(false)}
         handleChange={handleAddEntityAccordedRight}
       />
+      <SetupAgentCapabilityModal
+        accordedRights={accordedRight?.agentCapability}
+        isOpen={openAddAccordedRightDetailsModalKey === 'agentCapability'}
+        onClose={(): void => setOpenAddAccordedRightDetailsModalKey(null)}
+        handleChange={(agentCapability) =>
+          updateAccordedRight({
+            agentCapability: agentCapability,
+          })
+        }
+      />
       <PaymentsSetupModal
-        payments={entityAccordedRight?.payments?.data}
-        open={entityAccordedRight?.payments?.openModal}
-        onClose={(): void => handleOpenEntityAccordedRightModal('payments', false)}
-        handleChange={(payments: TEntityPaymentModel[]): void => handleUpdateEntityAccordedRight('payments', payments)}
+        payments={accordedRight?.payments as any[]}
+        open={openAddAccordedRightDetailsModalKey === 'payments'}
+        onClose={(): void => setOpenAddAccordedRightDetailsModalKey(null)}
+        handleChange={(payments: TEntityPaymentModel[]): void =>
+          handleUpdateEntityAccordedRight('payments', payments as any)
+        }
       />
     </>
   )

@@ -12,18 +12,18 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
-import { Button } from 'screens/CreateEntity/Components'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Button } from 'screens/CreateEntity/Components'
 
-import { useTheme } from 'styled-components'
-import { CreationSuccessScreen } from './CreationSuccessScreen'
-import { createEntityCard, withEntityData } from 'components'
-import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
+import { createEntityCard, withEntityData } from 'components'
+import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { useTheme } from 'styled-components'
+import { EntityType } from 'types/entities'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from 'wallet-connector'
-import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { CreationSuccessScreen } from './CreationSuccessScreen'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme: any = useTheme()
@@ -37,6 +37,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
     daoGroups,
     daoController,
     linkedResource: linkedResourceData,
+    accordedRight: accordedRightData,
     clearEntity,
   } = createEntityState
   const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
@@ -51,15 +52,17 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
 
-    const accordedRight: AccordedRight[] = []
+    const accordedRight: AccordedRight[] = createEntityState?.accordedRight
+      ? Object.values(createEntityState?.accordedRight)
+          .map((accordedRight) => (accordedRight as any)?.data)
+          .flat()
+      : []
     const verification: Verification[] = []
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
     let controller: string[] = []
-
-    // AccordedRight TODO:
 
     // Service
     service = serviceData
