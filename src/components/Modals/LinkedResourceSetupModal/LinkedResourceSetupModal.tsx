@@ -25,17 +25,15 @@ interface Props {
   onChange?: (linkedResource: LinkedResource) => void
 }
 
-const LinkedResourceSetupModal: React.FC<Props> = ({
-  linkedResource: _linkedResource,
-  open,
-  onClose,
-  onChange,
-}): JSX.Element => {
-  const linkedResource = {
-    ..._linkedResource,
-    display: _linkedResource?.display ?? _linkedResource?.type?.startsWith('display:'),
-    type: getLinkedResourceTypeFromPrefix(_linkedResource.type),
-  }
+const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource: _linkedResource, open, onClose, onChange }) => {
+  const linkedResource = _linkedResource
+    ? {
+        ..._linkedResource,
+        display: _linkedResource?.display ?? _linkedResource?.type?.startsWith('display:'),
+        type: getLinkedResourceTypeFromPrefix(_linkedResource.type),
+      }
+    : ({} as LinkedResource)
+
   const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData>(linkedResource!)
   const [uploading, setUploading] = useState(false)

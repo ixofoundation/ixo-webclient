@@ -57,7 +57,7 @@ const ProposalActionModal: React.FC<Props> = ({
       .then((response) => {
         if (response.url && response.cid) {
           onChange({
-            ...(linkedResource ?? {}),
+            ...linkedResource,
             ...{
               serviceEndpoint: response.url,
               mediaType: 'ld+json',

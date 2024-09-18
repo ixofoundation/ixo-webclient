@@ -19,6 +19,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
+import { LINKED_RESOURCE_TYPES_PREFIX } from 'utils/common'
 import { hexToUint8Array } from 'utils/encoding'
 import { RPC_ENDPOINT, TSigner, fee } from './common'
 
@@ -86,7 +87,7 @@ export const CreateEntityMessage = async (
         relayerNode: relayerNode,
         service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
         linkedResource: linkedResource.map((item: LinkedResource) => {
-          item.type = item?.display ? `display:${item.type}` : item.type
+          item.type = item && item?.display ? `${LINKED_RESOURCE_TYPES_PREFIX}${item.type}` : item.type
           return ixo.iid.v1beta1.LinkedResource.fromPartial(item)
         }),
         accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
