@@ -1,0 +1,79 @@
+[
+  {
+    "chainId": "ixo-5",
+    "assets": [
+      {
+        "symbol": "IXO",
+        "description": "The IXO Token",
+        "display": "ixo",
+        "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
+        "assetType": "coin",
+        "base": "uixo",
+        "denomUnits": [
+          {
+            "denom": "ixo",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "true",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "ixo"
+      },
+      {
+        "symbol": "USDC",
+        "description": "US Dollar Coin",
+        "display": "USDC",
+        "entityId": "did:ixo:usdc",
+        "assetType": "coin",
+        "base": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
+        "denomUnits": [
+          {
+            "denom": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
+            "exponent": 6,
+            "aliases": ["usdc"]
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "false",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "usdc"
+      },
+      {
+        "symbol": "IMPACTS",
+        "description": "The Imapcts DAO Cooperative Token",
+        "display": "IMPACTS",
+        "entityId": "did:ixo:impacts",
+        "assetType": "token",
+        "base": "impacts",
+        "denomUnits": [
+          {
+            "denom": "impacts",
+            "exponent": 0,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/impactsDAO.png",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/apps/impactsDAO.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "false",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "contractAddress": "YOUR_IMPACT_TOKEN_CONTRACT_ADDRESS"
+      }
+    ]
+  }
+]

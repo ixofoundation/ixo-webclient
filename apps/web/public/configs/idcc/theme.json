@@ -1,0 +1,23 @@
+{
+  "_comments": {
+    "intro": "This file is used to override theme settings in the app. Please do not introduce new fields."
+  },
+  "theme": {
+    "fontFamily": "Lato",
+    "primaryColor": "#6587a4",
+    "secondaryColor": "#FFFFFF",
+    "backgroundColor": "#F6F6F6",
+    "stupidColor": "#44F690",
+    "highlight": {
+      "light": "#6587A4",
+      "dark": "#536B80"
+    },
+    "blocks": {
+      "header": {
+        "background": "white",
+        "buttonColor": "#C7FCF2",
+        "textColor": "white"
+      }
+    }
+  }
+}
