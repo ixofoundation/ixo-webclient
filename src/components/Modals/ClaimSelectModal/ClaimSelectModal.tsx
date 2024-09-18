@@ -39,7 +39,6 @@ interface Props {
 }
 
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
-  const navigate = useNavigate()
   const theme: any = useTheme()
   const dispatch = useAppDispatch()
   const { cwClient, address } = useAccount()
