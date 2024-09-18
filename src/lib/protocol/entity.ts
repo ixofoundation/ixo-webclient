@@ -1,4 +1,5 @@
-import { ixo, customMessages, utils } from '@ixo/impactxclient-sdk'
+import { EncodeObject } from '@cosmjs/proto-signing'
+import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -6,21 +7,21 @@ import {
   QueryEntityRequest,
   QueryEntityResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
+import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
+  Context,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
-  Context,
-  LinkedClaim,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
-import { fee, RPC_ENDPOINT, TSigner } from './common'
-import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { EncodeObject } from '@cosmjs/proto-signing'
-import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { LINKED_RESOURCE_TYPES_PREFIX } from 'utils/common'
 import { hexToUint8Array } from 'utils/encoding'
+import { RPC_ENDPOINT, TSigner, fee } from './common'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
@@ -85,7 +86,12 @@ export const CreateEntityMessage = async (
         ownerAddress: ownerAddress,
         relayerNode: relayerNode,
         service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
-        linkedResource: linkedResource.map((item: LinkedResource) => ixo.iid.v1beta1.LinkedResource.fromPartial(item)),
+        linkedResource: linkedResource.map((item: LinkedResource) => {
+          if (item && item.display) {
+            item.type = `${LINKED_RESOURCE_TYPES_PREFIX}${item.type}`
+          }
+          return ixo.iid.v1beta1.LinkedResource.fromPartial(item)
+        }),
         accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
         linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
         linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),

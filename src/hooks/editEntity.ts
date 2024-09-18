@@ -1,15 +1,17 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import {
-  Service,
   LinkedEntity,
   LinkedResource,
+  Service,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 import {
   AddService,
   DeleteService,
-  fee,
   GetAddLinkedClaimMsgs,
   GetAddLinkedEntityMsgs,
   GetAddLinkedResourceMsgs,
@@ -21,20 +23,20 @@ import {
   GetReplaceLinkedResourceMsgs,
   GetUpdateStartAndEndDateMsgs,
   TSigner,
+  fee,
 } from 'lib/protocol'
-import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+import { setEditEntityAction, setEditedFieldAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { ixo, utils } from '@ixo/impactxclient-sdk'
-import { NodeType, TDAOGroupModel, TEntityModel, TEntityPageModel } from 'types/entities'
-import { EntityLinkedResourceConfig } from 'constants/entity'
 import { getEntityById, selectAllClaimProtocols } from 'redux/entities/entities.selectors'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { NodeType, TDAOGroupModel, TEntityModel, TEntityPageModel } from 'types/entities'
+import { LINKED_RESOURCE_TYPES_PREFIX, getLinkedResourceTypeFromPrefix } from 'utils/common'
+import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { v4 as uuidv4 } from 'uuid'
 import { useWallet } from 'wallet-connector'
 import { useService } from './service'
-import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router-dom'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -46,7 +48,18 @@ export default function useEditEntity(): {
   const { execute, wallet } = useWallet()
   const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const editEntity: TEntityModel = useAppSelector(selectEditEntity)
+  const _editEntity = useAppSelector(selectEditEntity)
+  const editEntity = useMemo(() => {
+    return {
+      ..._editEntity,
+      linkedResource: _editEntity?.linkedResource?.map((item) => ({
+        ...item,
+        display: item?.display ?? item?.type?.startsWith(LINKED_RESOURCE_TYPES_PREFIX),
+        type: getLinkedResourceTypeFromPrefix(item?.type),
+      })),
+    }
+  }, [_editEntity])
+
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const services: Service[] = currentEntity.service
@@ -339,11 +352,16 @@ export default function useEditEntity(): {
   }
 
   const getEditedLinkedFilesMsgs = async (): Promise<readonly EncodeObject[]> => {
-    const editedLinkedFiles = editEntity.linkedResource.filter((item: LinkedResource) =>
-      Object.keys(EntityLinkedResourceConfig).includes(item.type),
-    )
+    const editedLinkedFiles = editEntity.linkedResource.reduce((acc: LinkedResource[], cur: LinkedResource) => {
+      if (Object.keys(EntityLinkedResourceConfig).includes(cur.type)) {
+        cur.type = cur.display ? `${LINKED_RESOURCE_TYPES_PREFIX}${cur.type}` : cur.type
+        // delete cur.display
+        acc.push(cur)
+      }
+      return acc
+    }, [])
     const currentLinkedFiles = currentEntity.linkedResource.filter((item: LinkedResource) =>
-      Object.keys(EntityLinkedResourceConfig).includes(item.type),
+      Object.keys(EntityLinkedResourceConfig).includes(getLinkedResourceTypeFromPrefix(item.type)),
     )
     if (JSON.stringify(editedLinkedFiles) === JSON.stringify(currentLinkedFiles)) {
       return []
@@ -362,22 +380,27 @@ export default function useEditEntity(): {
         .filter((item: LinkedResource) => !editedLinkedFiles.some((v) => v.id === item.id)),
     ]
 
-    const messages: readonly EncodeObject[] = diffLinkedFiles.reduce(
-      (acc: EncodeObject[], cur: LinkedResource) => [
-        ...acc,
-        ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-          ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-            ? GetReplaceLinkedResourceMsgs(
-                editEntity.id,
-                signer,
-                cur,
-                editEntity?.linkedResource?.find((v) => v.id === cur.id),
-              )
-            : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
-          : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
-      ],
-      [],
-    )
+    const messages: readonly EncodeObject[] = diffLinkedFiles.reduce((acc: EncodeObject[], cur: LinkedResource) => {
+      const isInCurrent = currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
+      const isInEdited = editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
+
+      if (isInCurrent) {
+        // If the resource is in both current and edited, replace it.
+        if (isInEdited) {
+          const editedResource = editEntity.linkedResource.find((v) => v.id === cur.id)
+          const message = GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur, editedResource)
+          return [...acc, ...message]
+        } else {
+          // If it's in current but not in edited, delete it.
+          const message = GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
+          return [...acc, ...message]
+        }
+      } else {
+        // If it's not in current, it's a new resource, so add it.
+        const message = GetAddLinkedResourceMsgs(editEntity.id, signer, cur)
+        return [...acc, ...message]
+      }
+    }, [])
 
     return messages
   }

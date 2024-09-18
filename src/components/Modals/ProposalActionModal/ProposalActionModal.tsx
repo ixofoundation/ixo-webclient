@@ -1,16 +1,17 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, Dropdown } from 'screens/CreateEntity/Components'
-import { deviceWidth } from 'constants/device'
-import { FlexBox } from 'components/CoreEntry/App.styles'
-import { Typography } from 'components/Typography'
-import { errorToast } from 'utils/toast'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
-import { chainNetwork } from 'hooks/configs'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { FlexBox } from 'components/CoreEntry/App.styles'
+import { CloseButton, ModalStyles } from 'components/Modals/styles'
+import { Typography } from 'components/Typography'
+import { deviceWidth } from 'constants/device'
 import { ProposalActionConfigMap } from 'constants/entity'
+import { chainNetwork } from 'hooks/configs'
+import { Button, Dropdown } from 'screens/CreateEntity/Components'
+import { getLinkedResourceTypeFromPrefix } from 'utils/common'
+import { errorToast } from 'utils/toast'
 
 interface Props {
   linkedResource: LinkedResource
@@ -19,7 +20,16 @@ interface Props {
   onChange?: (linkedResource: LinkedResource) => void
 }
 
-const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
+const ProposalActionModal: React.FC<Props> = ({
+  linkedResource: _linkedResource,
+  open,
+  onClose,
+  onChange,
+}): JSX.Element => {
+  const linkedResource = {
+    ..._linkedResource,
+    type: getLinkedResourceTypeFromPrefix(_linkedResource.type),
+  }
   const [type, setType] = useState<string>('')
   const [uploading, setUploading] = useState(false)
   const options = useMemo(
@@ -47,7 +57,7 @@ const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, o
       .then((response) => {
         if (response.url && response.cid) {
           onChange({
-            ...(linkedResource ?? {}),
+            ...linkedResource,
             ...{
               serviceEndpoint: response.url,
               mediaType: 'ld+json',
