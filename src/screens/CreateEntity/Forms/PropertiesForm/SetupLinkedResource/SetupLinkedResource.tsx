@@ -1,14 +1,15 @@
 import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
-import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
+import { PropertyBox } from 'screens/CreateEntity/Components'
 // import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { omitKey } from 'utils/objects'
-import { EntityLinkedResourceConfig } from 'constants/entity'
 import ProposalActionModal from 'components/Modals/ProposalActionModal/ProposalActionModal'
+import { EntityLinkedResourceConfig } from 'constants/entity'
+import { getLinkedResourceTypeFromPrefix } from 'utils/common'
+import { omitKey } from 'utils/objects'
 
 const initialLinkedResource = {
   id: '',
@@ -58,15 +59,16 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
           {Object.entries(linkedResource)
             .filter(([key, value]) => value)
             .map(([key, value]) => {
-              const Icon = EntityLinkedResourceConfig[value?.type || '']?.icon
-              const label = EntityLinkedResourceConfig[value?.type || '']?.text || value?.type
+              const entityType = value ? getLinkedResourceTypeFromPrefix(value.type) : ''
+              const Icon = EntityLinkedResourceConfig[entityType]?.icon
+              const label = EntityLinkedResourceConfig[entityType]?.text || entityType
 
               return (
                 <PropertyBox
                   key={key}
                   icon={Icon && <img src={Icon} alt='replaced' />}
                   label={label}
-                  set={!!value?.serviceEndpoint}
+                  set={value && value.serviceEndpoint ? !!value.serviceEndpoint : false}
                   handleRemove={(): void => handleRemoveLinkedResource(key)}
                   handleClick={(): void => setSelectedId(key)}
                 />
@@ -85,18 +87,20 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
         onAdd={handleAddLinkedResource}
       />
 
-      {selectedId && !!linkedResource[selectedId] && linkedResource[selectedId].type !== 'proposalAction' && (
-        <LinkedResourceSetupModal
-          linkedResource={linkedResource[selectedId] as any}
-          open={!!selectedId}
-          onClose={(): void => setSelectedId('')}
-          onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
-        />
-      )}
+      {selectedId &&
+        !!linkedResource[selectedId] &&
+        getLinkedResourceTypeFromPrefix(linkedResource[selectedId].type) !== 'proposalAction' && (
+          <LinkedResourceSetupModal
+            linkedResource={linkedResource[selectedId] as any}
+            open={!!selectedId}
+            onClose={(): void => setSelectedId('')}
+            onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
+          />
+        )}
       {selectedId &&
         !!linkedResource[selectedId] &&
         !linkedResource[selectedId].serviceEndpoint &&
-        linkedResource[selectedId].type === 'proposalAction' && (
+        getLinkedResourceTypeFromPrefix(linkedResource[selectedId].type) === 'proposalAction' && (
           <ProposalActionModal
             linkedResource={linkedResource[selectedId] as any}
             open={!!selectedId}
