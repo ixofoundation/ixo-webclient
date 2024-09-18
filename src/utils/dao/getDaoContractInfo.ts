@@ -1,4 +1,4 @@
-import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { ProposalResponse, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'

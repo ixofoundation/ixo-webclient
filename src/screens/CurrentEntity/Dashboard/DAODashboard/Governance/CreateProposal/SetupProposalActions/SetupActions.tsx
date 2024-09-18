@@ -1,10 +1,10 @@
 import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo } from 'react'
-import { SetupActionsForm } from './SetupActionsForm'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Button } from 'screens/CreateEntity/Components'
+import { SetupActionsForm } from './SetupActionsForm'
 
 const SetupActions: React.FC = () => {
   const navigate = useNavigate()
@@ -33,9 +33,7 @@ const SetupActions: React.FC = () => {
         <Button variant='secondary' onClick={handleBack}>
           Back
         </Button>
-        <Button onClick={handleContinue} disabled={validActions.length === 0}>
-          Continue
-        </Button>
+        <Button onClick={handleContinue}>Continue</Button>
       </FlexBox>
     </FlexBox>
   )

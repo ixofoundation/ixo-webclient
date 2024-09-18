@@ -114,7 +114,6 @@ const PropertiesForm: React.FC<Props> = ({
     accordedRight,
     updateAccordedRight,
   }
-  console.log("🚀 ~ AccordedRightProps.accordedRight:", AccordedRightProps.accordedRight)
 
   const LinkedEntityProps = {
     linkedEntity,
