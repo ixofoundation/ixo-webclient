@@ -89,11 +89,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:3d079ebc0b332aad3305bb4a51c72edb
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/theme.json
           # Testnet config
           NEXT_PUBLIC_CHAIN_ID: pandora-8
           NEXT_PUBLIC_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
@@ -137,11 +137,11 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:3700e507b54ba7092d3f1c4873af26ab
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/theme.json
           # Testnet config
           NEXT_PUBLIC_CHAIN_ID: pandora-8
           NEXT_PUBLIC_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
@@ -182,10 +182,10 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:ff581af6e2e071758b1f94835933d038
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/asset-list.json
           NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
@@ -217,11 +217,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/theme.json
           NEXT_PUBLIC_RPC_URL: https://impacthub.ixo.world/rpc/
           NODE_ENV: production
         run: |
