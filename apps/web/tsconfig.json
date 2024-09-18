@@ -1,7 +1,5 @@
 {
-  "extends": "@ixo-webclient/tsconfig/base.json",
   "compilerOptions": {
-    "target": "es2018",
     "lib": [
       "dom",
       "dom.iterable",
@@ -9,21 +7,15 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
     "module": "esnext",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "ignoreDeprecations": "5.0",
-    "noEmit": true,
     "jsx": "preserve",
-    "baseUrl": "src",
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
@@ -31,19 +23,12 @@
     ]
   },
   "include": [
-    "src",
-    ".next/types/**/*.ts",
-    "./dist/types/**/*.ts",
-    "./build/types/**/*.ts",
-    "svgr.d.ts",
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
     ".next/types/**/*.ts",
-    "./.next/types/**/*.ts"
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "build"
+    "node_modules"
   ]
 }
