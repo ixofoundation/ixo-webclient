@@ -96,7 +96,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource: _linkedReso
   }
 
   const handleContinue = (): void => {
-    onChange && onChange({ ...(linkedResource ?? {}), ...formData })
+    onChange && onChange({ ...linkedResource, ...formData })
     onClose()
   }
 

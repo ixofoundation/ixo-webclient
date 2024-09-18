@@ -87,7 +87,9 @@ export const CreateEntityMessage = async (
         relayerNode: relayerNode,
         service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
         linkedResource: linkedResource.map((item: LinkedResource) => {
-          item.type = item && item?.display ? `${LINKED_RESOURCE_TYPES_PREFIX}${item.type}` : item.type
+          if (item && item.display) {
+            item.type = `${LINKED_RESOURCE_TYPES_PREFIX}${item.type}`
+          }
           return ixo.iid.v1beta1.LinkedResource.fromPartial(item)
         }),
         accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
