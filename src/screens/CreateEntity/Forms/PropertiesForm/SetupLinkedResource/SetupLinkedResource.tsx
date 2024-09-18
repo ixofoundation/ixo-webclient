@@ -59,7 +59,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
           {Object.entries(linkedResource)
             .filter(([key, value]) => value)
             .map(([key, value]) => {
-              const entityType = getLinkedResourceTypeFromPrefix(value.type)
+              const entityType = value ? getLinkedResourceTypeFromPrefix(value.type) : ''
               const Icon = EntityLinkedResourceConfig[entityType]?.icon
               const label = EntityLinkedResourceConfig[entityType]?.text || entityType
 
