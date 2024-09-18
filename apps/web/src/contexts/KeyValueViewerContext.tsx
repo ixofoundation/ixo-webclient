@@ -1,4 +1,4 @@
-// import { fileStorage } from '@ixo-webclient/utils'
+// import { fileStorage } from 'new-utils'
 import React, { createContext, useContext, ReactNode, useState } from 'react'
 
 export type KeyValueProps = {

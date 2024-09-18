@@ -1,4 +1,4 @@
-import { truncateString } from '@ixo-webclient/utils'
+import { truncateString } from 'new-utils'
 import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
 import { friendlyEntityTypes } from 'components/KeyValueTable'
 import { TEntityModel } from 'types/entities'

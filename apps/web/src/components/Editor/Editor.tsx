@@ -24,17 +24,17 @@ type Props = {
 }
 
 const Editor = ({ editable = false, initialPage, onChange, children }: Props) => {
-  const editor = useCreateBlockNote({
-    schema,
-    initialContent: initialPage?.length ? initialPage : undefined,
-    uploadFile,
-    dictionary: en,
-  })
+  // const editor = useCreateBlockNote({
+  //   schema,
+  //   initialContent: initialPage?.length ? initialPage : undefined,
+  //   uploadFile,
+  //   dictionary: en,
+  // })
 
   return (
     <Box w='100%'>
       {children}
-      <BlockNoteView editable={editable} editor={editor} theme={'light'} />
+      {/* <BlockNoteView editable={editable} editor={editor} theme={'light'} /> */}
     </Box>
   )
 }

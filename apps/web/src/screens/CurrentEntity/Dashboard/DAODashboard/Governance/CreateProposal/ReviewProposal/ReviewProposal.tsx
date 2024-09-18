@@ -238,26 +238,24 @@ const ReviewProposal: React.FC = () => {
               title: profile?.name || '',
             },
           },
-          transactionConfig: {
-            sequence: 3,
-            transactionSessionHash: transaction.transactionSessionHash,
-          },
         },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,
       )
       .then((res) => {
+        console.log('daoPreProposeSingleClient propoase success', res)
         const { transactionHash } = res
         const proposalId = Number(
           utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
         )
-
+        console.log('proposalId', proposalId)
+        console.log('transactionHash', transactionHash)
         Toast.successToast(null, `Successfully published proposals`)
         return { transactionHash, proposalId }
       })
       .catch((e) => {
-        console.error(e)
+        console.error('daoPreProposeSingleClient propoase error', e)
         Toast.errorToast(null, 'Failed to publish proposals')
         return undefined
       })
@@ -353,13 +351,18 @@ const ReviewProposal: React.FC = () => {
         return
       }
       setSubmitting(true)
+      console.log('before create deed')
       const deedDid = await handleCreateDeed()
+      console.log('after create deed')
       if (deedDid) {
+        console.log('before propose')
         const res = await handlePropose(deedDid)
+        console.log('after propose')
         if (res) {
           const { proposalId } = res
-
+          console.log('before add proposal info')
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
+            console.log('before update dao group')
             updateDAOGroup(coreAddress!)
             setSubmitting(false)
             refetch()

@@ -33,6 +33,7 @@ import { TProposalActionModel } from 'types/entities'
 import { hexToUint8Array } from 'utils/encoding'
 import { useWallet } from 'wallet-connector'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { AddAssetToCollection } from 'screens/CreateEntity/EntityPages'
 
 interface Props {
   open: boolean
@@ -74,15 +75,29 @@ const steps = [
     path: 'collection',
     element: <SetupDataCollection showNavigation={false} />,
   },
+  {
+    path: 'add-asset-to-collection',
+    element: <AddAssetToCollection />,
+  },
 ]
-type EntityTypes = 'dao' | 'protocol' | 'oracle' | 'project' | 'investment' | 'asset'
+type EntityTypes =
+  | 'dao'
+  | 'protocol'
+  | 'oracle'
+  | 'project'
+  | 'investment'
+  | 'asset-coin'
+  | 'asset-collection'
+  | 'asset-impact_credit'
 const stepMap = new Map<EntityTypes, string[]>([
   ['dao', ['process', 'profile', 'groups', 'settings', 'review']],
   ['protocol', ['type', 'process', 'profile', 'collection', 'settings', 'review']],
   ['oracle', ['process', 'profile', 'settings', 'review']],
   ['project', ['process', 'profile', 'settings', 'review']],
   ['investment', ['profile', 'instrument', 'settings', 'review']],
-  ['asset', ['process', 'profile', 'settings', 'review', 'create-token']],
+  ['asset-coin', ['profile', 'add-asset-to-collection', 'settings', 'review', 'create-token']],
+  ['asset-impact_credit', ['profile', 'add-asset-to-collection', 'settings', 'review', 'create-token']],
+  ['asset-collection', ['profile', 'settings', 'review']],
 ])
 
 const getCreateEntityMessageForProposal = ({
@@ -112,7 +127,7 @@ const getCreateEntityMessageForProposal = ({
   return {
     typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
     value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-      entityType: entityType,
+      entityType: entityType.replace('-', '/'),
       context: customMessages.iid.createAgentIidContext([
         { key: 'class', val: 'did:ixo:entity:f3ef757bc0404e8b6849ee7d9cf66d4e' },
       ]),
@@ -165,8 +180,6 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const { coreAddress } = useParams()
   const { wallet, execute, close } = useWallet()
-
-  console.log({ createEntityState })
 
   const signer = {
     address: wallet?.address as string,
@@ -266,7 +279,8 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
 
   const handleConfirm = async () => {
-    onSubmit && onSubmit({ ...action, data: await getEntityCreateMessage() })
+    const data = await getEntityCreateMessage()
+    onSubmit && onSubmit({ ...action, data })
     onClose()
   }
 
@@ -286,7 +300,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
             const currentStep = steps.find((s) => s.path === step)
             return (
               <Accordion.Item key={step} value={step}>
-                <Accordion.Control>{upperFirst(currentStep?.path)}</Accordion.Control>
+                <Accordion.Control>{upperFirst(currentStep?.path.replace('-', ' '))}</Accordion.Control>
                 <Accordion.Panel>{currentStep?.element}</Accordion.Panel>
               </Accordion.Item>
             )

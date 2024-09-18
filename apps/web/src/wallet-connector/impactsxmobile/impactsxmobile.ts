@@ -69,7 +69,7 @@ export class SignXWallet {
         timestamp: new Date().toISOString(),
         transactions: [
           {
-            sequence: sequence,
+            sequence: 1,
             txBodyHex: toHex(registry.encodeTxBody({ messages: data as any, memo: undefined })),
           },
         ],

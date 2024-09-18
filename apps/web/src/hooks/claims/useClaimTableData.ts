@@ -1,4 +1,4 @@
-import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from 'new-utils'
 import { useWallet } from 'wallet-connector'
 import { useClaimCollectionsWithClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
 import { useEffect, useState, useMemo } from 'react'

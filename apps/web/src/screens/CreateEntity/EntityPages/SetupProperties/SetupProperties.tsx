@@ -116,7 +116,7 @@ const SetupProperties = ({ showNavigation = true }: { showNavigation?: boolean }
           <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>
-          <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleContinue}>
+          <Button variant='primary' onClick={handleContinue}>
             Continue
           </Button>
         </FlexBox>

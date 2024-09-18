@@ -10,10 +10,15 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
+import { useParams } from 'react-router-dom'
 
 const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: boolean }) => {
   const { wallet } = useWallet()
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
+  const { coreAddress } = useParams<{ coreAddress: string }>()
+
+  const collectionOwner = coreAddress ?? wallet?.address
+
   const {
     protocolId,
     updateProtocolId,
@@ -41,7 +46,7 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
           equalTo: 'asset/collection',
         },
         owner: {
-          equalTo: wallet?.address,
+          equalTo: collectionOwner,
         },
       },
     },

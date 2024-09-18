@@ -1,7 +1,7 @@
-import { WalletType } from '@ixo-webclient/types'
 import { useContext } from 'react'
 import { WalletContextType, WalletContext, Wallet } from '../contexts'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { WalletType } from 'types/wallet'
 
 type ExecuteProps = {
   data: MessageProps

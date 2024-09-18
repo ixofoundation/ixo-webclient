@@ -1,6 +1,6 @@
 import { MsgExecuteContract } from '@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx'
 import { cosmwasm } from '@ixo/impactxclient-sdk'
-import { strToArray } from '@ixo-webclient/utils'
+import { strToArray } from 'new-utils'
 
 export interface Coin {
   readonly denom: string
@@ -85,8 +85,9 @@ export class BaseClient {
     fee: any,
     memo = '',
     funds: any,
-    transactionConfig: ExecuteProps['transactionConfig'],
+    transactionConfig: any,
   ) {
+    console.log('execute', senderAddress, contractAddress, msg, fee, memo, funds, transactionConfig)
     const msgs = {
       typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
       value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({

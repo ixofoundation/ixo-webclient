@@ -1,4 +1,4 @@
-import { getMappedNewURL } from '@ixo-webclient/utils'
+import { getMappedNewURL } from 'new-utils'
 import { serviceEndpointToUrl } from 'utils/entities'
 
 export const getLinkedClaim = async ({ claim, service }: { claim: any; service: any }) => {

@@ -484,6 +484,20 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
     }
     // Convert the wasm message component to base64
     if (msg.wasm) msg = makeWasmMessage(msg)
+    if (msg.stargate) {
+      try {
+        const customMessage = {
+          stargate: {
+            typeUrl: msg.stargate.type_url,
+            value: msg.stargate.value,
+          },
+        }
+        msg = makeStargateMessage(customMessage)
+      } catch (e: any) {
+        return false
+      }
+    }
+
     return msg
   }
 
@@ -713,9 +727,13 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
   }
 
   const makeCreateEntityAction = (data: any): any => {
-    return makeStargateMessage({
-      stargate: data,
-    })
+    try {
+      return makeStargateMessage({
+        stargate: data,
+      })
+    } catch (e) {
+      console.log('Error making creating entity', e)
+    }
   }
 
   return {

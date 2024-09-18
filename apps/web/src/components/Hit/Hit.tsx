@@ -1,5 +1,5 @@
 import { Highlight } from 'react-instantsearch'
-import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from 'new-utils'
 
 export const Hit = ({ hit }: { hit: any }) => {
   return (
