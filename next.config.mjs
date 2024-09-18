@@ -1,6 +1,7 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
-console.log(require.resolve('readable-stream'))
+import webpack from 'webpack'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
@@ -17,8 +18,20 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
+        ...config.resolve.fallback,
         stream: require.resolve('readable-stream'),
+        buffer: require.resolve('buffer'),
+        crypto: require.resolve('crypto-browserify'),
+        events: require.resolve('events'),
+        path: require.resolve('path-browserify'),
+        string_decoder: require.resolve('string_decoder'),
       }
+
+      config.plugins.push(
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+        }),
+      )
     }
 
     return config
