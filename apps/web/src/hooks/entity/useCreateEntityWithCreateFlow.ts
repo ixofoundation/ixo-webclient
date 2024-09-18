@@ -12,6 +12,39 @@ import { hexToUint8Array } from 'utils/encoding'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { useEntityOverview } from './useEntityOverview'
 
+export const uploadLinkedResources = async (linkedResources: (LinkedResource & { data?: any })[]) => {
+  const linkedResourcesToUpload = linkedResources.filter(
+    (linkedResource) => !linkedResource.proof || linkedResource.proof === '',
+  )
+
+  if (linkedResourcesToUpload.length === 0) {
+    return linkedResources.map(({ data, ...rest }) => rest)
+  }
+
+  const uploadedResources = await Promise.all(
+    linkedResourcesToUpload.map(async (linkedResource) => {
+      const service = linkedResource.serviceEndpoint?.includes('cellnode') ? initialCellnodeService : initialIpfsService
+
+      const buff = Buffer.from(JSON.stringify(linkedResource.data))
+
+      const resource = await uploadToService(buff.toString('base64'), service)
+
+      return {
+        ...linkedResource,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(resource!, service),
+        proof: LinkedResourceProofGenerator(resource!, service),
+      }
+    }),
+  )
+
+  const updatedLinkedResources = linkedResources.map((resource) => {
+    const uploadedResource = uploadedResources.find((uploaded) => uploaded.id === resource.id)
+    return uploadedResource || resource
+  })
+
+  return updatedLinkedResources.map(({ data, ...rest }) => rest)
+}
+
 export const useCreateEntityWithCreateFlow = () => {
   const { execute, wallet, close } = useWallet()
   const entity = useAppSelector((state) => state.createFlow)
@@ -34,41 +67,6 @@ export const useCreateEntityWithCreateFlow = () => {
   }, [close, did, entityOverview])
 
   const { protocolId } = useParams()
-
-  const uploadLinkedResources = async (linkedResources: (LinkedResource & { data?: any })[]) => {
-    const linkedResourcesToUpload = linkedResources.filter(
-      (linkedResource) => !linkedResource.proof || linkedResource.proof === '',
-    )
-
-    if (linkedResourcesToUpload.length === 0) {
-      return linkedResources.map(({ data, ...rest }) => rest)
-    }
-
-    const uploadedResources = await Promise.all(
-      linkedResourcesToUpload.map(async (linkedResource) => {
-        const service = linkedResource.serviceEndpoint?.includes('cellnode')
-          ? initialCellnodeService
-          : initialIpfsService
-
-        const buff = Buffer.from(JSON.stringify(linkedResource.data))
-
-        const resource = await uploadToService(buff.toString('base64'), service)
-
-        return {
-          ...linkedResource,
-          serviceEndpoint: LinkedResourceServiceEndpointGenerator(resource!, service),
-          proof: LinkedResourceProofGenerator(resource!, service),
-        }
-      }),
-    )
-
-    const updatedLinkedResources = linkedResources.map((resource) => {
-      const uploadedResource = uploadedResources.find((uploaded) => uploaded.id === resource.id)
-      return uploadedResource || resource
-    })
-
-    return updatedLinkedResources.map(({ data, ...rest }) => rest)
-  }
 
   const signCreateEntityTransaction = useCallback(async () => {
     try {

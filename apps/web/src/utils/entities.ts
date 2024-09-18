@@ -21,7 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
-import { fileStorage, getMappedNewURL } from '@ixo-webclient/utils'
+import { fileStorage, getMappedNewURL } from 'new-utils'
 import { getEntityProfile } from 'services'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
@@ -436,9 +436,9 @@ export function toRootEntityType(entityType: string): string {
   return entityType
 }
 
-export function getEntityTypeFromURLParam(type: string){
-  if(type.includes("-")){
-    return `${type.split("-")[0]}/${type.split("-")[1]}`
+export function getEntityTypeFromURLParam(type: string) {
+  if (type.includes('-')) {
+    return `${type.split('-')[0]}/${type.split('-')[1]}`
   }
   return type
 }

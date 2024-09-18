@@ -1,4 +1,4 @@
-import { getMappedNewURL } from '@ixo-webclient/utils'
+import { getMappedNewURL } from 'new-utils'
 import { serviceEndpointToUrl } from 'utils/entities'
 
 export const getCredentialSubject = async ({ resource, service }: { resource: any; service: any }) => {

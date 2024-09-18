@@ -14,7 +14,7 @@ import { GasPrice } from '@cosmjs/stargate'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useEffect, useState } from 'react'
 import { TEntityProfileModel } from 'types/entities'
-import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from 'new-utils'
 import Image from 'next/image'
 
 const getClaimAmount = (claim: Partial<Claim>) => {

@@ -1,7 +1,7 @@
 import { EntityInterface } from 'redux/entitiesState/slice'
 import { getLinkedResource } from './getLinkedResource'
 import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from 'new-utils'
 
 const getAndTransformProfileData = async ({ resource, service }: { resource: LinkedResource; service: Service[] }) => {
   const fetchedResource = await getLinkedResource({ resource, service })

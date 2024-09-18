@@ -5,7 +5,7 @@ import { getEntityIcon } from 'utils/getEntityIcon'
 
 import { thousandSeparator } from 'utils/formatters'
 import { NavLink } from 'react-router-dom'
-import { truncateString } from '@ixo-webclient/utils'
+import { truncateString } from 'new-utils'
 
 type RequestCardProps = {
   did: string

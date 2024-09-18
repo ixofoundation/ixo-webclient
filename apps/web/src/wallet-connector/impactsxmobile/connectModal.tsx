@@ -3,7 +3,6 @@ import { Box, Flex, Progress, Text, Button, Loader, Skeleton } from '@mantine/co
 import { QRCodeSVG } from 'qrcode.react'
 import { XIcon } from '../assets/x-icon'
 import { useWallet } from '../hooks'
-import { WalletType } from '@ixo-webclient/types'
 import { BrokenLink } from '../assets/brokenLink'
 
 export function TimeLeft({ percent, timeLeft }: { percent: number; timeLeft: number }) {

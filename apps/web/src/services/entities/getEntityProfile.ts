@@ -1,4 +1,4 @@
-import { getMappedNewURL, transformStorageEndpoint } from '@ixo-webclient/utils'
+import { getMappedNewURL, transformStorageEndpoint } from 'new-utils'
 import { serviceEndpointToUrl } from 'utils/entities'
 
 export const getEntityProfile = async (profile: any, service: any, entity?: any) => {

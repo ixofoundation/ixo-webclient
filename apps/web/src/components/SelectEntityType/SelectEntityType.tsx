@@ -22,6 +22,27 @@ const SelectEntityType = ({ setEntityType }: { setEntityType: (type: string) => 
       disabled: false,
     },
     {
+      type: 'asset-collection',
+      label: 'Asset Collection',
+      icon: <img src='/assets/images/icon-coins-solid.svg' />,
+      description: `A <b>Asset Collection</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: false,
+    },
+    {
+      type: 'asset-coin',
+      label: 'Asset Coin',
+      icon: <img src='/assets/images/icon-asset.svg' />,
+      description: `A <b>Asset Coin</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: false,
+    },
+    {
+      type: 'asset-impact_credit',
+      label: 'Asset Impact Credit',
+      icon: <img src='/assets/images/icon-asset.svg' />,
+      description: `A <b>Asset Impact Credit</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: false,
+    },
+    {
       type: 'dao',
       label: 'Dao',
       icon: <img src='/assets/images/icon-dao.svg' />,

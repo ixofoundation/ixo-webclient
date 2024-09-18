@@ -7,7 +7,7 @@ import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
-import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from 'new-utils'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()

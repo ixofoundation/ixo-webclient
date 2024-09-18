@@ -6,7 +6,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import countries from 'constants/maps/countryLatLng.json'
-import { truncateString } from '@ixo-webclient/utils'
+import { truncateString } from 'new-utils'
 
 export const EntitiesTable = ({ entities }: { entities: any[] }) => {
   const theme = useTheme()

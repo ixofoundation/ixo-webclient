@@ -2,8 +2,10 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "apps/*",
       "packages/*"
+    ],
+    "nohoist": [
+      "**"
     ]
   },
   "name": "ixo-webclient",
@@ -15,8 +17,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "test": "turbo test",
-    "storybook": "turbo storybook",
-    "postinstall": "patch-package"
+    "storybook": "turbo storybook"
   },
   "devDependencies": {
     "@ixo-webclient/tsconfig": "*",
