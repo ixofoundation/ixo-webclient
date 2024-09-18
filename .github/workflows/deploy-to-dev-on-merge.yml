@@ -115,7 +115,7 @@ jobs:
           NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56 # Replace with your Netlify Site ID
 
         with:
-          args: deploy --dir=out --prod --filter # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   build-and-deploy-yoma-ixo-earth:
     runs-on: ubuntu-latest
