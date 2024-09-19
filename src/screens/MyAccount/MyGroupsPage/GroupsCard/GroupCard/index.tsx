@@ -12,6 +12,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useQuery } from 'hooks/window'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { truncateString } from 'new-utils'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -92,7 +93,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       </Flex>
 
       <Typography variant='primary' size='lg'>
-        {daoGroup.config.name}
+        {truncateString(daoGroup.config.name, 15, { ellipsisPos: 'center' })}
       </Typography>
 
       <Flex gap={12}>

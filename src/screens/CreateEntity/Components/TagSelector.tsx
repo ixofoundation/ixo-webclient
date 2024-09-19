@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-
+import { Box } from '@mantine/core'
 
 import { SelectionModal } from 'components/Modals'
 
@@ -75,7 +75,9 @@ const TagSelector: React.FC<Props> = ({
         {values.length === 0 && <Label>{label}</Label>}
         {values.length === 1 && <StyledValue>{values[0]}</StyledValue>}
         {values.length > 1 && <StyledValue>{values.length} selected</StyledValue>}
-        <img src="/assets/images/icon-chev-down.svg"  />
+        <Box h={15} w={15} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src='/assets/images/icon-chev-down.svg' style={{ maxWidth: '100%', maxHeight: '100%' }} />
+        </Box>
       </SelectWrapper>
       <SelectionModal
         name={name}

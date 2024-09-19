@@ -136,7 +136,7 @@ const ClaimLine = ({
         <Text size='lg'>Claim: {profile?.name} </Text>
         <Flex direction={'row'}>
           <Flex align={'center'} mr={4} gap={4}>
-            <Image height={24} src={'/assets/tokens/ixo.svg'} alt='ixo' />
+            <Image width={24} height={24} src={'/assets/tokens/ixo.svg'} alt='ixo' />
             <Text w={45}>{getClaimAmount(claim)}</Text>
           </Flex>
           <ClaimButton
