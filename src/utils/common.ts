@@ -15,11 +15,16 @@ export const sleep = async (ms: number): Promise<boolean> => {
 }
 
 export function findKeyValuePairs(obj: Record<string, any>, propertyName: string, value: string) {
-  const result = {};
-  Object.keys(obj).forEach(key => {
+  const result = {}
+  Object.keys(obj).forEach((key) => {
     if (obj[key][propertyName] === value) {
-      result[key] = obj[key];
+      result[key] = obj[key]
     }
-  });
-  return result;
+  })
+  return result
+}
+
+export const LINKED_RESOURCE_TYPES_PREFIX = 'display:'
+export function getLinkedResourceTypeFromPrefix(linkedResourceType: string): string {
+  return linkedResourceType.replace(LINKED_RESOURCE_TYPES_PREFIX, '')
 }

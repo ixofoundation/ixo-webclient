@@ -1,23 +1,22 @@
-import React, { useMemo, useState } from 'react'
+import { CloseButton, ModalStyles } from 'components/Modals/styles'
 import _ from 'lodash'
+import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ModalStyles, CloseButton } from 'components/Modals/styles'
 
 import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
-import { Button, Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
-import { TEntityClaimTemplateModel } from 'types/entities'
+import { Button, Input } from 'screens/CreateEntity/Components'
 import styled, { useTheme } from 'styled-components'
+import { TEntityClaimTemplateModel } from 'types/entities'
+import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
-import { useNavigate } from 'react-router-dom'
-import { useEntitiesQuery } from 'generated/graphql'
-import { getEntitiesFromGraphqlAction, updateEntityPropertyAction } from 'redux/entities/entities.actions'
-import { apiEntityToEntity } from 'utils/entities'
-import { useAccount } from 'hooks/account'
 import { currentRelayerNode } from 'constants/common'
+import { useEntitiesQuery } from 'generated/graphql'
+import { useAccount } from 'hooks/account'
+import { getEntitiesFromGraphqlAction, updateEntityPropertyAction } from 'redux/entities/entities.actions'
+import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { apiEntityToEntity } from 'utils/entities'
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 350px;
@@ -39,7 +38,6 @@ interface Props {
 }
 
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
-  const navigate = useNavigate()
   const theme: any = useTheme()
   const dispatch = useAppDispatch()
   const { cwClient, address } = useAccount()
@@ -71,9 +69,6 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
   const [keyword, setKeyword] = useState('')
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()
 
-  const handleCreate = (): void => {
-    navigate('/entity/create/protocol')
-  }
   const handleContinue = (): void => {
     template && onSelect(template)
     onClose()
@@ -145,9 +140,6 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
           </FlexBox>
         </ClaimProtocolList>
         <FlexBox className='w-100' $justifyContent='flex-end' $gap={5}>
-          <Button size='custom' width={190} height={48} variant='secondary' onClick={handleCreate}>
-            Create New
-          </Button>
           <Button size='custom' width={190} height={48} variant='primary' disabled={!template} onClick={handleContinue}>
             Continue
           </Button>
