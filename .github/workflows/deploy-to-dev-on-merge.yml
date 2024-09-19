@@ -5,7 +5,7 @@ on:
       - dev
 
 env:
-  NODE_OPTIONS: "--max_old_space_size=8192"
+  NODE_OPTIONS: '--max_old_space_size=8192'
   NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
   NEXT_PUBLIC_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
   NEXT_PUBLIC_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
@@ -49,7 +49,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -68,7 +68,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702 # Replace with your Netlify Site ID
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   build-and-deploy-test-ixo-earth:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -89,11 +89,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:3d079ebc0b332aad3305bb4a51c72edb
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/testzone/theme.json
           # Testnet config
           NEXT_PUBLIC_CHAIN_ID: pandora-8
           NEXT_PUBLIC_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
@@ -115,7 +115,7 @@ jobs:
           NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56 # Replace with your Netlify Site ID
 
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   build-and-deploy-yoma-ixo-earth:
     runs-on: ubuntu-latest
@@ -128,7 +128,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -136,12 +136,20 @@ jobs:
       - name: Build
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:50a7d92f449ab5752f63c64521adb3cc
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:3700e507b54ba7092d3f1c4873af26ab
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/theme.json
+          # Testnet config
+          NEXT_PUBLIC_CHAIN_ID: pandora-8
+          NEXT_PUBLIC_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
+          NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: https://testnet-blocksync-graphql.ixo.earth/graphql
+          NEXT_PUBLIC_BLOCK_SCAN_URL: https://blockscan.testnet.ixo.earth/ixo
+          NEXT_PUBLIC_GAIA_URL: https://testnet.ixo.earth/rest/
+          NEXT_PUBLIC_RPC_URL: https://testnet.ixo.earth/rpc/
+          NEXT_PUBLIC_PDS_URL: https://cellnode-pandora.ixo.earth/
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           yarn build  # Build Script
@@ -153,7 +161,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3 # Replace with your Netlify Site ID
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web
+          args: deploy --dir=out --prod
 
   build-and-deploy-idcc-ixo-earth:
     runs-on: ubuntu-latest
@@ -166,7 +174,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -174,10 +182,10 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:ff581af6e2e071758b1f94835933d038
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/idcc/asset-list.json
           NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
@@ -190,7 +198,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b # Replace with your Netlify Site ID
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web
+          args: deploy --dir=out --prod
 
   build-and-deploy-stackworthdao:
     runs-on: ubuntu-latest
@@ -201,7 +209,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -209,11 +217,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/launchpad/theme.json
           NEXT_PUBLIC_RPC_URL: https://impacthub.ixo.world/rpc/
           NODE_ENV: production
         run: |
@@ -228,7 +236,7 @@ jobs:
           NETLIFY_SITE_ID: b320fbd1-e447-41e4-b6ce-cbe4a7533cbc # Replace with your Netlify Site ID
 
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod# Update --dir with the directory of your build output
 
   notify-slack:
     needs:

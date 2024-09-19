@@ -5,7 +5,7 @@ on:
       - main
 
 env:
-  NODE_OPTIONS: "--max_old_space_size=8192"
+  NODE_OPTIONS: '--max_old_space_size=8192'
   NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
   NEXT_PUBLIC_CHAIN_ID: ${{ vars.REACT_APP_CHAIN_ID }}
   NEXT_PUBLIC_BLOCK_SYNC_URL: ${{ vars.REACT_APP_BLOCK_SYNC_URL }}
@@ -49,7 +49,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -68,7 +68,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 1f94cb83-da26-4709-ab97-ccb75c0068e9 # Replace with your Netlify Site ID
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   build-and-deploy-refi-ixo-earth:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -89,11 +89,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:50a336298abaaaa248d08d794b2e6231
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/refi/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/refi/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/refi/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/refi/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/refi/theme.json
           NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
@@ -107,7 +107,7 @@ jobs:
           NETLIFY_SITE_ID: 982884ec-0cf4-4280-8d73-6ec9ce9a321d # Replace with your Netlify Site ID
 
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   build-and-deploy-platform-impacts-ai:
     runs-on: ubuntu-latest
@@ -120,7 +120,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18.2" # Node Version
+          node-version: '18.18.2' # Node Version
 
       - name: Install Dependencies
         run: yarn
@@ -128,11 +128,11 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
-          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
-          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
-          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json
-          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
-          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/impacts-ai/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/impacts-ai/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/impacts-ai/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/impacts-ai/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/impacts-ai/theme.json
           NODE_ENV: production
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
@@ -146,15 +146,10 @@ jobs:
           NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43 # Replace with your Netlify Site ID
 
         with:
-          args: deploy --dir=apps/web/out --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
+          args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
   notify-slack:
-    needs:
-      [
-        build-and-deploy-launchpad-ixo-world,
-        build-and-deploy-refi-ixo-earth,
-        build-and-deploy-platform-impacts-ai,
-      ]
+    needs: [build-and-deploy-launchpad-ixo-world, build-and-deploy-refi-ixo-earth, build-and-deploy-platform-impacts-ai]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack
