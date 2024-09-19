@@ -88,7 +88,6 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
     updateLinkedEntity({ ...linkedEntity, [newData.id]: newData })
   }
   const handleRemoveLinkedEntity = (id: string): void => {
-    console.log('handleRemoveLinkedEntity', id)
     updateLinkedEntity(omitKey({ ...linkedEntity }, id))
   }
 

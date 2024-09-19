@@ -2,7 +2,7 @@ import { Props } from './types'
 import { DatePickerModal, ButtonWrapper, ButtonOuter, ButtonInner, ButtonIcon } from '../Filters.styles'
 import { Button, DateRangePicker } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/CoreEntry/App.styles'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Typography } from 'components/Typography'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
@@ -16,6 +16,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
 }) => {
   const [_startDate, setStartDate] = useState('')
   const [_endDate, setEndDate] = useState('')
+  const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setStartDate(startDate)
@@ -24,6 +25,24 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
   useEffect(() => {
     setEndDate(endDate)
   }, [endDate])
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        handleFilterToggleShow() // Close the modal if clicking outside
+      }
+    }
+
+    if (isActive) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isActive, handleFilterToggleShow])
 
   function handleApply() {
     handleFilterDateChange(_startDate, _endDate)
@@ -43,7 +62,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
         </ButtonInner>
       </ButtonOuter>
       {isActive && (
-        <DatePickerModal>
+        <DatePickerModal ref={modalRef}>
           <DateRangePicker
             id='date-filter'
             startDate={_startDate}

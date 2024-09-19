@@ -109,6 +109,7 @@ const SharesCard: React.FC = () => {
             onClick: handleRowClick(state),
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
+          showPagination={false}
         />
         {[].length === 0 && (
           <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>

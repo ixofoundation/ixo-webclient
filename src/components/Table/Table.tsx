@@ -26,6 +26,7 @@ export interface TableProps {
   getColumnProps?: (column: ColumnInstance<object>) => Partial<TableCellProps>
   getRowProps?: (row: Row<object>) => RowPropGetter<object>
   getCellProps?: (cell: Cell<object, any>) => Partial<TableCellProps>
+  showPagination?: boolean
 }
 
 interface TableStateWithPagination extends TableState<object> {
@@ -40,6 +41,7 @@ const Table: React.FC<TableProps> = ({
   getColumnProps = defaultPropGetter,
   getRowProps = defaultPropGetter,
   getCellProps = defaultPropGetter,
+  showPagination = true,
 }): JSX.Element => {
   const {
     getTableProps,
@@ -97,9 +99,9 @@ const Table: React.FC<TableProps> = ({
                       <span>
                         {column.isSorted
                           ? column.isSortedDesc
-                            ? (column.customSortIcon?.desc ?? ' 🔽')
-                            : (column.customSortIcon?.asc ?? ' 🔼')
-                          : (column.customSortIcon?.no ?? '')}
+                            ? column.customSortIcon?.desc ?? ' 🔽'
+                            : column.customSortIcon?.asc ?? ' 🔼'
+                          : column.customSortIcon?.no ?? ''}
                       </span>
                     )}
                   </th>
@@ -135,17 +137,19 @@ const Table: React.FC<TableProps> = ({
           })}
         </tbody>
       </table>
-      <Flex className='pagination' justify={'center'} align='center' w='100%' pt={10}>
-        <Pagination total={pageCount} onChange={(page) => gotoPage(page - 1)} />
+      {showPagination && (
+        <Flex className='pagination' justify={'center'} align='center' w='100%' pt={10}>
+          <Pagination total={pageCount} onChange={(page) => gotoPage(page - 1)} />
 
-        <Select
-          ml={10}
-          w='200px'
-          value={pageSize.toString()}
-          onChange={(e) => setPageSize(Number(e))}
-          data={['10', '20', '30', '40', '50']}
-        />
-      </Flex>
+          <Select
+            ml={10}
+            w='200px'
+            value={pageSize.toString()}
+            onChange={(e) => setPageSize(Number(e))}
+            data={['10', '20', '30', '40', '50']}
+          />
+        </Flex>
+      )}
     </>
   )
 }

@@ -120,9 +120,7 @@ const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   }
 `
 export function useGetClaimCollectionsByEntityId(entityId: string) {
-  console.log("trying some shit")
   const entity = useAppSelector(getEntityById(entityId))
-  console.log({entity})
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
     variables: { entityId },
     skip: !validateEntityDid(entityId),
@@ -260,29 +258,32 @@ const GET_CLAIMS_BY_ENTITYID = gql`
   }
 `
 export function useGetClaimsByEntityId(entityId: string) {
-  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId);
+  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
 
   const { loading, error, data, refetch } = useQuery(GET_CLAIMS_BY_ENTITYID, {
     variables: { collectionIds: claimCollections.map((v) => v.id) },
     pollInterval: 5 * 1000,
-  });
+  })
 
   if (data?.claims?.nodes?.length === 0) {
     return {
-      loading, error, data: [], refetch
-    };
+      loading,
+      error,
+      data: [],
+      refetch,
+    }
   }
 
   const sortedClaims = [...(data?.claims?.nodes ?? [])].sort(
     (a, b) => new Date(b.submissionDate).getTime() - new Date(a.submissionDate).getTime(),
-  );
+  )
 
   return {
     loading,
     error,
     data: sortedClaims,
     refetch,
-  };
+  }
 }
 
 // GET_CLAIM
