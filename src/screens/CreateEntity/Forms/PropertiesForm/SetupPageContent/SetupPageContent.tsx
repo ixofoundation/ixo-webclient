@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Wrapper } from './SetupPageContent.styles'
 import { TEntityPageModel } from 'types/entities'
