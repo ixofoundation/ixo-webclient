@@ -13,13 +13,23 @@ type Inputs = {
   value: string
 }
 
-const AttributeItem = ({ attribute }: { attribute: Inputs }) => {
+const AttributeItem = ({
+  attribute,
+  isEditing,
+  remove,
+}: {
+  attribute: Inputs
+  isEditing: boolean
+  remove: () => void
+}) => {
   const theme = useMantineTheme()
   return (
     <Flex pos='relative' direction={'column'} bg='#f9f9f9' p='sm' styles={{ root: { borderRadius: '10px' } }}>
-      <Box pos='absolute' style={{ top: -5, right: -5, cursor: 'pointer' }}>
-        <LiaMinusCircleSolid color={theme.colors.blue[5]} />
-      </Box>
+      {isEditing && (
+        <Box pos='absolute' style={{ top: -5, right: -5, cursor: 'pointer' }} onClick={remove}>
+          <LiaMinusCircleSolid color={theme.colors.blue[5]} />
+        </Box>
+      )}
       <Text fz='xs'>{attribute.key}</Text>
       <Text>{attribute.value}</Text>
     </Flex>
@@ -92,6 +102,27 @@ export const CreateFlowAttributeCard = () => {
     )
   }
 
+  const removeAttribute = (id: string) => {
+    const attributesAfterRemoval = attributes.filter((attribute) => attribute.id !== id)
+
+    dispatch(
+      updateLinkedResource({
+        id: '{id}#profile',
+        type: 'Settings',
+        proof: '',
+        description: profileResource?.description ?? 'Profile',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: profileResource?.serviceEndpoint ?? '',
+        encrypted: 'false',
+        right: '',
+        data: {
+          ...profile,
+          attributes: attributesAfterRemoval,
+        },
+      }),
+    )
+  }
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     handleUpdateAttribute(data)
     close()
@@ -101,7 +132,12 @@ export const CreateFlowAttributeCard = () => {
     <ActionCard title='Attributes' icon={<LiaChartBarSolid />} isEditing={isEditing} onClose={close} onOpen={open}>
       <Flex direction={'column'} gap={'md'}>
         {attributes.map((attribute, index) => (
-          <AttributeItem key={index} attribute={attribute} />
+          <AttributeItem
+            key={index}
+            attribute={attribute}
+            remove={() => removeAttribute(attribute.id)}
+            isEditing={isEditing}
+          />
         ))}
       </Flex>
 
