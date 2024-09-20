@@ -150,12 +150,8 @@ const determineEntityType = (type: string) => {
     case 'protocol/dao':
     case 'protocol/investment':
     case 'protocol/asset':
-      return type.split('/').pop() // project, oracle, dao, investment, asset
-
     case 'protocol/request':
-    case 'protocol/deed':
-      return 'deed/request'
-
+      return type.split('/').pop() // project, oracle, dao, investment, asset
     default:
       return type
   }
