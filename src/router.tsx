@@ -250,16 +250,20 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: 'requests',
-      //   Component: ExploreLayout.Component,
-      //   children: [
-      //     {
-      //       index: true,
-      //       Component: Requests.Component,
-      //     },
-      //   ],
-      // },
+      {
+        path: 'requests',
+        Component: ExploreLayout.Component,
+        children: [
+          {
+            index: true,
+            Component: Requests.Component,
+          },
+          {
+            path: 'create',
+            Component: Requests.CreateComponent,
+          },
+        ],
+      },
 
       // {
       //   path: 'create/entity/:entityType',
