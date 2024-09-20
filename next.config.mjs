@@ -4,7 +4,7 @@ import webpack from 'webpack'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export',
   experimental: {
     optimizePackageImports: ['@blocknote/core', '@blocknote/mantine', '@blocknote/react'],
   },
