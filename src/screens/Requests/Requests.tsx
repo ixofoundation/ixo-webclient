@@ -20,7 +20,7 @@ const Requests = () => {
     variables: {
       filter: {
         type: {
-          equalTo: 'deed/request',
+          equalTo: 'request',
         },
       },
     },
