@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Modal, Text, TextInput } from '@mantine/core'
+import { Box, Button, Flex, Modal, Text, TextInput, useMantineTheme } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { ActionCard } from 'components/ActionCard'
 import { LiaChartBarSolid, LiaMinusCircleSolid, LiaPlusSolid } from 'react-icons/lia'
@@ -14,10 +14,11 @@ type Inputs = {
 }
 
 const AttributeItem = ({ attribute }: { attribute: Inputs }) => {
+  const theme = useMantineTheme()
   return (
     <Flex pos='relative' direction={'column'} bg='#f9f9f9' p='sm' styles={{ root: { borderRadius: '10px' } }}>
-      <Box pos='absolute' style={{ top: 0, right: 0 }}>
-        <LiaMinusCircleSolid />
+      <Box pos='absolute' style={{ top: -5, right: -5, cursor: 'pointer' }}>
+        <LiaMinusCircleSolid color={theme.colors.blue[5]} />
       </Box>
       <Text fz='xs'>{attribute.key}</Text>
       <Text>{attribute.value}</Text>
