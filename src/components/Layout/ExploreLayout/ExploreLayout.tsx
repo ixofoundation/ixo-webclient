@@ -1,9 +1,9 @@
-import { Box, Flex, ScrollArea } from '@mantine/core'
-import { Outlet } from 'react-router-dom'
+import { Box, Flex, ScrollArea, Text } from '@mantine/core'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectEntityHeadUIConfig } from 'redux/entities/entities.selectors'
 import { useEffect, useState } from 'react'
-import { Search } from 'components/Search/Search'
+// import { Search } from 'components/Search/Search'
 import { InstantSearch } from 'react-instantsearch'
 import { liteClient as algoliasearch } from 'algoliasearch/lite'
 import { algoliaAppId, algoliaIndexName, algoliaSearchKey } from 'constants/common'
@@ -16,6 +16,16 @@ interface SearchResult {
   // Add other properties based on your Algolia index structure
 }
 
+const getTitle = (pathname: string, title: string = 'Explore') => {
+  if (pathname === '/create/requests') {
+    return 'Create a request using a protocol'
+  }
+  if (pathname === '/requests') {
+    return 'Browse requests'
+  }
+  return title
+}
+
 const ExploreLayout: React.FC = () => {
   const headConfig = useSelector(selectEntityHeadUIConfig)
   const title = headConfig?.title
@@ -24,11 +34,12 @@ const ExploreLayout: React.FC = () => {
 
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [searchQuery, setSearchQuery] = useState('')
+  const location = useLocation()
 
-  const handleSearchStateChange = (query: string, results: SearchResult[]) => {
-    setSearchQuery(query)
-    setSearchResults(results)
-  }
+  // const handleSearchStateChange = (query: string, results: SearchResult[]) => {
+  //   setSearchQuery(query)
+  //   setSearchResults(results)
+  // }
 
   const updateSearchQuery = (query: string) => {
     setSearchQuery(query)
@@ -38,7 +49,7 @@ const ExploreLayout: React.FC = () => {
     if (searchQuery) {
       setHeroHeight(200)
     } else {
-      setHeroHeight(500)
+      setHeroHeight(200)
     }
   }, [searchQuery])
 
@@ -54,15 +65,17 @@ const ExploreLayout: React.FC = () => {
           style={{ transition: 'height 0.5s ease-in-out' }}
         >
           <Box w='90%' mx='auto'>
-            {/* Commented out title and subtitle */}
+            <Text fz='xl' c='white'>
+              {getTitle(location.pathname, title)}
+            </Text>
           </Box>
 
-          <Flex pos={'absolute'} bottom={0} left={0} right={0} mb={-20} justify='center' style={{ zIndex: 10 }}>
+          {/* <Flex pos={'absolute'} bottom={0} left={0} right={0} mb={-20} justify='center' style={{ zIndex: 10 }}>
             <Search onSearchStateChange={handleSearchStateChange} searchQuery={searchQuery} />
-          </Flex>
+          </Flex> */}
         </Flex>
         <ScrollArea w='100%' h='100%' bg='gray.2'>
-          <Outlet context={{ searchQuery, searchResults, updateSearchQuery }} />
+          <Outlet context={{ searchQuery, searchResults, updateSearchQuery, setSearchResults }} />
         </ScrollArea>
       </InstantSearch>
     </Flex>

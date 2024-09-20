@@ -76,12 +76,19 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               Protocols
             </HeaderLink>
           </DisplayInDevelopmentMode> */}
+
           <HeaderLink to={`/explore?type=${defaultEntity}`} color={buttonColor} onClick={resetKeyValue}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
+          <HeaderLink end to={`/requests/create`} color={buttonColor} onClick={resetKeyValue}>
+            Create Request
+          </HeaderLink>
+          <HeaderLink end to={`/requests`} color={buttonColor} onClick={resetKeyValue}>
+            Browse Requests
+          </HeaderLink>
         </Fragment>
       )
     } else {
