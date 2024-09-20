@@ -17,7 +17,7 @@ interface SearchResult {
 }
 
 const getTitle = (pathname: string, title: string = 'Explore') => {
-  if (pathname === '/create/requests') {
+  if (pathname === '/requests/create') {
     return 'Create a request using a protocol'
   }
   if (pathname === '/requests') {
