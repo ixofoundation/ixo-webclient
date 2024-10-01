@@ -83,12 +83,14 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
-          <HeaderLink end to={`/requests/create`} color={buttonColor} onClick={resetKeyValue}>
-            Create Request
-          </HeaderLink>
-          <HeaderLink end to={`/requests`} color={buttonColor} onClick={resetKeyValue}>
-            Browse Requests
-          </HeaderLink>
+          <DisplayInDevelopmentMode>
+            <HeaderLink end to={`/requests/create`} color={buttonColor} onClick={resetKeyValue}>
+              Create Request
+            </HeaderLink>
+            <HeaderLink end to={`/requests`} color={buttonColor} onClick={resetKeyValue}>
+              Browse Requests
+            </HeaderLink>
+          </DisplayInDevelopmentMode>
         </Fragment>
       )
     } else {
