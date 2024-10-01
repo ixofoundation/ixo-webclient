@@ -7,6 +7,7 @@ import { CreateFlowStageCard } from './Actions/CreateFlowStageCard'
 import { CreateFlowTypeCard } from './Actions/CreateFlowTypeCard'
 import { CreateFlowDateRangeCard } from './Actions/CreateFlowDateRangeCard'
 import { RequestEntityActions } from './RequestEntityActions'
+import { CreateFlowAttributeCard } from './Actions/CreateFlowAttributeCard'
 
 const ControlPanel = () => {
   const location = useLocation()
@@ -21,6 +22,7 @@ const ControlPanel = () => {
           <CreateFlowStageCard />
           <CreateFlowTypeCard />
           <CreateFlowDateRangeCard />
+          <CreateFlowAttributeCard />
         </>
       )
     }

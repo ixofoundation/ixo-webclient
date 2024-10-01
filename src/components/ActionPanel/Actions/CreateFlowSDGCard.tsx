@@ -12,10 +12,11 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { updateLinkedResource } from 'redux/createFlow/slice'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { SDGIconHolder } from 'components/SDGIconHolder/SDGIconHolder'
+import { EntityConfig } from 'types/entities'
 
 export const CreateFlowSDGCard: React.FC = () => {
   const [opened, { open, close }] = useDisclosure()
-  const entityConfig = useAppSelector(selectEntityConfig)
+  const entityConfig = useAppSelector(selectEntityConfig) as EntityConfig
   const { linkedResource, type } = useAppSelector((state) => state.createFlow)
   const dispatch = useAppDispatch()
 
@@ -27,7 +28,11 @@ export const CreateFlowSDGCard: React.FC = () => {
 
   const ddoTagsConfig = useMemo(() => {
     const rootEntityType = toRootEntityType(friendlyEntityTypes(type))
-    return entityConfig[rootEntityType]?.filterSchema?.ddoTags.find((tag: any) => tag.name === 'SDG') ?? {}
+    return (
+      entityConfig[rootEntityType as keyof EntityConfig]?.filterSchema?.ddoTags.find(
+        (tag: any) => tag.name === 'SDG',
+      ) ?? {}
+    )
   }, [entityConfig, type])
 
   const handleChange = (values: string[]): void => {
@@ -53,7 +58,7 @@ export const CreateFlowSDGCard: React.FC = () => {
   }
 
   const sdgTags = useMemo(() => {
-    return data?.entityTags?.find((tag: any) => tag.category === 'SDG').tags ?? []
+    return data?.entityTags?.find((tag: any) => tag.category === 'SDG')?.tags ?? []
   }, [data?.entityTags])
 
   const sdgOptions = useMemo(() => {
