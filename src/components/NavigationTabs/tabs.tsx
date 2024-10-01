@@ -101,7 +101,7 @@ export const tabs = {
               path: `/entity/${params.entityId}/dashboard`,
             },
           ],
-          'deed request': [
+          request: [
             {
               label: 'OVERVIEW',
               icon: LuCircleDashed,

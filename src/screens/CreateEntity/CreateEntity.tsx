@@ -14,9 +14,10 @@ type EntityLoaderData = {
 
 const stepMap = new Map<string, string[]>([
   ['dao', ['process', 'profile', 'groups', 'settings', 'review']],
-  ['protocol', ["type"]],
+  ['protocol', ['type']],
   ['protocol-claim', ['process', 'profile', 'collection', 'settings', 'review']],
   ['protocol-deed', ['process', 'profile', 'collection', 'settings', 'review']],
+  ['protocol-request', ['process', 'profile', 'settings', 'review']],
   ['deed-request', ['process', 'profile', 'settings', 'review']],
   ['oracle', ['process', 'profile', 'settings', 'review']],
   ['project', ['process', 'profile', 'settings', 'review']],
@@ -131,7 +132,7 @@ export const action = async (args: ActionFunctionArgs) => {
 
 const CreateEntity = (): JSX.Element => {
   const { navigateToNextStep } = useCreateEntityStepState()
-  const { entityType = "" } = useParams()
+  const { entityType = '' } = useParams()
   const currentStep = useSelector(selectCurrentStep)
   const dispatch = useDispatch()
   const data = useLoaderData() as EntityLoaderData
