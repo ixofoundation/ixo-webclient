@@ -8,7 +8,7 @@ import { RequestOverviewCard } from 'components/RequestOverviewCard'
 import { Link } from 'react-router-dom'
 import { useRequestsContext } from 'contexts/RequestsContext'
 
-const Requests = () => {
+const CreateRequests = () => {
   const { searchString } = useRequestsContext()
   const [requests, setRequests] = useState<TEntityModel[]>([])
 
@@ -20,7 +20,7 @@ const Requests = () => {
     variables: {
       filter: {
         type: {
-          equalTo: 'request',
+          equalTo: 'protocol/request',
         },
       },
     },
@@ -48,4 +48,4 @@ const Requests = () => {
   )
 }
 
-export default Requests
+export default CreateRequests

@@ -194,7 +194,14 @@ export const getDaoContractInfo = async ({
     const [groupContract] = await exponentialBackoff(() => queryMultipleContracts(daoVotingCw4Queries), 5, 1000, 30000)
 
     const cw4GroupQueries = [
-      { address: groupContract, data: { list_members: {} } },
+      {
+        address: groupContract,
+        data: {
+          list_members: {
+            limit: 100,
+          },
+        },
+      },
       { address: groupContract, data: { total_weight: {} } },
     ]
 

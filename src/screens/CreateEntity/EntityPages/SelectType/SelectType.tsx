@@ -22,16 +22,15 @@ const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JS
     },
     {
       type: 'protocol/request',
-      label: 'Credentials',
-      icon: <img src='/assets/images/icon-deed.svg' />,
-      description: ``,
-      disabled: true,
-    },
-    {
-      type: 'protocol/request',
       label: 'Request Class',
       icon: <img src='/assets/images/icon-star.svg' />,
       description: `A <b>Request</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
+    },
+    {
+      type: 'protocol/request',
+      label: 'Credentials',
+      icon: <img src='/assets/images/icon-deed.svg' />,
+      description: ``,
       disabled: true,
     },
     {
