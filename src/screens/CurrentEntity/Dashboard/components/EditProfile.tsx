@@ -47,7 +47,7 @@ const EditProfile: React.FC = (): JSX.Element => {
             setName={(name): void => handleUpdateProfile('name', name)}
           />
         )}
-        {editEntity.type === 'project' && (
+        {editEntity.type === 'project' || editEntity.type === 'request' && (
           <ProjectProfileForm
             image={editEntity.profile?.image}
             setImage={(image): void => handleUpdateProfile('image', image)}

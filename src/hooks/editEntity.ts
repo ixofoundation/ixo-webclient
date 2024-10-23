@@ -325,7 +325,7 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.tags) === JSON.stringify(currentEntity.tags)) {
       return []
     }
-    const service = getUsedService(editEntity.settings.Tags.serviceEndpoint)
+    const service = getUsedService(editEntity?.settings?.Tags?.serviceEndpoint)
     const res = await SaveTags(editEntity.tags ?? [], service)
     if (!res) {
       throw new Error('Save Tags failed!')

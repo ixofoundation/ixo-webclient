@@ -22,7 +22,7 @@ const CreateFlowEntityHero = () => {
         id: '{id}#profile',
         type: 'Settings',
         proof: '',
-        description: profileResource?.description ?? 'Profile',
+        description: 'Profile',
         mediaType: 'application/ld+json',
         serviceEndpoint: profileResource?.serviceEndpoint ?? '',
         encrypted: 'false',

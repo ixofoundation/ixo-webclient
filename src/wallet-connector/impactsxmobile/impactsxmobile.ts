@@ -1,4 +1,3 @@
-import { IWalletConnector } from '../interfaces/walletConnector'
 import { SignX } from '@ixo/signx-sdk'
 import { Wallet } from '../contexts'
 import { toHex } from '@cosmjs/encoding'
