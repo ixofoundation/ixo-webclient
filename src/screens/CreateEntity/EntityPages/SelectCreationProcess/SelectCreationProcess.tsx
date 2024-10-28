@@ -50,7 +50,10 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
   const handleClone = async () => {
     if (!chainId) return null
-    const entity = await getEntity({ id: existingDid, gqlClient: gqlClientByChain[chainId] })
+    const entity = await getEntity({
+      id: existingDid,
+      gqlClient: gqlClientByChain[chainId as keyof typeof gqlClientByChain],
+    })
     apiEntityToEntity({ entity: entity }, (key: string, value: any, merge) => {
       switch (key) {
         case 'profile':
@@ -117,7 +120,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             inputValue={existingDid}
             handleChange={setExistingDid}
             placeholder='Type to Search or enter a DID'
-            preIcon={<SearchIcon />}
             width='400px'
             height='48px'
             style={SearchInputStyles}
