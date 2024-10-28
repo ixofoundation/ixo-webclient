@@ -2,16 +2,17 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import { Navigate, Route, useParams, Routes } from 'react-router-dom'
-import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const AssetCollectionDashboard: React.FC = (): JSX.Element => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { type, owner, profile } = useAppSelector(getEntityById(entityId))
+  const { address } = useAccount()
+  const { type, owner, profile, verificationMethod } = useAppSelector(getEntityById(entityId))
 
-  const { registered, address } = useAccount()
+  const isVerifiedOnEntity =
+    verificationMethod.some((verification) => verification?.blockchainAccountID === address) || owner === address
 
   const routes: Path[] = [
     {
@@ -19,7 +20,7 @@ const AssetCollectionDashboard: React.FC = (): JSX.Element => {
       icon: '/assets/img/sidebar/gear.svg',
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !registered || owner !== address,
+      disabled: !isVerifiedOnEntity,
     },
   ]
 
@@ -38,7 +39,7 @@ const AssetCollectionDashboard: React.FC = (): JSX.Element => {
     >
       <Routes>
         <Route index element={<Navigate to={`edit`} />} />
-        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+        {isVerifiedOnEntity && <Route path='edit' Component={EditEntity} />}
       </Routes>
     </Dashboard>
   )

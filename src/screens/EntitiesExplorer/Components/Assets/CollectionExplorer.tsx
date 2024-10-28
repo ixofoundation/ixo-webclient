@@ -26,6 +26,10 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const { data: assetDevices } = useGetAssetDevicesByCollectionId(props.collection.id)
   const [collection, setCollection] = useState<TEntityModel>()
 
+  const isVerifiedOnEntity =
+    collection?.verificationMethod.some((verification) => verification?.blockchainAccountID === address) ||
+    collection?.owner === address
+
   const logo = collection?.token?.properties?.icon
   const collectionId = collection?.id
   const collectionName = collection?.profile?.name
@@ -75,7 +79,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           </FlexBox>
         </GridItem>
         <GridItem $gridArea='b'>
-          {!!address && address === collection?.owner && (
+          {!!address && isVerifiedOnEntity && (
             <FlexBox width='100%' $justifyContent='flex-end'>
               <Button bg={'white'} c={'black'} onClick={onEdit}>
                 Edit
