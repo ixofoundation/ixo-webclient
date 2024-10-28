@@ -96,7 +96,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
     navigateToNextStep()
   }
-
   return (
     <PageWrapper>
       <Selections>

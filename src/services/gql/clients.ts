@@ -1,4 +1,3 @@
-
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 export const testnetGqlClient = new ApolloClient({
   uri: process.env.NEXT_PUBLIC_BLOCK_SYNC_GRAPHQL_TESTNET,
@@ -16,6 +15,7 @@ export const devnetGqlClient = new ApolloClient({
 })
 
 export const gqlClientByChain = {
+  'ixo-4': mainnetGqlClient,
   'ixo-5': mainnetGqlClient,
   'pandora-8': testnetGqlClient,
   'devnet-1': devnetGqlClient,
