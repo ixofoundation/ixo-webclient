@@ -69,11 +69,16 @@ export const useEntityOverview = (did?: string) => {
 
 const processDAOGroups = async (linkedEntity: LinkedEntity[], cwClient: CosmWasmClient) => {
   const groups = await Promise.all(
-    getDAOGroupLinkedEntities(linkedEntity).map(async (item: LinkedEntity) => {
-      const [, coreAddress] = item.id.split('#')
-      const daoContractInfo = await getDaoContractInfo({ coreAddress, cwClient })
-      return { [daoContractInfo.coreAddress]: daoContractInfo }
-    }),
+    getDAOGroupLinkedEntities(linkedEntity)
+      .map(async (item: LinkedEntity) => {
+        const { id } = item
+        const [, coreAddress] = id.split('#')
+        if (!coreAddress) return null
+
+        const daoContractInfo = await getDaoContractInfo({ coreAddress, cwClient })
+        return { [daoContractInfo.coreAddress]: daoContractInfo }
+      })
+      .filter((item): item is Promise<{ [key: string]: any }> => item !== null),
   )
   return groups.reduce((acc, item) => ({ ...acc, ...item }), {})
 }
