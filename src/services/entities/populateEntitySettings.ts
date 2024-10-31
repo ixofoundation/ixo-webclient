@@ -1,11 +1,11 @@
 import { Entity } from 'generated/graphql'
 import { getTags } from './getTags'
 import { getEntityProfile } from './getEntityProfile'
-import { getDAOGroupLinkedEntities, toRootEntityType } from 'utils/entities'
+import { toRootEntityType } from 'utils/entities'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { getDaoContractInfo } from 'utils/dao'
-import { getCosmwasmClient } from 'lib/cosmWasmClient/cosmWasmClient'
-import { RPC_ENDPOINT } from 'lib/protocol'
+// import { getDaoContractInfo } from 'utils/dao'
+// import { getCosmwasmClient } from 'lib/cosmWasmClient/cosmWasmClient'
+// import { RPC_ENDPOINT } from 'lib/protocol'
 import { getCarbonOracleAggregate } from 'api/blocksync/getEvaluations'
 
 export const populateEntityForEntityExplorer = async (entity: Entity) => {
