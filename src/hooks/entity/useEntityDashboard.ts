@@ -50,21 +50,22 @@ export const useEntityDashboard = (did: string) => {
           service,
         })
 
-        const tokenResource = data.entity.linkedResource.find(
-          (resource: any) => resource.id === '{id}#token',
-        )
-        const token = await getTokenMetadata({ resource: tokenResource, service})
+        const tokenResource = data.entity.linkedResource.find((resource: any) => resource.id === '{id}#token')
+        const token = await getTokenMetadata({ resource: tokenResource, service })
 
         const cwClient = await getCosmwasmClient(RPC_ENDPOINT ?? '')
 
         const groups = await Promise.all(
-          getDAOGroupLinkedEntities(data.entity.linkedEntity).map(async (item: LinkedEntity) => {
-            const { id } = item
-            const [, coreAddress] = id.split('#')
-            const daoContractInfo = await getDaoContractInfo({ coreAddress, cwClient })
+          getDAOGroupLinkedEntities(data.entity.linkedEntity)
+            .map(async (item: LinkedEntity) => {
+              const { id } = item
+              const [, coreAddress] = id.split('#')
+              if (!coreAddress) return null
 
-            return { [daoContractInfo.coreAddress]: daoContractInfo }
-          }),
+              const daoContractInfo = await getDaoContractInfo({ coreAddress, cwClient })
+              return { [daoContractInfo.coreAddress]: daoContractInfo }
+            })
+            .filter((item): item is Promise<{ [key: string]: any }> => item !== null),
         )
 
         const daoGroups = groups.reduce((acc, item) => ({ ...acc, ...item }), {}) as any
@@ -83,7 +84,7 @@ export const useEntityDashboard = (did: string) => {
             tags,
             administrator,
             surveyTemplate,
-            token
+            token,
           }),
         )
       }
