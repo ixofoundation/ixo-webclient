@@ -93,7 +93,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
       }
     })
     // additional
-    updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
+    updateStartEndDate({ startDate: entity?.startDate, endDate: entity?.endDate })
     navigateToNextStep()
   }
   return (
