@@ -151,6 +151,45 @@ jobs:
         with:
           args: deploy --dir=out --prod # Update --dir with the directory of your build output
 
+  build-and-deploy-yoma-ixo-earth:
+    runs-on: ubuntu-latest
+    environment: prod
+    outputs:
+      url: ${{ steps.yoma_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.2' # Node Version
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:5884e9e2c624cb8a38bde74225215ee8
+          NEXT_PUBLIC_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/asset-list.json
+          NEXT_PUBLIC_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/exchange.json
+          NEXT_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/app-config.json
+          NEXT_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/config.json
+          NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/configs/yoma/theme.json
+
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          yarn build  # Build Script
+
+      - name: Deploy to yoma.ixo.earth deploy preview
+        uses: netlify/actions/cli@master
+        id: yoma_ixo_earth_dev_deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3 # Replace with your Netlify Site ID
+        with:
+          args: deploy --dir=out --prod
+
   notify-slack:
     needs: [build-and-deploy-launchpad-ixo-world, build-and-deploy-refi-ixo-earth, build-and-deploy-platform-impacts-ai]
     runs-on: ubuntu-latest
