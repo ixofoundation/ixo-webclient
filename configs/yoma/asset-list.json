@@ -1,10 +1,10 @@
 [
   {
-    "chainId": "pandora-8",
+    "chainId": "ixo-5",
     "assets": [
       {
         "symbol": "IXO",
-        "description": "The test token of the ixo Test Zone",
+        "description": "The IXO Token",
         "display": "ixo",
         "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
         "assetType": "coin",
@@ -27,139 +27,52 @@
         "coingeckoId": "ixo"
       },
       {
-        "symbol": "XUSD",
-        "description": "A Test Bond Token on the ixo Test Zone",
-        "display": "xusd",
-        "entityId": "did:ixo:Qysd94Mtr91Y2AzTd4pe1t",
-        "assetType": "bond",
-        "base": "xusd",
+        "symbol": "USDC",
+        "description": "US Dollar Coin",
+        "display": "USDC",
+        "entityId": "did:ixo:usdc",
+        "assetType": "coin",
+        "base": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
         "denomUnits": [
           {
-            "denom": "xusd",
-            "exponent": 0,
-            "aliases": []
+            "denom": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
+            "exponent": 6,
+            "aliases": ["usdc"]
           }
         ],
         "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.png",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.svg",
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.svg",
           "zlottie": ""
         },
         "isStakeCurrency": "false",
-        "isFeeCurrency": "false",
-        "isBondToken": "true",
-        "coingeckoId": "xusd"
-      },
-      {
-        "symbol": "OSMO",
-        "description": "The native token of Osmosis",
-        "display": "osmo",
-        "entityId": "did:ixo:WmhcC2tc59FoEVdopu1Q9j",
-        "assetType": "coin",
-        "base": "uosmo",
-        "denomUnits": [
-          {
-            "denom": "uosmo",
-            "exponent": 0,
-            "aliases": []
-          },
-          {
-            "denom": "osmo",
-            "exponent": 6,
-            "aliases": []
-          }
-        ],
-        "logoURIs": {
-          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.png",
-          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
-          "zlottie": ""
-        },
-        "isStakeCurrency": "true",
         "isFeeCurrency": "true",
         "isBondToken": "false",
-        "coingeckoId": "osmosis"
-      }
-    ]
-  },
-  {
-    "chainId": "devnet-1",
-    "assets": [
-      {
-        "symbol": "IXO",
-        "description": "The test token of the ixo Test Zone",
-        "display": "ixo",
-        "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
-        "assetType": "coin",
-        "base": "uixo",
-        "denomUnits": [
-          {
-            "denom": "ixo",
-            "exponent": 6,
-            "aliases": []
-          }
-        ],
-        "logoURIs": {
-          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
-          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.svg",
-          "zlottie": ""
-        },
-        "isStakeCurrency": "true",
-        "isFeeCurrency": "true",
-        "isBondToken": "false",
-        "coingeckoId": "ixo"
+        "coingeckoId": "usdc"
       },
       {
-        "symbol": "XUSD",
-        "description": "A Test Bond Token on the ixo Test Zone",
-        "display": "xusd",
-        "entityId": "did:ixo:Qysd94Mtr91Y2AzTd4pe1t",
-        "assetType": "bond",
-        "base": "xusd",
+        "symbol": "IMPACTS",
+        "description": "The Imapcts DAO Cooperative Token",
+        "display": "IMPACTS",
+        "entityId": "did:ixo:impacts",
+        "assetType": "token",
+        "base": "impacts",
         "denomUnits": [
           {
-            "denom": "xusd",
+            "denom": "impacts",
             "exponent": 0,
             "aliases": []
           }
         ],
         "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.png",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.svg",
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/impactsDAO.png",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/apps/impactsDAO.svg",
           "zlottie": ""
         },
         "isStakeCurrency": "false",
-        "isFeeCurrency": "false",
-        "isBondToken": "true",
-        "coingeckoId": "xusd"
-      },
-      {
-        "symbol": "OSMO",
-        "description": "The native token of Osmosis",
-        "display": "osmo",
-        "entityId": "did:ixo:WmhcC2tc59FoEVdopu1Q9j",
-        "assetType": "coin",
-        "base": "uosmo",
-        "denomUnits": [
-          {
-            "denom": "uosmo",
-            "exponent": 0,
-            "aliases": []
-          },
-          {
-            "denom": "osmo",
-            "exponent": 6,
-            "aliases": []
-          }
-        ],
-        "logoURIs": {
-          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.png",
-          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
-          "zlottie": ""
-        },
-        "isStakeCurrency": "true",
         "isFeeCurrency": "true",
         "isBondToken": "false",
-        "coingeckoId": "osmosis"
+        "contractAddress": "YOUR_IMPACT_TOKEN_CONTRACT_ADDRESS"
       }
     ]
   }
