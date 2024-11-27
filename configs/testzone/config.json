@@ -4662,6 +4662,21 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "impactCredit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "membership",
+              "name": "Membership Asset",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "data",
               "name": "Data Asset",
               "icon": "tag.svg"
