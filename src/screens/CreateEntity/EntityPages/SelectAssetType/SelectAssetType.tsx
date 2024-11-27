@@ -25,6 +25,27 @@ const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JS
       description: `A <b>Learnership</b> is a type of asset that can be used to collect data from the user.`,
       disabled: false,
     },
+     {
+      type: 'asset-impactCredit',
+      label: 'Impact Credit',
+      icon: <img src="/assets/images/icon-deed.svg"  />,
+      description: `A <b>Impact Credit</b> is a type of asset representing a measurable positive impact on social or environmental outcomes.`,
+      disabled: false,
+    },
+     {
+      type: 'asset-coin',
+      label: 'Coin',
+      icon: <img src="/assets/images/icon-deed.svg"  />,
+      description: `A <b>Coin</b> is a type of asset represents a digital currecy.`,
+      disabled: false,
+    },
+      {
+      type: 'asset-membership',
+      label: 'Membership',
+      icon: <img src="/assets/images/icon-deed.svg"  />,
+      description: `A <b>Membership</b> is a type of asset represents a membership and associated benfits.`,
+      disabled: false,
+    },
   ]
 
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
