@@ -9,17 +9,19 @@ import EditProperty from '../../components/EditProperty'
 import { useWallet } from 'wallet-connector'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
-import { useParams } from 'react-router-dom'
 import { useEntity } from 'hooks/entity/useEntity'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FormCard } from 'components'
 
 const EditEntity: React.FC = () => {
+  const navigate = useNavigate()
   const { entityId = '' } = useParams()
   const currentEntity = useAppSelector(getEntityById(entityId))
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
-  const { close } = useWallet()
+  const { wallet, close } = useWallet()
   const { refetch } = useEntity(entityId)
-
+  const isOwner = wallet?.address === currentEntity.owner
   useEffect(() => {
     setEditEntity(currentEntity)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,11 +46,35 @@ const EditEntity: React.FC = () => {
     }
   }
 
+  const handleTransferEntity = async () => {
+    navigate(`/entity/${entityId}/transfer`)
+  }
+
+  const handleReEnableKeys = async () => {
+    navigate(`/entity/${entityId}/transfer/review`)
+  }
+
   return (
     <FlexBox width='100%' $direction='column' $alignItems='flex-start' $gap={10} color='black' background='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the Oracle settings.
       </Typography>
+
+      <FlexBox>
+        {currentEntity.status === 0 && isOwner && (
+          <Button size='flex' width={240} onClick={handleTransferEntity} textTransform='uppercase'>
+            Transfer Entity
+          </Button>
+        )}
+        {currentEntity.status === 2 && isOwner && (
+          <FormCard title='Re-enable keys' preIcon={<img src='/assets/images/icon-exclamation-circle.svg' />}>
+            <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
+            <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
+              Review
+            </Button>
+          </FormCard>
+        )}
+      </FlexBox>
 
       <FlexBox width='100%' $direction='column' $gap={8}>
         <Typography variant='secondary' size='4xl'>
