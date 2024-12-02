@@ -3555,6 +3555,11 @@
               "icon": "outcome.svg"
             },
             {
+              "@type": "credential_audit",
+              "name": "Credential Audit",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "Tag",
               "name": "Credential",
               "icon": "credential.svg"
