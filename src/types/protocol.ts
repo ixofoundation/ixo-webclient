@@ -208,6 +208,7 @@ export enum EClaimType {
   Accreditation = 'Accreditation',
   Service = 'Service',
   Outcome = 'Outcome',
+  CredentialAudit = 'CredentialAudit',
   Credential = 'Credential',
   UseOfFunds = 'Use of Funds',
   Payment = 'Payment',
