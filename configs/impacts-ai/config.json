@@ -3560,6 +3560,11 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "subscription",
+              "name": "Subscription",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "Tag",
               "name": "Credential",
               "icon": "credential.svg"
