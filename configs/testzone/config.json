@@ -3823,6 +3823,11 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "subscription",
+              "name": "Subscription",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "impact_credit",
               "name": "Impact Credit",
               "icon": "tag.svg"
