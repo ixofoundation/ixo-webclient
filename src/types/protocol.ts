@@ -229,6 +229,7 @@ export enum EDeedType {
   Proposal = 'Proposal',
   Offer = 'Offer',
   Request = 'Request',
+  Subscription = 'Subscription',
 }
 export enum EClaimFeature {
   ShortText = 'Short Text',
