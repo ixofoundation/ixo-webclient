@@ -2976,6 +2976,11 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "subscription",
+              "name": "Subscription",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "Tag",
               "name": "Identity",
               "icon": "tag.svg"
