@@ -3818,6 +3818,11 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "credential_audit",
+              "name": "Credential Audit",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "impact_credit",
               "name": "Impact Credit",
               "icon": "tag.svg"
