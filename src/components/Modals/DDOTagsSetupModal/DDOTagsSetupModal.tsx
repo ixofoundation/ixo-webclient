@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, TagSelector } from 'screens/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
@@ -22,7 +21,9 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
 
-  const ddoTagsConfig = entityType ? (entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? []) : []
+  const ddoTagsConfig = entityType
+    ? entityConfig[toRootEntityType(entityType) as keyof typeof entityConfig]?.filterSchema?.ddoTags ?? []
+    : []
 
   useEffect(() => {
     setFormData((ddoTags ?? []).filter(Boolean))
@@ -47,7 +48,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>
