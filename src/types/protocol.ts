@@ -208,6 +208,7 @@ export enum EClaimType {
   Accreditation = 'Accreditation',
   Service = 'Service',
   Outcome = 'Outcome',
+  CredentialAudit = 'CredentialAudit',
   Credential = 'Credential',
   UseOfFunds = 'Use of Funds',
   Payment = 'Payment',
@@ -229,6 +230,7 @@ export enum EDeedType {
   Proposal = 'Proposal',
   Offer = 'Offer',
   Request = 'Request',
+  Subscription = 'Subscription',
 }
 export enum EClaimFeature {
   ShortText = 'Short Text',

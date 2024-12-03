@@ -3818,6 +3818,16 @@
               "icon": "tag.svg"
             },
             {
+              "@type": "credential_audit",
+              "name": "Credential Audit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "subscription",
+              "name": "Subscription",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "impact_credit",
               "name": "Impact Credit",
               "icon": "tag.svg"
@@ -4659,6 +4669,21 @@
             {
               "@type": "impactToken",
               "name": "Impact Token",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "impactCredit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "membership",
+              "name": "Membership Asset",
               "icon": "tag.svg"
             },
             {

@@ -30,7 +30,18 @@ const EntityPageCreate = ({ onChange, page, onClose }: EntityPageCreateProps) =>
     schema,
     initialContent: EditorJsToBlockNote(page),
     uploadFile,
-    dictionary: en,
+    dictionary: {
+      ...en,
+      slash_menu: {
+        ...en.slash_menu,
+        emoji: {
+          title: 'Emoji',
+          subtext: 'Insert an emoji',
+          aliases: ['emoticon', 'smiley'],
+          group: 'Insert',
+        },
+      },
+    },
   })
 
   const onDone = () => {
