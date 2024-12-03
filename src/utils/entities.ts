@@ -430,7 +430,7 @@ export function toRootEntityType(entityType: string): string {
   if (entityType?.startsWith('oracle/')) {
     return 'oracle'
   }
-  if (entityType?.startsWith('asset/')) {
+  if (entityType?.startsWith('asset/') || entityType?.startsWith('asset-')) {
     return 'asset'
   }
   return entityType
