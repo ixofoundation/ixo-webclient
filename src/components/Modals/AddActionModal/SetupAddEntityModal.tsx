@@ -197,7 +197,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   const getEntityCreateMessage = async () => {
     const accordedRight: AccordedRight[] = createEntityState?.accordedRight
       ? Object.values(createEntityState?.accordedRight)
-          .map((accordedRight) => (accordedRight as any)?.data)
+          .map((accordedRight) => accordedRight as any)
           .flat()
       : []
     const verification: Verification[] = []
